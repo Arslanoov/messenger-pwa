@@ -11,7 +11,16 @@
         <div class="profile-info__content-about">{{ user.aboutMe }}</div>
       </div>
     </div>
-    <img class="profile-bell" src="~@/assets/images/profile/icons/bell.svg" alt="">
+    <div class="profile-actions">
+      <img
+        class="profile-actions__action profile-actions__bell"
+        src="~@/assets/images/profile/icons/bell.svg"
+        alt="">
+      <img
+        class="profile-actions__action profile-actions__settings"
+        src="~@/assets/images/profile/icons/settings.svg"
+        alt="">
+    </div>
   </div>
 </template>
 
@@ -83,10 +92,20 @@ export default defineComponent({
         font-size sidebar-about-size
         color sidebar-grey
 
-  &-bell
-    width sidebar-bell-size
-    height sidebar-bell-size
-    
-    &:hover
-      cursor pointer
+  &-actions
+    &__bell
+    &__settings
+      &:hover
+        cursor pointer
+
+    &__action
+      margin-left .7rem
+
+    &__bell
+      width sidebar-bell-size
+      height sidebar-bell-size
+
+    &__settings
+      width sidebar-settings-size
+      height sidebar-settings-size
 </style>
