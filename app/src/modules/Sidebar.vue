@@ -1,25 +1,36 @@
 <template>
   <div class="sidebar">
-    <ProfileInfo />
+    <Profile />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import ProfileInfo from "@/components/common/sidebar/ProfileInfo.vue"
+import Profile from "@/components/common/sidebar/Profile.vue"
 
 export default defineComponent({
   name: "Sidebar",
   components: {
-    ProfileInfo
+    Profile
   }
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .sidebar
-  width: 30%
-  border: 2px solid red
-  height: 100%
+  width 25%
+  height 100vh
+
+  background-color sidebar-background
+
+  +breakpoint-to(breakpoints.desktop-md)
+    width 30%
+
+  +breakpoint-to(breakpoints.desktop-sm)
+    width 40%
+
+  +breakpoint-to(breakpoints.tablet)
+    width 100%
+    height 100px
 </style>

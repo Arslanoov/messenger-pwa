@@ -9,7 +9,11 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Home",
-  components: {
-  }
+  components: {}
 });
 </script>
+
+<style lang="stylus" scoped>
+.home
+  height: 100%
+</style>
