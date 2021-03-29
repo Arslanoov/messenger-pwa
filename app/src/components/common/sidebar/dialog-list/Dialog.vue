@@ -1,5 +1,9 @@
 <template>
-  <div :class="{ selected: dialog.isSelected }" class="dialog">
+  <div
+    @click="onDialogChoose(dialog.uuid)"
+    :class="{ selected: dialog.isSelected }"
+    class="dialog"
+  >
     <Avatar :src="dialog.partner.avatar" :is-online="dialog.partner.isOnline" />
     <div class="dialog-partner">
       <div class="dialog-partner__username">
@@ -34,16 +38,36 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import Avatar from "@/components/base/avatar/Avatar.vue";
+import { useRouter } from "vue-router"
+
+import { routesNames } from "@/router/names"
+
+import Avatar from "@/components/base/avatar/Avatar.vue"
 
 export default defineComponent({
   name: "DialogList",
-  components: {Avatar},
+  components: {
+    Avatar
+  },
   props: {
     dialog: {
       // TODO: Add interface type <of>
       type: Object,
       required: true
+    }
+  },
+  setup() {
+    const router = useRouter()
+
+    const onDialogChoose = (id: string) => router.push({
+      name: routesNames.Dialog,
+      params: {
+        id
+      }
+    })
+
+    return {
+      onDialogChoose
     }
   }
 })

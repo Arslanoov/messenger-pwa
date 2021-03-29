@@ -1,18 +1,24 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 
-import SelectDialog from "@/views/messenger/SelectDialog.vue";
-import Dialog from "@/views/messenger/Dialog.vue";
+import { routesNames } from "@/router/names"
+
+const loadView = (path: string) => {
+  return () => import(
+    /* webpackChunkName: "view-[request]" */
+    `@/views/${path}.vue`
+  )
+}
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "SelectDialog",
-    component: SelectDialog,
+    name: routesNames.SelectDialog,
+    component: loadView("messenger/SelectDialog"),
   },
   {
     path: "/dialog/:id",
-    name: "Dialog",
-    component: Dialog,
+    name: routesNames.Dialog,
+    component: loadView("messenger/Dialog"),
   }
 ];
 
