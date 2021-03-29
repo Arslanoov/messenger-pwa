@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
-import Home from "@/views/Home.vue";
+import SelectDialog from "@/views/messenger/SelectDialog.vue";
+import Dialog from "@/views/messenger/Dialog.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "SelectDialog",
+    component: SelectDialog,
+  },
+  {
+    path: "/dialog/:id",
+    name: "Dialog",
+    component: Dialog,
   }
 ];
 

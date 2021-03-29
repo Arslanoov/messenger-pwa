@@ -1,7 +1,7 @@
 <template>
   <div class="main-layout">
-    <sidebar />
-    <router-view />
+    <sidebar class="sidebar-wrapper" />
+    <router-view class="view-wrapper" />
   </div>
 </template>
 
@@ -20,7 +20,14 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .main-layout
+  display flex
   height: 100%
+
+.sidebar-wrapper
+  flex-shrink 0
+
+.view-wrapper
+  width 100%
 </style>

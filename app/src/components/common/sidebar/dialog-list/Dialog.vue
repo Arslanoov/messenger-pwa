@@ -1,15 +1,6 @@
 <template>
   <div :class="{ selected: dialog.isSelected }" class="dialog">
-    <div
-      :style="{ backgroundImage: `url(${dialog.partner.avatar})` }"
-      class="dialog-avatar"
-    >
-      <img
-        v-if="dialog.partner.isOnline"
-        class="dialog-avatar__online"
-        src="~@/assets/images/profile/icons/online.svg"
-        alt="">
-    </div>
+    <Avatar :src="dialog.partner.avatar" :is-online="dialog.partner.isOnline" />
     <div class="dialog-partner">
       <div class="dialog-partner__username">
         {{ dialog.partner.username }}
@@ -43,9 +34,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
+import Avatar from "@/components/base/avatar/Avatar.vue";
 
 export default defineComponent({
   name: "DialogList",
+  components: {Avatar},
   props: {
     dialog: {
       // TODO: Add interface type <of>
@@ -56,7 +49,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 /* TODO: Reduce duplicated code size */
 .dialog
   display flex
@@ -74,32 +67,6 @@ export default defineComponent({
   &.selected
     background-color selected-dialog-background
     cursor pointer
-
-  &-avatar
-    position relative
-
-    flex-shrink 0
-
-    width sidebar-avatar-size
-    height sidebar-avatar-size
-
-    margin-right sidebar-dialog-avatar-margin-right
-
-    background-repeat no-repeat
-    background-size cover
-
-    border-radius 100px
-
-    &__online
-      position absolute
-      bottom 0
-      right 0
-
-      width sidebar-dialog-online-icon-size
-      height sidebar-dialog-online-icon-size
-
-    &:hover
-      cursor pointer
 
   &-partner
     &__username
