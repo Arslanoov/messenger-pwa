@@ -11,6 +11,4 @@ const app = createApp(App)
 app.use(store)
 app.use(router)
 
-import "@/assets/styles/main.styl"
-
 app.mount("#app")

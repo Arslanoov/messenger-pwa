@@ -1,25 +1,55 @@
 <template>
   <div class="sidebar">
-    <ProfileInfo />
+    <profile />
+
+    <div class="sidebar__line"></div>
+
+    <dialog-list />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import ProfileInfo from "@/components/common/sidebar/ProfileInfo.vue"
+import Profile from "@/components/common/sidebar/profile/Profile.vue"
+import DialogList from "@/components/common/sidebar/dialog-list/DialogList.vue"
 
 export default defineComponent({
   name: "Sidebar",
   components: {
-    ProfileInfo
+    Profile,
+    DialogList
   }
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .sidebar
-  width: 30%
-  border: 2px solid red
-  height: 100%
+  width 25%
+  height 100vh
+  overflow-y scroll
+
+  background-color sidebar-background
+
+  without-scroll()
+
+  +breakpoint-to(breakpoints.desktop-md)
+    width 30%
+
+  +breakpoint-to(breakpoints.desktop-sm)
+    width 40%
+
+  +breakpoint-to(breakpoints.tablet)
+    width 100%
+    height auto
+    max-height 100vh
+
+  /* TODO: Separate */
+  &__line
+    width 100%
+    height 1px
+
+    margin sidebar-line-margin 0
+
+    background sidebar-line
 </style>

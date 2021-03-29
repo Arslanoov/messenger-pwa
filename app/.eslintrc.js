@@ -20,7 +20,8 @@ module.exports = {
     "no-unused-vars": "warn",
     "vue/no-unused-vars": "warn",
     "vue/require-v-for-key": "off",
-    "vue/experimental-script-setup-vars": "off"
+    "vue/experimental-script-setup-vars": "off",
+    "@typescript-eslint/no-var-requires": 0
   },
   overrides: [
     {
