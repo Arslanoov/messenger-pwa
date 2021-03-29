@@ -1,17 +1,11 @@
 <template>
   <div class="profile">
-    <div class="profile-info">
-      <div class="profile-info__avatar" :style="{ backgroundImage: `url(${user.avatar})` }">
-        <img
-          class="profile-info__avatar-online"
-          src="~@/assets/images/profile/icons/online.svg"
-          alt="">
-      </div>
-      <div class="profile-info__content">
-        <div class="profile-info__content-username">{{ user.username }}</div>
-        <div class="profile-info__content-about">{{ user.aboutMe }}</div>
-      </div>
-    </div>
+    <user-card
+      :avatar="user.avatar"
+      :title="user.username"
+      :subtitle="user.aboutMe"
+      is-online
+    />
     <div class="profile-actions">
       <img
         class="profile-actions__action profile-actions__bell"
@@ -28,8 +22,13 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue"
 
+import UserCard from "@/components/base/user-card/UserCard.vue";
+
 export default defineComponent({
   name: "Profile",
+  components: {
+    UserCard
+  },
   setup() {
     const user = reactive({
       uuid: "123e4567-e89b-12d3-a456-426614174000",
@@ -51,53 +50,10 @@ export default defineComponent({
   justify-content space-between
   align-items center
 
-  padding-top .8rem + sidebar-line-margin
+  padding-top .8rem + line-margin
   padding-bottom: .8rem
   padding-left 1.5rem
   padding-right 1.5rem
-
-  &-info
-    display flex
-    align-items center
-
-    color white
-
-    &__avatar
-      position relative
-
-      flex-shrink: 0;
-
-      width sidebar-avatar-size
-      height sidebar-avatar-size
-
-      margin-right sidebar-avatar-margin-right
-
-      background-repeat no-repeat
-      background-size cover
-
-      border-radius 100px
-
-      &-online
-        position absolute
-        bottom 0
-        right 0
-
-        width 10px
-        height 10px
-
-      &:hover
-        cursor pointer
-
-    &__content
-      display flex
-      flex-direction column
-
-      &-username
-        font-size sidebar-username-size
-
-      &-about
-        font-size sidebar-about-size
-        color sidebar-grey
 
   &-actions
     &__bell

@@ -1,26 +1,16 @@
 <template>
-  <div :class="{ selected: dialog.isSelected }" class="dialog">
-    <div
-      :style="{ backgroundImage: `url(${dialog.partner.avatar})` }"
-      class="dialog-avatar"
-    >
-      <img
-        v-if="dialog.partner.isOnline"
-        class="dialog-avatar__online"
-        src="~@/assets/images/profile/icons/online.svg"
-        alt="">
-    </div>
-    <div class="dialog-partner">
-      <div class="dialog-partner__username">
-        {{ dialog.partner.username }}
-        <span class="dialog-partner__last-online">
-          {{ dialog.partner.latestMessage.date }}
-        </span>
-      </div>
-      <div class="dialog-partner__message">
-        {{ dialog.partner.latestMessage.short }}
-      </div>
-    </div>
+  <div
+    @click="onDialogChoose(dialog.uuid)"
+    :class="{ selected: dialog.isSelected }"
+    class="dialog"
+  >
+    <user-card
+      :avatar="dialog.partner.avatar"
+      :title="dialog.partner.username"
+      :subtitle="dialog.partner.latestMessage.short"
+      :extra="dialog.partner.latestMessage.date"
+      :is-online="dialog.partner.isOnline"
+    />
     <div class="dialog-status">
       <template v-if="dialog.sentByMe">
         <img
@@ -43,21 +33,42 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
+import { useRouter } from "vue-router"
+
+import { routesNames } from "@/router/names"
+
+import UserCard from "@/components/base/user-card/UserCard.vue"
 
 export default defineComponent({
-  name: "DialogList",
+  name: "Dialog",
+  components: {
+    UserCard
+  },
   props: {
     dialog: {
       // TODO: Add interface type <of>
       type: Object,
       required: true
     }
+  },
+  setup() {
+    const router = useRouter()
+
+    const onDialogChoose = (id: string) => router.push({
+      name: routesNames.Dialog,
+      params: {
+        id
+      }
+    })
+
+    return {
+      onDialogChoose
+    }
   }
 })
 </script>
 
-<style lang="stylus">
-/* TODO: Reduce duplicated code size */
+<style lang="stylus" scoped>
 .dialog
   display flex
   align-items center
@@ -74,50 +85,6 @@ export default defineComponent({
   &.selected
     background-color selected-dialog-background
     cursor pointer
-
-  &-avatar
-    position relative
-
-    flex-shrink 0
-
-    width sidebar-avatar-size
-    height sidebar-avatar-size
-
-    margin-right sidebar-dialog-avatar-margin-right
-
-    background-repeat no-repeat
-    background-size cover
-
-    border-radius 100px
-
-    &__online
-      position absolute
-      bottom 0
-      right 0
-
-      width sidebar-dialog-online-icon-size
-      height sidebar-dialog-online-icon-size
-
-    &:hover
-      cursor pointer
-
-  &-partner
-    &__username
-      font-size sidebar-partner-username-size
-
-    &__last-online
-      margin-left .2rem
-
-      font-size sidebar-partner-last-online-size
-
-      color sidebar-grey
-      opacity .7
-
-    &__message
-      margin-top .2rem
-
-      font-size sidebar-partner-message-size
-      color sidebar-grey
 
   &-status
     margin-left auto

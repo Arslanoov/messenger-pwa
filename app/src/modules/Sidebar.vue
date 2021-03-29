@@ -1,9 +1,7 @@
 <template>
   <div class="sidebar">
-    <profile />
-
-    <div class="sidebar__line"></div>
-
+    <Profile />
+    <Line />
     <dialog-list />
   </div>
 </template>
@@ -12,12 +10,14 @@
 import { defineComponent } from "vue"
 
 import Profile from "@/components/common/sidebar/profile/Profile.vue"
+import Line from "@/components/base/line/Line.vue"
 import DialogList from "@/components/common/sidebar/dialog-list/DialogList.vue"
 
 export default defineComponent({
   name: "Sidebar",
   components: {
     Profile,
+    Line,
     DialogList
   }
 })
@@ -43,13 +43,4 @@ export default defineComponent({
     width 100%
     height auto
     max-height 100vh
-
-  /* TODO: Separate */
-  &__line
-    width 100%
-    height 1px
-
-    margin sidebar-line-margin 0
-
-    background sidebar-line
 </style>
