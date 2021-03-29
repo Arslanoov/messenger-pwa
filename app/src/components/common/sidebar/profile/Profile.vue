@@ -1,10 +1,11 @@
 <template>
   <div class="profile">
     <div class="profile-info">
-      <div class="profile-info__avatar">
+      <div class="profile-info__avatar" :style="{ backgroundImage: `url(${user.avatar})` }">
         <img
           class="profile-info__avatar-online"
-          src="~@/assets/images/profile/icons/online.svg" alt="">
+          src="~@/assets/images/profile/icons/online.svg"
+          alt="">
       </div>
       <div class="profile-info__content">
         <div class="profile-info__content-username">{{ user.username }}</div>
@@ -33,7 +34,8 @@ export default defineComponent({
     const user = reactive({
       uuid: "123e4567-e89b-12d3-a456-426614174000",
       username: "Rafael Ramaisen",
-      aboutMe: "Available for freelance work."
+      aboutMe: "Available for freelance work.",
+      avatar: require("@/assets/images/profile/avatar.png")
     })
 
     return {
@@ -49,7 +51,10 @@ export default defineComponent({
   justify-content space-between
   align-items center
 
-  padding: 1.3rem 1.5rem
+  padding-top .8rem + sidebar-line-margin
+  padding-bottom: .8rem
+  padding-left 1.5rem
+  padding-right 1.5rem
 
   &-info
     display flex
@@ -60,12 +65,14 @@ export default defineComponent({
     &__avatar
       position relative
 
+      flex-shrink: 0;
+
       width sidebar-avatar-size
       height sidebar-avatar-size
 
-      margin-right 1rem
+      margin-right sidebar-avatar-margin-right
 
-      background url(../../../assets/images/profile/avatar.png) no-repeat
+      background-repeat no-repeat
       background-size cover
 
       border-radius 100px

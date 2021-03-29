@@ -1,18 +1,24 @@
 <template>
   <div class="sidebar">
-    <Profile />
+    <profile />
+
+    <div class="sidebar__line"></div>
+
+    <dialog-list />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import Profile from "@/components/common/sidebar/Profile.vue"
+import Profile from "@/components/common/sidebar/profile/Profile.vue"
+import DialogList from "@/components/common/sidebar/dialog-list/DialogList.vue"
 
 export default defineComponent({
   name: "Sidebar",
   components: {
-    Profile
+    Profile,
+    DialogList
   }
 })
 </script>
@@ -21,8 +27,11 @@ export default defineComponent({
 .sidebar
   width 25%
   height 100vh
+  overflow-y scroll
 
   background-color sidebar-background
+
+  without-scroll()
 
   +breakpoint-to(breakpoints.desktop-md)
     width 30%
@@ -32,5 +41,15 @@ export default defineComponent({
 
   +breakpoint-to(breakpoints.tablet)
     width 100%
-    height 100px
+    height auto
+    max-height 100vh
+
+  /* TODO: Separate */
+  &__line
+    width 100%
+    height 1px
+
+    margin sidebar-line-margin 0
+
+    background sidebar-line
 </style>
