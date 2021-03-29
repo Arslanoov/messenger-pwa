@@ -45,8 +45,8 @@ export default defineComponent({
     color white
 
     &__avatar
-      width 50px
-      height 50px
+      width sidebar-avatar-size
+      height sidebar-avatar-size
 
       margin-right 1rem
 
@@ -60,15 +60,15 @@ export default defineComponent({
       flex-direction column
 
       &-username
-        font-size 1.3rem
+        font-size sidebar-username-size
 
       &-about
-        font-size .9rem
+        font-size sidebar-about-size
         color sidebar-grey
 
   &-bell
-    width 25px
-    height 25px
+    width sidebar-bell-size
+    height sidebar-bell-size
     
     &:hover
       cursor pointer
