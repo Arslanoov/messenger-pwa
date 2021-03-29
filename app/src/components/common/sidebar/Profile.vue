@@ -1,13 +1,17 @@
 <template>
   <div class="profile">
     <div class="profile-info">
-      <img class="profile-info__avatar" src="~@/assets/images/icons/profile/profile.png" alt="">
+      <div class="profile-info__avatar">
+        <img
+          class="profile-info__avatar-online"
+          src="~@/assets/images/profile/icons/online.svg" alt="">
+      </div>
       <div class="profile-info__content">
         <div class="profile-info__content-username">{{ user.username }}</div>
         <div class="profile-info__content-about">{{ user.aboutMe }}</div>
       </div>
     </div>
-    <img class="profile-bell" src="~@/assets/images/icons/profile/bell/on.svg" alt="">
+    <img class="profile-bell" src="~@/assets/images/profile/icons/bell.svg" alt="">
   </div>
 </template>
 
@@ -45,12 +49,25 @@ export default defineComponent({
     color white
 
     &__avatar
+      position relative
+
       width sidebar-avatar-size
       height sidebar-avatar-size
 
       margin-right 1rem
 
+      background url(../../../assets/images/profile/avatar.png) no-repeat
+      background-size cover
+
       border-radius 100px
+
+      &-online
+        position absolute
+        bottom 0
+        right 0
+
+        width 10px
+        height 10px
 
       &:hover
         cursor pointer
