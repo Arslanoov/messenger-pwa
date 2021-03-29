@@ -4,18 +4,13 @@
     :class="{ selected: dialog.isSelected }"
     class="dialog"
   >
-    <Avatar :src="dialog.partner.avatar" :is-online="dialog.partner.isOnline" />
-    <div class="dialog-partner">
-      <div class="dialog-partner__username">
-        {{ dialog.partner.username }}
-        <span class="dialog-partner__last-online">
-          {{ dialog.partner.latestMessage.date }}
-        </span>
-      </div>
-      <div class="dialog-partner__message">
-        {{ dialog.partner.latestMessage.short }}
-      </div>
-    </div>
+    <user-card
+      :avatar="dialog.partner.avatar"
+      :title="dialog.partner.username"
+      :subtitle="dialog.partner.latestMessage.short"
+      :extra="dialog.partner.latestMessage.date"
+      :is-online="dialog.partner.isOnline"
+    />
     <div class="dialog-status">
       <template v-if="dialog.sentByMe">
         <img
@@ -42,12 +37,12 @@ import { useRouter } from "vue-router"
 
 import { routesNames } from "@/router/names"
 
-import Avatar from "@/components/base/avatar/Avatar.vue"
+import UserCard from "@/components/base/user-card/UserCard.vue"
 
 export default defineComponent({
-  name: "DialogList",
+  name: "Dialog",
   components: {
-    Avatar
+    UserCard
   },
   props: {
     dialog: {
@@ -74,7 +69,6 @@ export default defineComponent({
 </script>
 
 <style lang="stylus" scoped>
-/* TODO: Reduce duplicated code size */
 .dialog
   display flex
   align-items center
@@ -91,24 +85,6 @@ export default defineComponent({
   &.selected
     background-color selected-dialog-background
     cursor pointer
-
-  &-partner
-    &__username
-      font-size sidebar-partner-username-size
-
-    &__last-online
-      margin-left .2rem
-
-      font-size sidebar-partner-last-online-size
-
-      color sidebar-grey
-      opacity .7
-
-    &__message
-      margin-top .2rem
-
-      font-size sidebar-partner-message-size
-      color sidebar-grey
 
   &-status
     margin-left auto

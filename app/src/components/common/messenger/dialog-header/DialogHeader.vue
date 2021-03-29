@@ -1,14 +1,19 @@
 <template>
   <div class="dialog-header">
-    blabla
+    <Avatar :src="dialog.partner.avatar" :is-online="dialog.partner.isOnline" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue"
 
+import Avatar from "@/components/base/avatar/Avatar.vue"
+
 export default defineComponent({
   name: "DialogHeader",
+  components: {
+    Avatar
+  },
   setup() {
     const dialog = reactive({
       uuid: "124e4567-e89b-12d3-a456-426614174002",

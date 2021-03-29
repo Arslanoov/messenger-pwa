@@ -1,12 +1,11 @@
 <template>
   <div class="profile">
-    <div class="profile-info">
-      <Avatar :src="user.avatar" is-online />
-      <div class="profile-info__content">
-        <div class="profile-info__content-username">{{ user.username }}</div>
-        <div class="profile-info__content-about">{{ user.aboutMe }}</div>
-      </div>
-    </div>
+    <user-card
+      :avatar="user.avatar"
+      :title="user.username"
+      :subtitle="user.aboutMe"
+      is-online
+    />
     <div class="profile-actions">
       <img
         class="profile-actions__action profile-actions__bell"
@@ -23,12 +22,12 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue"
 
-import Avatar from "@/components/base/avatar/Avatar.vue"
+import UserCard from "@/components/base/user-card/UserCard.vue";
 
 export default defineComponent({
   name: "Profile",
   components: {
-    Avatar
+    UserCard
   },
   setup() {
     const user = reactive({
@@ -55,23 +54,6 @@ export default defineComponent({
   padding-bottom: .8rem
   padding-left 1.5rem
   padding-right 1.5rem
-
-  &-info
-    display flex
-    align-items center
-
-    color white
-
-    &__content
-      display flex
-      flex-direction column
-
-      &-username
-        font-size sidebar-username-size
-
-      &-about
-        font-size sidebar-about-size
-        color sidebar-grey
 
   &-actions
     &__bell
