@@ -21,6 +21,6 @@ export default defineComponent({
 </script>
 
 <style lang="stylus" scoped>
-.dialog-info
-  height 200px
+.dialog
+  position relative
 </style>

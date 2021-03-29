@@ -1,18 +1,26 @@
 <template>
   <div class="dialog-header">
-    <Avatar :src="dialog.partner.avatar" :is-online="dialog.partner.isOnline" />
+    <user-card
+      :avatar="dialog.partner.avatar"
+      :title="dialog.partner.username"
+      :subtitle="dialog.partner.latestMessage.short"
+      :is-online="dialog.partner.isOnline"
+      class="dialog-header__partner"
+    />
   </div>
 </template>
 
 <script lang="ts">
+/* TODO: Add settings icon */
+
 import { defineComponent, reactive } from "vue"
 
-import Avatar from "@/components/base/avatar/Avatar.vue"
+import UserCard from "@/components/base/user-card/UserCard.vue";
 
 export default defineComponent({
   name: "DialogHeader",
   components: {
-    Avatar
+    UserCard
   },
   setup() {
     const dialog = reactive({
@@ -41,12 +49,20 @@ export default defineComponent({
 </script>
 
 <style lang="stylus" scoped>
-.dialog-info
-  position fixed
+.dialog-header
+  display flex
+  justify-content space-between
+  align-items center
+
+  padding .8rem + line-margin 1.5rem
+
+  position absolute
 
   top 0
   left 0
 
   width 100%
-  height 200px
+
+  &__partner
+    color black
 </style>
