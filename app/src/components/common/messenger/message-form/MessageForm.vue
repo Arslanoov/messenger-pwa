@@ -42,9 +42,7 @@ export default defineComponent({
   display flex
   align-items center
 
-  max-height 30vh
-
-  padding 0 3rem
+  padding .5rem 3rem
 
   position absolute
   bottom 0
@@ -57,7 +55,7 @@ export default defineComponent({
   color grey-color
 
   &__input
-    overflow auto
+    max-height 30vh
 
     width 80%
 
@@ -65,6 +63,8 @@ export default defineComponent({
 
     border 0
     outline 0
+
+    overflow-y scroll
 
     &:empty
       &:not(:focus):before
@@ -79,9 +79,11 @@ export default defineComponent({
   &__send
     width 20%
 
-    text-align right
-
     &-icon
+      position absolute
+      bottom 2rem
+      right 2rem
+
       width message-send-icon-size
       height message-send-icon-size
 
