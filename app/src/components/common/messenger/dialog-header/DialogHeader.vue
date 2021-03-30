@@ -56,11 +56,6 @@ export default defineComponent({
 
   padding .8rem + line-margin 1.5rem
 
-  position absolute
-
-  top 0
-  left 0
-
   width 100%
 
   &__partner

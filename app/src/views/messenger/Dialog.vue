@@ -1,6 +1,7 @@
 <template>
   <div class="dialog">
     <DialogHeader />
+    <MessagesList />
   </div>
 </template>
 
@@ -8,10 +9,12 @@
 import { defineComponent } from "vue"
 
 import DialogHeader from "@/components/common/messenger/dialog-header/DialogHeader.vue";
+import MessagesList from "@/components/common/messenger/messages-list/MessagesList.vue";
 
 export default defineComponent({
   name: "Dialog",
   components: {
+    MessagesList,
     DialogHeader
   },
   setup() {
