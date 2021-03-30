@@ -49,6 +49,10 @@ export default defineComponent({
 
 <style lang="stylus">
 .messages-list
+  display flex
+  flex-direction column
+  flex-basis content
+
   /* TODO: Remove strict calc */
   height calc(100% - 114px)
   width 100%

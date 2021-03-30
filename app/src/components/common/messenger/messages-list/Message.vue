@@ -29,13 +29,11 @@ export default defineComponent({
 
   max-width 80%
 
+  margin-top message-margin
   padding 1rem 1.5rem
 
-  margin-top 1rem
-
-  &:first-of-type {
+  &:first-of-type
     margin-top 0
-  }
 
   &.mine
     margin-left auto
