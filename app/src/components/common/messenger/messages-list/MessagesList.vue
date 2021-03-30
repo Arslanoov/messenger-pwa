@@ -53,13 +53,13 @@ export default defineComponent({
   flex-direction column
   flex-basis content
 
-  /* TODO: Remove strict calc */
-  height calc(100% - 114px)
   width 100%
-
-  padding: .5rem 1rem 0 1rem
+  height 100%
+  max-height 100%
 
   overflow-y scroll
+
+  padding: .5rem 1rem 1rem 1rem
 
   background-color messages-layout-background
 

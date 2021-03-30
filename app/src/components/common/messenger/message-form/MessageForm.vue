@@ -1,5 +1,6 @@
 <template>
-  <div class="message-form">
+  <div class="message-form-wrapper">
+    <div class="message-form">
     <span
       @input="e => onContentChange(e.target.value)"
       data-ph="Write a message"
@@ -7,13 +8,15 @@
       role="textbox"
       contenteditable
     ></span>
-    <div class="message-form__send">
-      <img
-        class="message-form__send-icon"
-        src="~@/assets/images/profile/icons/send.svg"
-        alt=""
-      />
+      <div class="message-form__send">
+        <img
+          class="message-form__send-icon"
+          src="~@/assets/images/profile/icons/send.svg"
+          alt=""
+        />
+      </div>
     </div>
+    <div class="message-form-mock"></div>
   </div>
 </template>
 
@@ -43,10 +46,6 @@ export default defineComponent({
   align-items center
 
   padding .5rem 3rem
-
-  position absolute
-  bottom 0
-  left 0
 
   width 100%
   height auto
@@ -89,4 +88,7 @@ export default defineComponent({
 
       &:hover
         cursor pointer
+
+  &-mock
+    margin-bottom
 </style>
