@@ -1,20 +1,14 @@
 <template>
-  <div class="main-layout">
-    <sidebar class="sidebar-wrapper" />
-    <router-view class="view-wrapper" />
+  <div class="auth-layout">
+    <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import Sidebar from "@/modules/Sidebar.vue"
-
 export default defineComponent({
-  name: "MainLayout",
-  components: {
-    Sidebar
-  }
+  name: "AuthLayout"
 })
 </script>
 

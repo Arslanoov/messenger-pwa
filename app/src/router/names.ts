@@ -1,4 +1,6 @@
 export enum routesNames {
   SelectDialog = "SelectDialog",
-  Dialog = "Dialog"
+  Dialog = "Dialog",
+  Login = "Login",
+  SignUp = "SignUp"
 }
