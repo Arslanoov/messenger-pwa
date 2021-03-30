@@ -13,19 +13,13 @@ export default defineComponent({
 </script>
 
 <style lang="stylus" scoped>
-.main-layout
-  display flex
-  height: 100%
-
-  +breakpoint-to(breakpoints.tablet)
-    flex-wrap wrap
-
-.sidebar-wrapper
-  flex-shrink 0
-
-.view-wrapper
+.auth-layout
   width 100%
+  height 100vh
 
-  +breakpoint-to(breakpoints.tablet)
-    min-height 100vh
+  display flex
+  justify-content center
+  align-items center
+
+  background-color dialog-background
 </style>
