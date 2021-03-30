@@ -1,6 +1,8 @@
 <template>
   <div class="dialog">
     <DialogHeader />
+    <MessagesList />
+    <MessageForm />
   </div>
 </template>
 
@@ -8,14 +10,15 @@
 import { defineComponent } from "vue"
 
 import DialogHeader from "@/components/common/messenger/dialog-header/DialogHeader.vue";
+import MessagesList from "@/components/common/messenger/messages-list/MessagesList.vue";
+import MessageForm from "@/components/common/messenger/message-form/MessageForm.vue";
 
 export default defineComponent({
   name: "Dialog",
   components: {
+    MessageForm,
+    MessagesList,
     DialogHeader
-  },
-  setup() {
-    return {}
   }
 })
 </script>
