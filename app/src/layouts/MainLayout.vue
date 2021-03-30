@@ -25,9 +25,15 @@ export default defineComponent({
   display flex
   height: 100%
 
+  +breakpoint-to(breakpoints.tablet)
+    flex-wrap wrap
+
 .sidebar-wrapper
   flex-shrink 0
 
 .view-wrapper
   width 100%
+
+  +breakpoint-to(breakpoints.tablet)
+    min-height 100vh
 </style>
