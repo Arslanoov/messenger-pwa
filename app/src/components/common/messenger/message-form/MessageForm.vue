@@ -82,7 +82,7 @@ export default defineComponent({
     &-icon
       position absolute
       bottom 2rem
-      right 2rem
+      right 3rem
 
       width message-send-icon-size
       height message-send-icon-size
