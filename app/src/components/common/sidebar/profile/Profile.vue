@@ -58,7 +58,7 @@ export default defineComponent({
   &__action
     margin-left .7rem
 
-  &__bell
+  &__bell,
   &__settings
     pointer-on-hover()
 
