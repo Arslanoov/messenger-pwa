@@ -10,7 +10,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .line
   width 100%
   height 1px

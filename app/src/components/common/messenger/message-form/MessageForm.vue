@@ -1,6 +1,5 @@
 <template>
-  <div class="message-form-wrapper">
-    <div class="message-form">
+  <div class="message-form">
     <span
       @input="e => onContentChange(e.target.value)"
       data-ph="Write a message"
@@ -8,15 +7,13 @@
       role="textbox"
       contenteditable
     ></span>
-      <div class="message-form__send">
-        <img
-          class="message-form__send-icon"
-          src="~@/assets/images/profile/icons/send.svg"
-          alt=""
-        />
-      </div>
+    <div class="message-form__send">
+      <img
+        class="message-form__send-icon"
+        src="~@/assets/images/profile/icons/send.svg"
+        alt=""
+      />
     </div>
-    <div class="message-form-mock"></div>
   </div>
 </template>
 
@@ -40,7 +37,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .message-form
   display flex
   align-items center
@@ -86,9 +83,5 @@ export default defineComponent({
       width message-send-icon-size
       height message-send-icon-size
 
-      &:hover
-        cursor pointer
-
-  &-mock
-    margin-bottom
+      pointer-on-hover()
 </style>

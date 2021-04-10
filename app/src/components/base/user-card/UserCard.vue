@@ -2,16 +2,16 @@
   <div class="user-card">
     <Avatar :src="avatar" is-online />
     <div class="user-card__content">
-      <div class="user-card__content-title">
+      <div class="user-card__title">
         {{ title }}
         <span
           v-if="extra"
-          class="user-card__content-extra"
+          class="user-card__extra"
         >
           {{ extra }}
         </span>
       </div>
-      <div class="user-card__content-subtitle">{{ subtitle }}</div>
+      <div class="user-card__subtitle">{{ subtitle }}</div>
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .user-card
   display flex
   align-items center
@@ -64,18 +64,18 @@ export default defineComponent({
     display flex
     flex-direction column
 
-    &-title
-      font-size user-card-title-size
+  &__title
+    font-size user-card-title-size
 
-    &-subtitle
-      font-size user-card-subtitle-size
-      color grey
+  &__subtitle
+    font-size user-card-subtitle-size
+    color grey
 
-    &-extra
-      margin-left .2rem
+  &__extra
+    margin-left .2rem
 
-      font-size user-card-extra-size
+    font-size user-card-extra-size
 
-      color grey
-      opacity .7
+    color grey
+    opacity .7
 </style>

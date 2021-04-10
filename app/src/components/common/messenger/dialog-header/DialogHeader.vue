@@ -11,8 +11,6 @@
 </template>
 
 <script lang="ts">
-/* TODO: Add settings icon */
-
 import { defineComponent, reactive } from "vue"
 
 import UserCard from "@/components/base/user-card/UserCard.vue";

@@ -2,7 +2,7 @@
   <div class="avatar" :style="{ backgroundImage: `url(${src})` }">
     <img
       v-if="isOnline"
-      class="avatar-online"
+      class="avatar__online"
       src="~@/assets/images/profile/icons/online.svg"
       alt="">
   </div>
@@ -26,7 +26,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .avatar
   position relative
 
@@ -42,14 +42,13 @@ export default defineComponent({
 
   border-radius 100px
 
-  &-online
+  pointer-on-hover()
+
+  &__online
     position absolute
     bottom 0
     right 0
 
     width 10px
     height 10px
-
-  &:hover
-    cursor pointer
 </style>
