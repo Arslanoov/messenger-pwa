@@ -6,13 +6,13 @@
       :subtitle="user.aboutMe"
       is-online
     />
-    <div class="profile-actions">
+    <div class="profile__actions">
       <img
-        class="profile-actions__action profile-actions__bell"
+        class="profile__action profile__bell"
         src="~@/assets/images/profile/icons/bell.svg"
         alt="">
       <img
-        class="profile-actions__action profile-actions__settings"
+        class="profile__action profile__settings"
         src="~@/assets/images/profile/icons/settings.svg"
         alt="">
     </div>
@@ -55,20 +55,18 @@ export default defineComponent({
   padding-left 1.5rem
   padding-right 1.5rem
 
-  &-actions
-    &__bell
-    &__settings
-      &:hover
-        cursor pointer
+  &__action
+    margin-left .7rem
 
-    &__action
-      margin-left .7rem
+  &__bell,
+  &__settings
+    pointer-on-hover()
 
-    &__bell
-      width sidebar-bell-size
-      height sidebar-bell-size
+  &__bell
+    width sidebar-bell-size
+    height sidebar-bell-size
 
-    &__settings
-      width sidebar-settings-size
-      height sidebar-settings-size
+  &__settings
+    width sidebar-settings-size
+    height sidebar-settings-size
 </style>

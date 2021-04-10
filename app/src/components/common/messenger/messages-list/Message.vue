@@ -22,7 +22,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .message
   display flex
   flex-direction column

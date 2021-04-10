@@ -84,7 +84,8 @@ export default defineComponent({
   &:hover
   &.selected
     background-color selected-dialog-background
-    cursor pointer
+
+    pointer-on-hover()
 
   &-status
     margin-left auto

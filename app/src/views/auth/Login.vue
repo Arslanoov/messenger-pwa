@@ -72,6 +72,5 @@ export default defineComponent({
     border 0
     outline 0
 
-    &:hover
-      cursor pointer
+    pointer-on-hover()
 </style>

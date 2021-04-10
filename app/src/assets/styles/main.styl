@@ -1,18 +1,11 @@
-@import "~normalize-styl"
+@import "abstracts/variables/breakpoints.styl"
+@import "abstracts/variables/colors.styl"
+@import "abstracts/variables/fonts.styl"
+@import "abstracts/variables/size.styl"
 
-@import "variables/breakpoints.styl"
-@import "variables/colors.styl"
-@import "variables/fonts.styl"
-@import "variables/size.styl"
+@import "abstracts/mixins/media.styl"
+@import "abstracts/mixins/pointer.styl"
+@import "abstracts/mixins/without-scroll.styl"
 
-@import "mixins/media.styl"
-@import "mixins/without-scroll.styl"
-@import "fonts.styl"
-
-body,
-html
-  margin 0
-  padding 0
-
-*
-  box-sizing border-box
+@import "base/reset.styl"
+@import "base/typography.styl"
