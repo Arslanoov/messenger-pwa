@@ -19,6 +19,7 @@
     />
 
     <button
+      @click="login"
       class="login-form__button"
       type="submit"
     >
@@ -30,16 +31,26 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue"
 
+import { useStore } from "@/composables/store"
+
+import { dispatchAuthModal } from "@/store/modules/auth"
+import { LOGIN } from "@/store/modules/auth/actions"
+
 export default defineComponent({
   name: "Login",
   setup() {
+    const store = useStore()
+
+    const login = () => store.dispatch(dispatchAuthModal(LOGIN))
+
     const form = reactive({
       username: "",
       password: ""
     })
 
     return {
-      form
+      form,
+      login
     }
   }
 })
