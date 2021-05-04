@@ -2,9 +2,14 @@
   <div class="login-form">
     <h1>Login</h1>
 
+    <div class="login-form__error" v-if="form.error">
+      {{ form.error }}
+    </div>
+
     <label for="username">Username</label>
     <input
-      v-model="form.username"
+      @change="e => setUsername(e.target.value)"
+      :value="form.username"
       class="login-form__input"
       id="username"
       type="text"
@@ -12,7 +17,8 @@
 
     <label for="password">Password</label>
     <input
-      v-model="form.password"
+      @change="e => setPassword(e.target.value)"
+      :value="form.password"
       class="login-form__input"
       id="password"
       type="password"
@@ -29,27 +35,42 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue"
+import { defineComponent, computed } from "vue"
+
+import { useRouter } from "vue-router"
+import { routesNames } from "@/router/names"
 
 import { useStore } from "@/composables/store"
+import { commitAuthModal, dispatchAuthModal, getterAuthModal } from "@/store/modules/auth"
 
-import { dispatchAuthModal } from "@/store/modules/auth"
+import { AuthFormStateInterface } from "@/store/modules/auth/state"
+import {
+  SET_AUTH_FORM_USERNAME,
+  SET_AUTH_FORM_PASSWORD
+} from "@/store/modules/auth/mutations"
 import { LOGIN } from "@/store/modules/auth/actions"
+import { GET_AUTH_FORM } from "@/store/modules/auth/getters"
 
 export default defineComponent({
   name: "Login",
   setup() {
     const store = useStore()
+    const router = useRouter()
+
+    const form = computed(() => store.getters[getterAuthModal(GET_AUTH_FORM)] as AuthFormStateInterface)
+
+    const setUsername = (value: string) => store.commit(commitAuthModal(SET_AUTH_FORM_USERNAME), value)
+    const setPassword = (value: string) => store.commit(commitAuthModal(SET_AUTH_FORM_PASSWORD), value)
 
     const login = () => store.dispatch(dispatchAuthModal(LOGIN))
-
-    const form = reactive({
-      username: "",
-      password: ""
-    })
+      .then(() => router.push({
+        name: routesNames.SelectDialog
+      }))
 
     return {
       form,
+      setUsername,
+      setPassword,
       login
     }
   }
@@ -62,6 +83,9 @@ export default defineComponent({
   flex-direction column
 
   color white
+
+  &__error
+    margin-bottom .5rem
 
   &__input
     margin-bottom 1rem
