@@ -1,18 +1,18 @@
 import { createApp } from "vue"
 import App from "@/App.vue"
 
+const app = createApp(App)
+
 import "@/registerServiceWorker"
 
 import router from "@/router"
-import { store } from "./store"
+app.use(router)
 
-import "@/assets/styles/main.styl"
+import { store, key } from "@/store"
+app.use(store, key)
 
 import "@/plugins/axios"
 
-const app = createApp(App)
-
-app.use(store)
-app.use(router)
+import "@/assets/styles/main.styl"
 
 app.mount("#app")
