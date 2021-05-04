@@ -6,6 +6,8 @@ import "@/registerServiceWorker"
 import router from "@/router"
 import { store } from "./store"
 
+import "@/plugins/axios"
+
 const app = createApp(App)
 
 app.use(store)
