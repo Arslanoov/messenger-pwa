@@ -14,14 +14,15 @@ module.exports = {
   },
   rules: {
     "no-console": 0,
-    "semi": 0,
-    "no-prototype-builtins": 0,
+    "@typescript-eslint/ban-types": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+
+    "semi": ["error", "never"],
     "quotes": [ "error", "double" ],
     "no-unused-vars": "warn",
     "vue/no-unused-vars": "warn",
     "vue/require-v-for-key": "off",
-    "vue/experimental-script-setup-vars": "off",
-    "@typescript-eslint/no-var-requires": 0
+    "vue/experimental-script-setup-vars": "off"
   },
   overrides: [
     {
