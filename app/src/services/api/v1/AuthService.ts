@@ -2,7 +2,7 @@ import qs from "qs"
 import axios from "axios"
 
 export default class AuthService {
-  login(username: string, password: string) {
+  public login(username: string, password: string) {
     return axios.post("/token", qs.stringify({
       grant_type: "password",
       client_id: "oauth",
@@ -13,10 +13,14 @@ export default class AuthService {
     }))
   }
 
-  signUp(username: string, password: string) {
+  public signUp(username: string, password: string) {
     return axios.post("/auth/sign-up", {
       username,
       password
     })
+  }
+
+  public profile() {
+    return axios.get("/profile")
   }
 }

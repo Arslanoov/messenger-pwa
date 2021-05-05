@@ -5,12 +5,16 @@ import { ActionContext } from "vuex"
 import { AuthFormStateInterface, SignUpFormStateInterface, StateInterface as AuthStateInterface } from "./state"
 import { StateInterface } from "@/store"
 
+import { UserInterface } from "@/types/user"
+
 import {
   CLEAR_AUTH_FORM_ERROR,
   SET_AUTH_FORM_ERROR,
   SET_AUTH_TOKEN,
   SET_SIGN_UP_FORM_ERROR,
   CLEAR_SIGN_UP_FORM_ERROR,
+  SET_CURRENT_USER,
+  CLEAR_CURRENT_USER_INFO,
 } from "@/store/modules/auth/mutations"
 import { GET_AUTH_FORM, GET_SIGN_UP_FORM } from "@/store/modules/auth/getters"
 
@@ -18,10 +22,12 @@ import AuthService from "@/services/api/v1/AuthService"
 const service = new AuthService()
 
 export const LOGIN = "login"
-export const SIGN_UP = "SIGN_UP"
+export const SIGN_UP = "signUp"
+export const FETCH_USER = "fetchUser"
+export const LOGOUT = "logout"
 
 export default {
-  [LOGIN]: ({ commit, getters }: ActionContext<AuthStateInterface, StateInterface>): Promise<string> => {
+  [LOGIN]: ({ dispatch, commit, getters }: ActionContext<AuthStateInterface, StateInterface>): Promise<string> => {
     return new Promise((resolve, reject) => {
       commit(CLEAR_AUTH_FORM_ERROR)
 
@@ -33,11 +39,12 @@ export default {
           commit(SET_AUTH_TOKEN, token)
           localStorage.setItem("token", token)
           axios.defaults.headers.common.Authorization = token
+          dispatch(FETCH_USER)
           resolve(token)
         })
         .catch(error => {
           if (error.response) {
-            console.log(error)
+            console.error(error)
             // TODO: Change to violations
             commit(SET_AUTH_FORM_ERROR, error.response.data.message || error.response.data.detail || null)
             reject(error.response)
@@ -61,7 +68,7 @@ export default {
         .then(() => resolve())
         .catch(error => {
           if (error.response) {
-            console.log(error)
+            console.error(error)
             // TODO: Change to violations
             commit(SET_SIGN_UP_FORM_ERROR, error.response.data.message || error.response.data.detail || null)
             reject(error.response)
@@ -69,5 +76,28 @@ export default {
           reject(error)
         })
     })
+  },
+  [FETCH_USER]: ({ commit }: ActionContext<AuthStateInterface, StateInterface>): Promise<UserInterface | string> => {
+    return new Promise((resolve, reject) => {
+      service
+        .profile()
+        .then(response => {
+          const user: UserInterface = response.data
+          commit(SET_CURRENT_USER, user)
+          resolve(user)
+        })
+        .catch(error => {
+          console.error(error)
+          if (error.response) {
+            reject(error.response.data.message)
+          }
+          reject(error)
+        })
+    })
+  },
+  [LOGOUT]: ({ commit }: ActionContext<AuthStateInterface, StateInterface>): void => {
+      commit(CLEAR_CURRENT_USER_INFO)
+      localStorage.removeItem("token")
+      delete axios.defaults.headers.common.Authorization
   }
 }
