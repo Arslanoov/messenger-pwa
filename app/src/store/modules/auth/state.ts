@@ -18,7 +18,7 @@ export interface StateInterface {
 }
 
 const state: StateInterface = {
-  token: null,
+  token: localStorage.getItem("token") || null,
   authForm: {
     username: "",
     password: "",

@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import { ActionContext } from "vuex"
 
 import { AuthFormStateInterface, SignUpFormStateInterface, StateInterface as AuthStateInterface } from "./state"
@@ -27,9 +29,11 @@ export default {
       service
         .login(form.username, form.password)
         .then(response => {
-          commit(SET_AUTH_TOKEN, response.data.access_token)
-          localStorage.setItem("token", response.data.access_token)
-          resolve(response.data.access_token)
+          const token = response.data.access_token
+          commit(SET_AUTH_TOKEN, token)
+          localStorage.setItem("token", token)
+          axios.defaults.headers.common.Authorization = token
+          resolve(token)
         })
         .catch(error => {
           if (error.response) {
