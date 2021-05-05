@@ -40,7 +40,7 @@ export default defineComponent({
   background-repeat no-repeat
   background-size cover
 
-  border-radius 100px
+  border-radius 10rem
 
   pointer-on-hover()
 

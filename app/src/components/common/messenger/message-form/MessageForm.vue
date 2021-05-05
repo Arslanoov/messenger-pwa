@@ -57,8 +57,8 @@ export default defineComponent({
 
     padding 2rem 0
 
-    border 0
-    outline 0
+    border none
+    outline none
 
     overflow-y scroll
 

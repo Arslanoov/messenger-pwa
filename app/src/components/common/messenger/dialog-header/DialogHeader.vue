@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue"
 
-import UserCard from "@/components/base/user-card/UserCard.vue";
+import UserCard from "@/components/base/user-card/UserCard.vue"
 
 export default defineComponent({
   name: "DialogHeader",
