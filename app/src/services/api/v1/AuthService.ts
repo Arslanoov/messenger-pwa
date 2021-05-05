@@ -12,4 +12,11 @@ export default class AuthService {
       password
     }))
   }
+
+  signUp(username: string, password: string) {
+    return axios.post("/auth/sign-up", {
+      username,
+      password
+    })
+  }
 }

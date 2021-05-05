@@ -82,7 +82,13 @@ export default defineComponent({
   display flex
   flex-direction column
 
+  width 20rem
+
   color white
+
+  +breakpoint-to(breakpoints.mobile)
+    width auto
+    max-width 20rem
 
   &__error
     margin-bottom .5rem
