@@ -1,6 +1,10 @@
 import { StateInterface } from "./state"
 
+import { UserInterface } from "@/types/user"
+
 export const SET_AUTH_TOKEN = "SET_AUTH_TOKEN"
+export const SET_CURRENT_USER = "SET_CURRENT_USER"
+export const CLEAR_CURRENT_USER_INFO = "CLEAR_CURRENT_USER_INFO"
 
 export const SET_AUTH_FORM_USERNAME = "SET_AUTH_FORM_USERNAME"
 export const SET_AUTH_FORM_PASSWORD = "SET_AUTH_FORM_PASSWORD"
@@ -15,6 +19,11 @@ export const CLEAR_SIGN_UP_FORM_ERROR = "CLEAR_SIGN_UP_FORM_ERROR"
 
 export default {
   [SET_AUTH_TOKEN]: (state: StateInterface, token: string) => state.token = token,
+  [SET_CURRENT_USER]: (state: StateInterface, user: UserInterface) => state.user = user,
+  [CLEAR_CURRENT_USER_INFO]: (state: StateInterface) => {
+    state.token = null
+    state.user = null
+  },
 
   [SET_AUTH_FORM_USERNAME]: (state: StateInterface, username: string) => state.authForm.username = username,
   [SET_AUTH_FORM_PASSWORD]: (state: StateInterface, password: string) => state.authForm.password = password,
