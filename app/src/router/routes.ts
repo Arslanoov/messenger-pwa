@@ -33,13 +33,13 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: "/sign-up",
-    name: routesNames.SignUp,
-    component: loadView("auth/SignUp"),
+    path: "/:catchAll(.*)",
+    name: routesNames.NotFound,
+    component: loadView("NotFound"),
     meta: {
       layout: "auth",
       requiresAuth: false,
-      requiresNoAuth: true
+      requiresNoAuth: false
     }
   }
 ]
