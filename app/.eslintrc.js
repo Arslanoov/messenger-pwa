@@ -16,6 +16,7 @@ module.exports = {
     "no-console": 0,
     "@typescript-eslint/ban-types": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-var-requires": 0,
 
     "semi": ["error", "never"],
     "quotes": [ "error", "double" ],

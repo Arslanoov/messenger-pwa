@@ -40,6 +40,11 @@
     >
       Join
     </button>
+
+    <div class="sign-up-form__tip">
+      Already have an account?
+      <router-link class="sign-up-form__link" to="/login">Log in</router-link>
+    </div>
   </div>
 </template>
 
@@ -98,12 +103,14 @@ export default defineComponent({
 
   color auth-page-color
 
-  +breakpoint-to(breakpoints.mobile)
+  +breakpoint-to(breakpoints.mobile-sm)
     width auto
     max-width 20rem
 
   &__error
-    margin-bottom .5rem
+    margin-bottom .8rem
+
+    color auth-page-error-color
 
   &__input
     margin-bottom 1rem
@@ -118,6 +125,8 @@ export default defineComponent({
     outline none
 
   &__button
+    margin-bottom 1rem
+
     padding .625rem .18rem
 
     border-radius .3rem
@@ -125,5 +134,11 @@ export default defineComponent({
     border none
     outline none
 
+    background-color auth-page-button-background
+
     pointer-on-hover()
+
+  &__link
+    color: auth-page-link-color
+    text-decoration underline
 </style>
