@@ -48,7 +48,7 @@ export default defineComponent({
   height auto
 
   background-color message-send-form-background
-  color grey-color
+  color grey
 
   &__input
     max-height 30vh
