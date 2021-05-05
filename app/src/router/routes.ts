@@ -28,7 +28,8 @@ const routes: RouteRecordRaw[] = [
     component: loadView("auth/Login"),
     meta: {
       layout: "auth",
-      requiresAuth: false
+      requiresAuth: false,
+      requiresNoAuth: true
     }
   },
   {
@@ -37,7 +38,18 @@ const routes: RouteRecordRaw[] = [
     component: loadView("auth/SignUp"),
     meta: {
       layout: "auth",
-      requiresAuth: false
+      requiresAuth: false,
+      requiresNoAuth: true
+    }
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: routesNames.NotFound,
+    component: loadView("NotFound"),
+    meta: {
+      layout: "auth",
+      requiresAuth: false,
+      requiresNoAuth: false
     }
   }
 ]

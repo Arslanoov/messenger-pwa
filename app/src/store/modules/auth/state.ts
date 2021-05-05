@@ -4,16 +4,30 @@ export interface AuthFormStateInterface {
   error: string | null
 }
 
+export interface SignUpFormStateInterface {
+  username: string,
+  password: string,
+  repeatPassword: string,
+  error: string | null
+}
+
 export interface StateInterface {
   token: string | null,
-  authForm: AuthFormStateInterface
+  authForm: AuthFormStateInterface,
+  signUpForm: SignUpFormStateInterface
 }
 
 const state: StateInterface = {
-  token: null,
+  token: localStorage.getItem("token") || null,
   authForm: {
     username: "",
     password: "",
+    error: null
+  },
+  signUpForm: {
+    username: "",
+    password: "",
+    repeatPassword: "",
     error: null
   }
 }

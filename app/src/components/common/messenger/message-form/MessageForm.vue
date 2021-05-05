@@ -48,7 +48,7 @@ export default defineComponent({
   height auto
 
   background-color message-send-form-background
-  color grey-color
+  color grey
 
   &__input
     max-height 30vh
@@ -57,8 +57,8 @@ export default defineComponent({
 
     padding 2rem 0
 
-    border 0
-    outline 0
+    border none
+    outline none
 
     overflow-y scroll
 

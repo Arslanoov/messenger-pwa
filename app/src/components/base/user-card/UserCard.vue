@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import Avatar from "@/components/base/avatar/Avatar.vue";
+import Avatar from "@/components/base/avatar/Avatar.vue"
 
 export default defineComponent({
   name: "UserCard",

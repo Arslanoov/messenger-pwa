@@ -31,6 +31,11 @@
     >
       Log In
     </button>
+
+    <div class="login-form__tip">
+      Not have an account?
+      <router-link class="login-form__link" to="/sign-up">Sign Up</router-link>
+    </div>
   </div>
 </template>
 
@@ -82,30 +87,46 @@ export default defineComponent({
   display flex
   flex-direction column
 
-  color white
+  width 20rem
+
+  color auth-page-color
+
+  +breakpoint-to(breakpoints.mobile-sm)
+    width auto
+    max-width 20rem
 
   &__error
-    margin-bottom .5rem
+    margin-bottom .8rem
+
+    color auth-page-error-color
 
   &__input
     margin-bottom 1rem
 
-    padding 7px
+    padding .4rem
 
-    border-radius 3px
+    border-radius .18rem
 
-    background #fff
+    background auth-page-input-background
 
-    border 0
-    outline 0
+    border none
+    outline none
 
   &__button
-    padding 10px 3px
+    margin-bottom 1rem
 
-    border-radius 5px
+    padding .625rem .18rem
 
-    border 0
-    outline 0
+    border-radius .3rem
+
+    border none
+    outline none
+
+    background-color auth-page-button-background
 
     pointer-on-hover()
+
+  &__link
+    color: auth-page-link-color
+    text-decoration underline
 </style>

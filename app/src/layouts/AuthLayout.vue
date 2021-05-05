@@ -14,12 +14,14 @@ export default defineComponent({
 
 <style lang="stylus" scoped>
 .auth-layout
-  width 100%
-  height 100vh
-
   display flex
   justify-content center
   align-items center
+
+  width 100%
+  height 100vh
+
+  padding 5rem 0
 
   background-color dialog-background
 </style>
