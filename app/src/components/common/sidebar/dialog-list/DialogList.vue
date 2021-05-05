@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue"
 
-import Dialog from "@/components/common/sidebar/dialog-list/Dialog.vue";
+import Dialog from "@/components/common/sidebar/dialog-list/Dialog.vue"
 
 export default defineComponent({
   name: "DialogList",

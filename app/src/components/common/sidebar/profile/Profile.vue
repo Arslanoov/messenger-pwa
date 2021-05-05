@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="profile" v-if="user">
     <user-card
       :avatar="user.avatar"
       :title="user.username"
@@ -20,9 +20,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue"
+import { defineComponent, computed } from "vue"
 
-import UserCard from "@/components/base/user-card/UserCard.vue";
+import { useStore } from "@/composables/store"
+import { getterAuthModal } from "@/store/modules/auth"
+
+import {
+  UserInterface
+} from "@/types/user"
+
+import {
+  GET_CURRENT_USER
+} from "@/store/modules/auth/getters"
+
+import UserCard from "@/components/base/user-card/UserCard.vue"
 
 export default defineComponent({
   name: "Profile",
@@ -30,12 +41,15 @@ export default defineComponent({
     UserCard
   },
   setup() {
-    const user = reactive({
+    const store = useStore()
+
+    /*const user = reactive({
       uuid: "123e4567-e89b-12d3-a456-426614174000",
       username: "Rafael Ramaisen",
       aboutMe: "Available for freelance work.",
       avatar: require("@/assets/images/profile/avatar.png")
-    })
+    })*/
+    const user = computed(() => store.getters[getterAuthModal(GET_CURRENT_USER)] as UserInterface | null)
 
     return {
       user
