@@ -10,8 +10,9 @@
       :avatar="user.avatar"
       :title="user.username"
       :subtitle="user.aboutMe"
-      is-online
       collapsible
+      is-online
+      with-margin
     />
     <div class="profile__actions">
       <div
