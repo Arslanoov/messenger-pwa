@@ -8,7 +8,7 @@
   >
     <Profile />
     <Line />
-    <dialog-list />
+    <dialog-list v-if="isStartedOpening" />
   </div>
 </template>
 
@@ -64,10 +64,15 @@ export default defineComponent({
     +breakpoint-to(breakpoints.tablet)
       width 100%
       height auto
-      max-height 100vh
+      min-height 100vh
 
   &_closed
     width 6rem
+
+    +breakpoint-to(breakpoints.tablet)
+      width 100%
+      height auto
+      min-height auto
 
   without-scroll()
 </style>

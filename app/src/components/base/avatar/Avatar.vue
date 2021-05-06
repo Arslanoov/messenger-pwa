@@ -64,6 +64,9 @@ export default defineComponent({
 
   pointer-on-hover()
 
+  +breakpoint-to(breakpoints.tablet)
+    margin-right avatar-margin-right
+
   &_with-margin
     margin-right avatar-margin-right
 
