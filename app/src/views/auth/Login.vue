@@ -2,9 +2,7 @@
   <div class="login-form">
     <h1>Login</h1>
 
-    <div class="login-form__error" v-if="form.error">
-      {{ form.error }}
-    </div>
+    <error-handler :message="form.error" />
 
     <label for="username">Username</label>
     <input
@@ -46,7 +44,7 @@ import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
 import { useStore } from "@/composables/store"
-import { commitAuthModal, dispatchAuthModal, getterAuthModal } from "@/store/modules/auth"
+import { commitAuthModule, dispatchAuthModule, getterAuthModule } from "@/store/modules/auth"
 
 import { AuthFormStateInterface } from "@/store/modules/auth/state"
 import {
@@ -56,18 +54,23 @@ import {
 import { LOGIN } from "@/store/modules/auth/actions"
 import { GET_AUTH_FORM } from "@/store/modules/auth/getters"
 
+import ErrorHandler from "@/components/base/error-handler/ErrorHandler.vue"
+
 export default defineComponent({
   name: "Login",
+  components: {
+    ErrorHandler
+  },
   setup() {
     const store = useStore()
     const router = useRouter()
 
-    const form = computed(() => store.getters[getterAuthModal(GET_AUTH_FORM)] as AuthFormStateInterface)
+    const form = computed(() => store.getters[getterAuthModule(GET_AUTH_FORM)] as AuthFormStateInterface)
 
-    const setUsername = (value: string) => store.commit(commitAuthModal(SET_AUTH_FORM_USERNAME), value)
-    const setPassword = (value: string) => store.commit(commitAuthModal(SET_AUTH_FORM_PASSWORD), value)
+    const setUsername = (value: string) => store.commit(commitAuthModule(SET_AUTH_FORM_USERNAME), value)
+    const setPassword = (value: string) => store.commit(commitAuthModule(SET_AUTH_FORM_PASSWORD), value)
 
-    const login = () => store.dispatch(dispatchAuthModal(LOGIN))
+    const login = () => store.dispatch(dispatchAuthModule(LOGIN))
       .then(() => router.push({
         name: routesNames.SelectDialog
       }))

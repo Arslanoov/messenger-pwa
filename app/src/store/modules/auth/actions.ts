@@ -5,14 +5,16 @@ import { ActionContext } from "vuex"
 import { AuthFormStateInterface, SignUpFormStateInterface, StateInterface as AuthStateInterface } from "./state"
 import { StateInterface } from "@/store"
 
+import { isAuth } from "@/helpers/auth/isAuth"
+
 import { UserInterface } from "@/types/user"
 
 import {
   CLEAR_AUTH_FORM_ERROR,
   SET_AUTH_FORM_ERROR,
   SET_AUTH_TOKEN,
-  SET_SIGN_UP_FORM_ERROR,
-  CLEAR_SIGN_UP_FORM_ERROR,
+  CLEAR_SIGN_UP_FORM_VIOLATIONS,
+  SET_SIGN_UP_FORM_VIOLATIONS,
   SET_CURRENT_USER,
   CLEAR_CURRENT_USER_INFO,
 } from "@/store/modules/auth/mutations"
@@ -45,8 +47,7 @@ export default {
         .catch(error => {
           if (error.response) {
             console.error(error)
-            // TODO: Change to violations
-            commit(SET_AUTH_FORM_ERROR, error.response.data.message || error.response.data.detail || null)
+            commit(SET_AUTH_FORM_ERROR, error.response.data.message || null)
             reject(error.response)
           }
           reject(error)
@@ -55,11 +56,16 @@ export default {
   },
   [SIGN_UP]: ({ commit, getters }: ActionContext<AuthStateInterface, StateInterface>): Promise<string | void> => {
     return new Promise((resolve, reject) => {
-      commit(CLEAR_SIGN_UP_FORM_ERROR)
+      commit(CLEAR_SIGN_UP_FORM_VIOLATIONS)
 
       const form: SignUpFormStateInterface = getters[GET_SIGN_UP_FORM]
       if (form.password !== form.repeatPassword) {
-        commit(SET_SIGN_UP_FORM_ERROR, "Incorrect repeat password")
+        commit(SET_SIGN_UP_FORM_VIOLATIONS, [
+          {
+            propertyPath: "Repeat Password",
+            title: "Incorrect"
+          }
+        ])
         return
       }
 
@@ -69,15 +75,18 @@ export default {
         .catch(error => {
           if (error.response) {
             console.error(error)
-            // TODO: Change to violations
-            commit(SET_SIGN_UP_FORM_ERROR, error.response.data.message || error.response.data.detail || null)
+            commit(SET_SIGN_UP_FORM_VIOLATIONS, error.response.data.violations || [])
             reject(error.response)
           }
           reject(error)
         })
     })
   },
-  [FETCH_USER]: ({ commit }: ActionContext<AuthStateInterface, StateInterface>): Promise<UserInterface | string> => {
+  [FETCH_USER]: ({
+     commit
+  }: ActionContext<AuthStateInterface, StateInterface>): Promise<UserInterface | string> | void => {
+    if (!isAuth()) return
+
     return new Promise((resolve, reject) => {
       service
         .profile()

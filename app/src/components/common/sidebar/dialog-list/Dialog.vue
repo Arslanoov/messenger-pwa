@@ -10,6 +10,7 @@
       :subtitle="dialog.partner.latestMessage.short"
       :extra="dialog.partner.latestMessage.date"
       :is-online="dialog.partner.isOnline"
+      collapsible
     />
     <div class="dialog-status">
       <template v-if="dialog.sentByMe">
@@ -33,8 +34,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import { useRouter } from "vue-router"
 
+import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
 import UserCard from "@/components/base/user-card/UserCard.vue"

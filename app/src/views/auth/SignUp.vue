@@ -2,9 +2,7 @@
   <div class="sign-up-form">
     <h1>Sign Up</h1>
 
-    <div class="sign-up-form__error" v-if="form.error">
-      {{ form.error }}
-    </div>
+    <error-handler :violations="form.violations" />
 
     <label for="username">Username</label>
     <input
@@ -49,13 +47,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue"
+import { defineComponent, computed } from "vue"
 
 import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
 import { useStore } from "@/composables/store"
-import { commitAuthModal, dispatchAuthModal, getterAuthModal } from "@/store/modules/auth"
+import { commitAuthModule, dispatchAuthModule, getterAuthModule } from "@/store/modules/auth"
 
 import { SignUpFormStateInterface } from "@/store/modules/auth/state"
 import {
@@ -66,19 +64,24 @@ import {
 import { SIGN_UP } from "@/store/modules/auth/actions"
 import { GET_SIGN_UP_FORM } from "@/store/modules/auth/getters"
 
+import ErrorHandler from "@/components/base/error-handler/ErrorHandler.vue"
+
 export default defineComponent({
   name: "SignUp",
+  components: {
+    ErrorHandler
+  },
   setup() {
     const store = useStore()
     const router = useRouter()
 
-    const form = computed(() => store.getters[getterAuthModal(GET_SIGN_UP_FORM)] as SignUpFormStateInterface)
+    const form = computed(() => store.getters[getterAuthModule(GET_SIGN_UP_FORM)] as SignUpFormStateInterface)
 
-    const setUsername = (value: string) => store.commit(commitAuthModal(SET_SIGN_UP_FORM_USERNAME), value)
-    const setPassword = (value: string) => store.commit(commitAuthModal(SET_SIGN_UP_FORM_PASSWORD), value)
-    const setRepeatPassword = (value: string) => store.commit(commitAuthModal(SET_SIGN_UP_FORM_REPEAT_PASSWORD), value)
+    const setUsername = (value: string) => store.commit(commitAuthModule(SET_SIGN_UP_FORM_USERNAME), value)
+    const setPassword = (value: string) => store.commit(commitAuthModule(SET_SIGN_UP_FORM_PASSWORD), value)
+    const setRepeatPassword = (value: string) => store.commit(commitAuthModule(SET_SIGN_UP_FORM_REPEAT_PASSWORD), value)
 
-    const signUp = () => store.dispatch(dispatchAuthModal(SIGN_UP))
+    const signUp = () => store.dispatch(dispatchAuthModule(SIGN_UP))
       .then(() => router.push({
         name: routesNames.Login
       }))
@@ -106,11 +109,6 @@ export default defineComponent({
   +breakpoint-to(breakpoints.mobile-sm)
     width auto
     max-width 20rem
-
-  &__error
-    margin-bottom .8rem
-
-    color auth-page-error-color
 
   &__input
     margin-bottom 1rem

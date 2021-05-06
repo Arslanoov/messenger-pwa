@@ -1,4 +1,5 @@
 import { UserInterface } from "@/types/user"
+import { ViolationInterface } from "@/types/violation"
 
 export interface AuthFormStateInterface {
   username: string,
@@ -10,7 +11,7 @@ export interface SignUpFormStateInterface {
   username: string,
   password: string,
   repeatPassword: string,
-  error: string | null
+  violations: ViolationInterface[]
 }
 
 export interface StateInterface {
@@ -32,7 +33,7 @@ const state: StateInterface = {
     username: "",
     password: "",
     repeatPassword: "",
-    error: null
+    violations: []
   }
 }
 

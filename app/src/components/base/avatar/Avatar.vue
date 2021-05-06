@@ -1,5 +1,11 @@
 <template>
-  <div class="avatar" :style="{ backgroundImage: `url(${src})` }">
+  <div
+    :class="{
+      'avatar_with-margin': isOpenedSidebar
+    }"
+    :style="{ backgroundImage: `url(${src})` }"
+    class="avatar"
+  >
     <img
       v-if="isOnline"
       class="avatar__online"
@@ -9,7 +15,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, computed } from "vue"
+
+import { useStore } from "@/composables/store"
+import { getterSidebarModule } from "@/store/modules/sidebar"
+
+import { GET_IS_SIDEBAR_OPENED } from "@/store/modules/sidebar/getters"
 
 export default defineComponent({
   name: "Avatar",
@@ -22,6 +33,15 @@ export default defineComponent({
       type: Boolean,
       required: true
     }
+  },
+  setup() {
+    const store = useStore()
+
+    const isOpenedSidebar = computed(() => store.getters[getterSidebarModule(GET_IS_SIDEBAR_OPENED)])
+
+    return {
+      isOpenedSidebar
+    }
   }
 })
 </script>
@@ -30,19 +50,25 @@ export default defineComponent({
 .avatar
   position relative
 
-  flex-shrink: 0;
+  flex-shrink: 0
 
   width avatar-size
   height avatar-size
-
-  margin-right avatar-margin-right
 
   background-repeat no-repeat
   background-size cover
 
   border-radius 10rem
 
+  transition margin .5s
+
   pointer-on-hover()
+
+  +breakpoint-to(breakpoints.tablet)
+    margin-right avatar-margin-right
+
+  &_with-margin
+    margin-right avatar-margin-right
 
   &__online
     position absolute
