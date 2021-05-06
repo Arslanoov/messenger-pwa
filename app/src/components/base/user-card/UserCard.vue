@@ -1,6 +1,7 @@
 <template>
   <div class="user-card">
-    <Avatar v-if="avatar" :src="avatar" :is-online="isOnline" />
+    <!-- TODO: Remove prop drills -->
+    <Avatar v-if="avatar" :src="avatar" :is-online="isOnline" :with-margin="withMargin" />
     <div v-if="isSidebarOpened" class="user-card__content">
       <div class="user-card__title">
         {{ title }}
@@ -52,6 +53,11 @@ export default defineComponent({
       required: true
     },
     collapsible: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    withMargin: {
       type: Boolean,
       required: false,
       default: false

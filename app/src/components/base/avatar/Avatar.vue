@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{
-      'avatar_with-margin': isOpenedSidebar
+      'avatar_with-margin': withMargin || isOpenedSidebar
     }"
     :style="{ backgroundImage: `url(${src})` }"
     class="avatar"
@@ -32,6 +32,11 @@ export default defineComponent({
     isOnline: {
       type: Boolean,
       required: true
+    },
+    withMargin: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup() {
