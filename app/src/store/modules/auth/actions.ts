@@ -5,6 +5,8 @@ import { ActionContext } from "vuex"
 import { AuthFormStateInterface, SignUpFormStateInterface, StateInterface as AuthStateInterface } from "./state"
 import { StateInterface } from "@/store"
 
+import { isAuth } from "@/helpers/auth/isAuth"
+
 import { UserInterface } from "@/types/user"
 
 import {
@@ -80,7 +82,11 @@ export default {
         })
     })
   },
-  [FETCH_USER]: ({ commit }: ActionContext<AuthStateInterface, StateInterface>): Promise<UserInterface | string> => {
+  [FETCH_USER]: ({
+     commit
+  }: ActionContext<AuthStateInterface, StateInterface>): Promise<UserInterface | string> | void => {
+    if (!isAuth()) return
+
     return new Promise((resolve, reject) => {
       service
         .profile()
