@@ -186,6 +186,8 @@ export default defineComponent({
 
     z-index 1
 
+    user-select none
+
     &_opened
       visibility visible
 
@@ -201,6 +203,8 @@ export default defineComponent({
 
   &__bell,
   &__settings
+    user-select none
+
     pointer-on-hover()
 
   &__bell

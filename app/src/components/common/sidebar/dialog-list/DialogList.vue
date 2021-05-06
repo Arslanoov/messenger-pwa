@@ -135,5 +135,6 @@ export default defineComponent({
 </script>
 
 <style lang="stylus" scoped>
-
+.dialog-list
+  user-select none
 </style>
