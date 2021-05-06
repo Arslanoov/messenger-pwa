@@ -1,18 +1,36 @@
 <template>
-  <div class="profile" v-if="user">
+  <div
+    v-if="user"
+    :class="{
+      'profile_opened': isStartedOpeningSidebar
+    }"
+    class="profile"
+  >
     <user-card
       :avatar="user.avatar"
       :title="user.username"
       :subtitle="user.aboutMe"
       is-online
+      collapsible
     />
     <div class="profile__actions">
-      <div class="profile__action">
-        <div class="profile__popup" :class="{
-          'profile__popup_opened': isOpenedPopup
-        }">
+      <div
+        :class="{
+          'profile__action_with-margin': isStartedOpeningSidebar
+        }"
+        class="profile__action"
+      >
+        <div
+          :class="{
+            'profile__popup_opened': isOpenedPopup
+          }"
+          class="profile__popup"
+        >
           <div class="profile__popup-item">
             Profile
+          </div>
+          <div @click="toggleSidebar" class="profile__popup-item">
+            Hide
           </div>
           <div @click="logout" class="profile__popup-item">
             Logout
@@ -25,6 +43,9 @@
       </div>
       <img
         @click="togglePopup"
+        :class="{
+          'profile__action_with-margin': isStartedOpeningSidebar
+        }"
         class="profile__action profile__settings"
         src="~@/assets/images/profile/icons/settings.svg"
         alt="">
@@ -54,6 +75,10 @@ import UserCard from "@/components/base/user-card/UserCard.vue"
 import { dispatchAuthModal } from "@/store/modules/auth"
 import { LOGOUT } from "@/store/modules/auth/actions"
 
+import { commitSidebarModal, getterSidebarModal } from "@/store/modules/sidebar"
+import { START_SIDEBAR_OPENING, TOGGLE_SIDEBAR } from "@/store/modules/sidebar/mutations"
+import { GET_IS_SIDEBAR_STARTED_OPENING, GET_IS_SIDEBAR_OPENED } from "@/store/modules/sidebar/getters"
+
 export default defineComponent({
   name: "Profile",
   components: {
@@ -72,14 +97,40 @@ export default defineComponent({
       })
     }
 
+    const isStartedOpeningSidebar = computed(() => store.getters[getterSidebarModal(GET_IS_SIDEBAR_STARTED_OPENING)])
+    const isOpenedSidebar = computed(() => store.getters[getterSidebarModal(GET_IS_SIDEBAR_OPENED)])
+
+    const startOpeningSidebar = () => store.commit(commitSidebarModal(START_SIDEBAR_OPENING))
+    const toggleSidebar = () => {
+      if (!isOpenedSidebar.value) {
+        startOpeningSidebar()
+        window.setTimeout(() => store.commit(commitSidebarModal(TOGGLE_SIDEBAR)), 500)
+      } else {
+        closePopup()
+        store.commit(commitSidebarModal(TOGGLE_SIDEBAR))
+      }
+    }
+
     const isOpenedPopup = ref(false)
-    const togglePopup = () => isOpenedPopup.value = !isOpenedPopup.value
+    const closePopup = () => isOpenedPopup.value = false
+    const togglePopup = () => {
+      if (!isStartedOpeningSidebar.value) {
+        toggleSidebar()
+        return
+      }
+      isOpenedPopup.value = !isOpenedPopup.value
+    }
 
     return {
       user,
       logout,
+
       isOpenedPopup,
-      togglePopup
+      togglePopup,
+
+      isStartedOpeningSidebar,
+      isOpenedSidebar,
+      toggleSidebar
     }
   }
 })
@@ -88,18 +139,27 @@ export default defineComponent({
 <style lang="stylus" scoped>
 .profile
   display flex
-  justify-content space-between
+  justify-content center
   align-items center
 
   padding-top .8rem + line-margin
-  padding-bottom: .8rem
-  padding-left 1.5rem
-  padding-right 1.5rem
+
+  transition padding .5s
+
+  &_opened
+    justify-content space-between
+
+    padding-bottom: .8rem
+    padding-left 1.5rem
+    padding-right 1.5rem
 
   &__action
     position relative
 
-    margin-left .7rem
+    margin-left 0
+
+    &_with-margin
+      margin-left .7rem
 
   &__popup
     position absolute
@@ -111,20 +171,24 @@ export default defineComponent({
     justify-content center
     align-items center
 
-    min-width 10rem
+    min-width 8rem
     min-height 1rem
 
     padding 1rem 2rem
 
-    background #fff
+    color #541a8b
+    background-color #fff
 
+    visibility hidden
     opacity 0
 
-    transition opacity .5s
+    transition opacity .6s
 
     z-index 1
 
     &_opened
+      visibility visible
+
       opacity 1
 
     &-item

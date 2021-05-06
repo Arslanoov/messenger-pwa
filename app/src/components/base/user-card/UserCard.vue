@@ -1,7 +1,7 @@
 <template>
   <div class="user-card">
     <Avatar v-if="avatar" :src="avatar" is-online />
-    <div class="user-card__content">
+    <div v-if="isSidebarOpened" class="user-card__content">
       <div class="user-card__title">
         {{ title }}
         <span
@@ -17,7 +17,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, computed } from "vue"
+
+import { useStore } from "@/composables/store"
+import { getterSidebarModal } from "@/store/modules/sidebar"
+
+import { GET_IS_SIDEBAR_OPENED } from "@/store/modules/sidebar/getters"
 
 import Avatar from "@/components/base/avatar/Avatar.vue"
 
@@ -45,10 +50,25 @@ export default defineComponent({
     isOnline: {
       type: Boolean,
       required: true
+    },
+    collapsible: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   components: {
     Avatar
+  },
+  setup(props) {
+    const store = useStore()
+
+    const isSidebarOpened =
+      computed(() => !props.collapsible || store.getters[getterSidebarModal(GET_IS_SIDEBAR_OPENED)])
+
+    return {
+      isSidebarOpened
+    }
   }
 })
 </script>
