@@ -46,7 +46,7 @@ import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
 import { useStore } from "@/composables/store"
-import { commitAuthModal, dispatchAuthModal, getterAuthModal } from "@/store/modules/auth"
+import { commitAuthModule, dispatchAuthModule, getterAuthModule } from "@/store/modules/auth"
 
 import { AuthFormStateInterface } from "@/store/modules/auth/state"
 import {
@@ -62,12 +62,12 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
 
-    const form = computed(() => store.getters[getterAuthModal(GET_AUTH_FORM)] as AuthFormStateInterface)
+    const form = computed(() => store.getters[getterAuthModule(GET_AUTH_FORM)] as AuthFormStateInterface)
 
-    const setUsername = (value: string) => store.commit(commitAuthModal(SET_AUTH_FORM_USERNAME), value)
-    const setPassword = (value: string) => store.commit(commitAuthModal(SET_AUTH_FORM_PASSWORD), value)
+    const setUsername = (value: string) => store.commit(commitAuthModule(SET_AUTH_FORM_USERNAME), value)
+    const setPassword = (value: string) => store.commit(commitAuthModule(SET_AUTH_FORM_PASSWORD), value)
 
-    const login = () => store.dispatch(dispatchAuthModal(LOGIN))
+    const login = () => store.dispatch(dispatchAuthModule(LOGIN))
       .then(() => router.push({
         name: routesNames.SelectDialog
       }))

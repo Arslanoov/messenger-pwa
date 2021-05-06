@@ -55,7 +55,7 @@ import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
 import { useStore } from "@/composables/store"
-import { commitAuthModal, dispatchAuthModal, getterAuthModal } from "@/store/modules/auth"
+import { commitAuthModule, dispatchAuthModule, getterAuthModule } from "@/store/modules/auth"
 
 import { SignUpFormStateInterface } from "@/store/modules/auth/state"
 import {
@@ -72,13 +72,13 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
 
-    const form = computed(() => store.getters[getterAuthModal(GET_SIGN_UP_FORM)] as SignUpFormStateInterface)
+    const form = computed(() => store.getters[getterAuthModule(GET_SIGN_UP_FORM)] as SignUpFormStateInterface)
 
-    const setUsername = (value: string) => store.commit(commitAuthModal(SET_SIGN_UP_FORM_USERNAME), value)
-    const setPassword = (value: string) => store.commit(commitAuthModal(SET_SIGN_UP_FORM_PASSWORD), value)
-    const setRepeatPassword = (value: string) => store.commit(commitAuthModal(SET_SIGN_UP_FORM_REPEAT_PASSWORD), value)
+    const setUsername = (value: string) => store.commit(commitAuthModule(SET_SIGN_UP_FORM_USERNAME), value)
+    const setPassword = (value: string) => store.commit(commitAuthModule(SET_SIGN_UP_FORM_PASSWORD), value)
+    const setRepeatPassword = (value: string) => store.commit(commitAuthModule(SET_SIGN_UP_FORM_REPEAT_PASSWORD), value)
 
-    const signUp = () => store.dispatch(dispatchAuthModal(SIGN_UP))
+    const signUp = () => store.dispatch(dispatchAuthModule(SIGN_UP))
       .then(() => router.push({
         name: routesNames.Login
       }))

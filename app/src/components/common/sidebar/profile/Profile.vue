@@ -60,7 +60,7 @@ import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
 import { useStore } from "@/composables/store"
-import { getterAuthModal } from "@/store/modules/auth"
+import { getterAuthModule } from "@/store/modules/auth"
 
 import {
   UserInterface
@@ -72,10 +72,10 @@ import {
 
 import UserCard from "@/components/base/user-card/UserCard.vue"
 
-import { dispatchAuthModal } from "@/store/modules/auth"
+import { dispatchAuthModule } from "@/store/modules/auth"
 import { LOGOUT } from "@/store/modules/auth/actions"
 
-import { commitSidebarModal, getterSidebarModal } from "@/store/modules/sidebar"
+import { commitSidebarModule, getterSidebarModule } from "@/store/modules/sidebar"
 import { START_SIDEBAR_OPENING, TOGGLE_SIDEBAR } from "@/store/modules/sidebar/mutations"
 import { GET_IS_SIDEBAR_STARTED_OPENING, GET_IS_SIDEBAR_OPENED } from "@/store/modules/sidebar/getters"
 
@@ -89,25 +89,25 @@ export default defineComponent({
 
     const store = useStore()
 
-    const user = computed(() => store.getters[getterAuthModal(GET_CURRENT_USER)] as UserInterface | null)
+    const user = computed(() => store.getters[getterAuthModule(GET_CURRENT_USER)] as UserInterface | null)
     const logout = () => {
-      store.dispatch(dispatchAuthModal(LOGOUT))
+      store.dispatch(dispatchAuthModule(LOGOUT))
       router.push({
         name: routesNames.Login
       })
     }
 
-    const isStartedOpeningSidebar = computed(() => store.getters[getterSidebarModal(GET_IS_SIDEBAR_STARTED_OPENING)])
-    const isOpenedSidebar = computed(() => store.getters[getterSidebarModal(GET_IS_SIDEBAR_OPENED)])
+    const isStartedOpeningSidebar = computed(() => store.getters[getterSidebarModule(GET_IS_SIDEBAR_STARTED_OPENING)])
+    const isOpenedSidebar = computed(() => store.getters[getterSidebarModule(GET_IS_SIDEBAR_OPENED)])
 
-    const startOpeningSidebar = () => store.commit(commitSidebarModal(START_SIDEBAR_OPENING))
+    const startOpeningSidebar = () => store.commit(commitSidebarModule(START_SIDEBAR_OPENING))
     const toggleSidebar = () => {
       if (!isOpenedSidebar.value) {
         startOpeningSidebar()
-        window.setTimeout(() => store.commit(commitSidebarModal(TOGGLE_SIDEBAR)), 500)
+        window.setTimeout(() => store.commit(commitSidebarModule(TOGGLE_SIDEBAR)), 500)
       } else {
         closePopup()
-        store.commit(commitSidebarModal(TOGGLE_SIDEBAR))
+        store.commit(commitSidebarModule(TOGGLE_SIDEBAR))
       }
     }
 

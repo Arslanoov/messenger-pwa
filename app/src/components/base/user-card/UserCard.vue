@@ -20,7 +20,7 @@
 import { defineComponent, computed } from "vue"
 
 import { useStore } from "@/composables/store"
-import { getterSidebarModal } from "@/store/modules/sidebar"
+import { getterSidebarModule } from "@/store/modules/sidebar"
 
 import { GET_IS_SIDEBAR_OPENED } from "@/store/modules/sidebar/getters"
 
@@ -64,7 +64,7 @@ export default defineComponent({
     const store = useStore()
 
     const isSidebarOpened =
-      computed(() => !props.collapsible || store.getters[getterSidebarModal(GET_IS_SIDEBAR_OPENED)])
+      computed(() => !props.collapsible || store.getters[getterSidebarModule(GET_IS_SIDEBAR_OPENED)])
 
     return {
       isSidebarOpened

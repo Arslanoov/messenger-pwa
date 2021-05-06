@@ -11,7 +11,7 @@ import { defineComponent } from "vue"
 import Sidebar from "@/modules/Sidebar.vue"
 
 import { useStore } from "@/composables/store"
-import { dispatchAuthModal } from "@/store/modules/auth"
+import { dispatchAuthModule } from "@/store/modules/auth"
 
 import { FETCH_USER } from "@/store/modules/auth/actions"
 
@@ -23,7 +23,7 @@ export default defineComponent({
   setup() {
     const store = useStore()
 
-    const getUser = () => store.dispatch(dispatchAuthModal(FETCH_USER))
+    const getUser = () => store.dispatch(dispatchAuthModule(FETCH_USER))
     getUser()
 
     return {}
