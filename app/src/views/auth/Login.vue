@@ -2,9 +2,7 @@
   <div class="login-form">
     <h1>Login</h1>
 
-    <div class="login-form__error" v-if="form.error">
-      {{ form.error }}
-    </div>
+    <error-handler :message="form.error" />
 
     <label for="username">Username</label>
     <input
@@ -56,8 +54,13 @@ import {
 import { LOGIN } from "@/store/modules/auth/actions"
 import { GET_AUTH_FORM } from "@/store/modules/auth/getters"
 
+import ErrorHandler from "@/components/base/error-handler/ErrorHandler.vue"
+
 export default defineComponent({
   name: "Login",
+  components: {
+    ErrorHandler
+  },
   setup() {
     const store = useStore()
     const router = useRouter()

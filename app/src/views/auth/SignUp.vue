@@ -2,9 +2,7 @@
   <div class="sign-up-form">
     <h1>Sign Up</h1>
 
-    <div class="sign-up-form__error" v-if="form.error">
-      {{ form.error }}
-    </div>
+    <error-handler :violations="form.violations" />
 
     <label for="username">Username</label>
     <input
@@ -49,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue"
+import { defineComponent, computed } from "vue"
 
 import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
@@ -66,8 +64,13 @@ import {
 import { SIGN_UP } from "@/store/modules/auth/actions"
 import { GET_SIGN_UP_FORM } from "@/store/modules/auth/getters"
 
+import ErrorHandler from "@/components/base/error-handler/ErrorHandler.vue"
+
 export default defineComponent({
   name: "SignUp",
+  components: {
+    ErrorHandler
+  },
   setup() {
     const store = useStore()
     const router = useRouter()
@@ -106,11 +109,6 @@ export default defineComponent({
   +breakpoint-to(breakpoints.mobile-sm)
     width auto
     max-width 20rem
-
-  &__error
-    margin-bottom .8rem
-
-    color auth-page-error-color
 
   &__input
     margin-bottom 1rem
