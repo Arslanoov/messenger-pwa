@@ -8,7 +8,12 @@
   >
     <Profile />
     <Line />
-    <dialog-list v-if="isStartedOpening" />
+    <dialog-list
+      :class="{
+        'sidebar__dialog-list_opened': isStartedOpening
+      }"
+      class="sidebar__dialog-list"
+    />
   </div>
 </template>
 
@@ -52,6 +57,8 @@ export default defineComponent({
 
   transition width 1s
 
+  without-scroll()
+
   &_opened
     width 25%
 
@@ -74,5 +81,11 @@ export default defineComponent({
       height auto
       min-height auto
 
-  without-scroll()
+  &__dialog-list
+    +breakpoint-to(breakpoints.tablet)
+      display none
+
+    &_opened
+      +breakpoint-to(breakpoints.tablet)
+        display block
 </style>

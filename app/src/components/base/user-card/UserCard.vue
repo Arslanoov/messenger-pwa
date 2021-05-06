@@ -1,6 +1,6 @@
 <template>
   <div class="user-card">
-    <Avatar v-if="avatar" :src="avatar" is-online />
+    <Avatar v-if="avatar" :src="avatar" :is-online="isOnline" />
     <div v-if="isSidebarOpened" class="user-card__content">
       <div class="user-card__title">
         {{ title }}
