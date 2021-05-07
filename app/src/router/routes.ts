@@ -24,8 +24,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/profile",
-    name: routesNames.Dialog,
-    component: loadView("messenger/Profile"),
+    name: routesNames.Profile,
+    component: loadView("Profile"),
     meta: {
       layout: "main",
       requiresAuth: true

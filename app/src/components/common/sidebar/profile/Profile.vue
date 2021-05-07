@@ -27,9 +27,9 @@
           }"
           class="profile__popup"
         >
-          <router-link to="/profile" class="profile__popup-item">
+          <div @click="profile" class="profile__popup-item">
             Profile
-          </router-link>
+          </div>
           <div @click="toggleSidebar" class="profile__popup-item">
             Hide
           </div>
@@ -122,6 +122,13 @@ export default defineComponent({
       isOpenedPopup.value = !isOpenedPopup.value
     }
 
+    const profile = () => {
+      closePopup()
+      router.push({
+        name: routesNames.Profile
+      }).catch(() => {})
+    }
+
     return {
       user,
       logout,
@@ -131,7 +138,9 @@ export default defineComponent({
 
       isStartedOpeningSidebar,
       isOpenedSidebar,
-      toggleSidebar
+      toggleSidebar,
+
+      profile
     }
   }
 })
