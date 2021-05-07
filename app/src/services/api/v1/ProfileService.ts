@@ -7,15 +7,10 @@ export default class ProfileService {
     })
   }
 
-  public changeAvatar(data: FormData, onProgressChange: (e: ProgressEvent) => void = () => {}): Promise<void> {
-    return new Promise(((resolve, reject) => {
-      axios
-        .post("/profile/avatar/upload", data, {
-          onUploadProgress: onProgressChange
-        })
-        .then(() => resolve())
-        .catch(error => reject(error))
-    }))
+  public changeAvatar(data: FormData, onUploadProgress: (e: ProgressEvent) => void = () => {}) {
+    return axios.post("/profile/avatar/upload", data, {
+      onUploadProgress
+    })
   }
 
   public removeAvatar() {

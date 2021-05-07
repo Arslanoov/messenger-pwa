@@ -45,9 +45,11 @@ import { useStore } from "@/composables/store"
 import { commitAuthModule, getterAuthModule } from "@/store/modules/auth"
 import { commitProfileModule, dispatchProfileModule } from "@/store/modules/profile"
 
-import { SET_CHANGE_FORM_ABOUT } from "@/store/modules/profile/mutations"
-import { CHANGE_AVATAR, CHANGE_INFO, REMOVE_AVATAR } from "@/store/modules/profile/actions"
+import { SET_AVATAR, REMOVE_AVATAR } from "@/store/modules/auth/mutations"
 import { GET_CURRENT_USER } from "@/store/modules/auth/getters"
+
+import { SET_CHANGE_FORM_ABOUT } from "@/store/modules/profile/mutations"
+import { CHANGE_AVATAR, CHANGE_INFO, REMOVE_AVATAR as REMOVE_AVATAR_ACTION } from "@/store/modules/profile/actions"
 
 import { UserInterface } from "@/types/user"
 
@@ -73,11 +75,16 @@ export default defineComponent({
             console.log("progress", Math.round((e.loaded * 100) / e.total))
           }
         })
-        .then(() => store.commit(commitAuthModule(CHANGE_AVATAR)))
+        .then((url: string) => {
+          const params = new URLSearchParams({
+            hash: String(Math.random())
+          })
+          store.commit(commitAuthModule(SET_AVATAR), `${url}?${params.toString()}`)
+        })
     }
     const removeAvatar = () => {
       store
-        .dispatch(dispatchProfileModule(REMOVE_AVATAR))
+        .dispatch(dispatchProfileModule(REMOVE_AVATAR_ACTION))
         .then(() => store.commit(commitAuthModule(REMOVE_AVATAR)))
     }
 
