@@ -1,47 +1,51 @@
 <template>
-  <div class="sign-up-form">
-    <h1>Sign Up</h1>
+  <div class="sign-up">
+    <h1 class="sign-up__title">Sign Up</h1>
 
     <error-handler :violations="form.violations" />
 
-    <label for="username">Username</label>
-    <input
-      @change="e => setUsername(e.target.value)"
-      :value="form.username"
-      class="sign-up-form__input"
-      id="username"
-      type="text"
-    />
-
-    <label for="password">Password</label>
-    <input
-      @change="e => setPassword(e.target.value)"
-      :value="form.password"
-      class="sign-up-form__input"
-      id="password"
-      type="password"
-    />
-
-    <label for="password">Repeat Password</label>
-    <input
-      @change="e => setRepeatPassword(e.target.value)"
-      :value="form.repeatPassword"
-      class="sign-up-form__input"
-      id="repeat-password"
-      type="password"
-    />
-
-    <button
-      @click="signUp"
-      class="sign-up-form__button"
-      type="submit"
+    <form
+      @submit.prevent="signUp"
+      class="sign-up__form"
     >
-      Join
-    </button>
+      <label for="username">Username</label>
+      <input
+        @change="e => setUsername(e.target.value)"
+        :value="form.username"
+        id="username"
+        type="text"
+        class="sign-up__input"
+      />
 
-    <div class="sign-up-form__tip">
+      <label for="password">Password</label>
+      <input
+        @change="e => setPassword(e.target.value)"
+        :value="form.password"
+        id="password"
+        type="password"
+        class="sign-up__input"
+      />
+
+      <label for="password">Repeat Password</label>
+      <input
+        @change="e => setRepeatPassword(e.target.value)"
+        :value="form.repeatPassword"
+        id="repeat-password"
+        type="password"
+        class="sign-up__input"
+      />
+
+      <button
+        class="sign-up__button"
+        type="submit"
+      >
+        Join
+      </button>
+    </form>
+
+    <div class="sign-up__tip">
       Already have an account?
-      <router-link class="sign-up-form__link" to="/login">Log in</router-link>
+      <router-link to="/login" class="sign-up__link">Log in</router-link>
     </div>
   </div>
 </template>
@@ -98,13 +102,18 @@ export default defineComponent({
 </script>
 
 <style lang="stylus" scoped>
-.sign-up-form
-  display flex
-  flex-direction column
-
+.sign-up
   width 20rem
 
   color auth-page-color
+
+  &
+  &__form
+    display flex
+    flex-direction column
+
+  &__title
+    margin-bottom 1rem
 
   +breakpoint-to(breakpoints.mobile-sm)
     width auto

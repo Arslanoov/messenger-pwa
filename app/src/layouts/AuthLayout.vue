@@ -23,5 +23,6 @@ export default defineComponent({
 
   padding 5rem 0
 
-  background-color dialog-background
+  background: auth-page-background
+  background: auth-page-gradient
 </style>

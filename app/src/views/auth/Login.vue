@@ -1,38 +1,43 @@
 <template>
-  <div class="login-form">
-    <h1>Login</h1>
+  <div class="login">
+    <h1 class="login__title">Login</h1>
 
     <error-handler :message="form.error" />
 
-    <label for="username">Username</label>
-    <input
-      @change="e => setUsername(e.target.value)"
-      :value="form.username"
-      class="login-form__input"
-      id="username"
-      type="text"
-    />
-
-    <label for="password">Password</label>
-    <input
-      @change="e => setPassword(e.target.value)"
-      :value="form.password"
-      class="login-form__input"
-      id="password"
-      type="password"
-    />
-
-    <button
-      @click="login"
-      class="login-form__button"
-      type="submit"
+    <form
+      @submit.prevent="login"
+      class="login__form"
     >
-      Log In
-    </button>
+      <label for="username">Username</label>
+      <input
+        @change="e => setUsername(e.target.value)"
+        :value="form.username"
+        id="username"
+        class="login__input"
+        type="text"
+      />
 
-    <div class="login-form__tip">
+      <label for="password">Password</label>
+      <input
+        @change="e => setPassword(e.target.value)"
+        :value="form.password"
+        id="password"
+        type="password"
+        class="login__input"
+        autocomplete="password"
+      />
+
+      <button
+        type="submit"
+        class="login__button"
+      >
+        Log In
+      </button>
+    </form>
+
+    <div class="login__tip">
       Not have an account?
-      <router-link class="login-form__link" to="/sign-up">Sign Up</router-link>
+      <router-link class="login__link" to="/sign-up">Sign Up</router-link>
     </div>
   </div>
 </template>
@@ -86,13 +91,18 @@ export default defineComponent({
 </script>
 
 <style lang="stylus" scoped>
-.login-form
-  display flex
-  flex-direction column
-
+.login
   width 20rem
 
   color auth-page-color
+
+  &
+  &__form
+    display flex
+    flex-direction column
+
+  &__title
+    margin-bottom 1rem
 
   +breakpoint-to(breakpoints.mobile-sm)
     width auto
