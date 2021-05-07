@@ -12,13 +12,18 @@
       />
 
       <input
+        @change="e => changeAvatar(e.target.files[0])"
         id="upload"
         type="file"
         class="profile__file-upload"
       />
     </div>
 
-    <div v-if="user.avatar" class="profile__avatar-action">Remove</div>
+    <div
+      v-if="user.avatar"
+      @click="removeAvatar"
+      class="profile__avatar-action"
+    >Remove</div>
     <label class="profile__avatar-action" for="upload">Upload</label>
 
     <div class="profile__about">
@@ -37,11 +42,11 @@
 import { defineComponent, computed } from "vue"
 
 import { useStore } from "@/composables/store"
-import { getterAuthModule } from "@/store/modules/auth"
+import { commitAuthModule, getterAuthModule } from "@/store/modules/auth"
 import { commitProfileModule, dispatchProfileModule } from "@/store/modules/profile"
 
 import { SET_CHANGE_FORM_ABOUT } from "@/store/modules/profile/mutations"
-import { CHANGE_INFO } from "@/store/modules/profile/actions"
+import { CHANGE_AVATAR, CHANGE_INFO, REMOVE_AVATAR } from "@/store/modules/profile/actions"
 import { GET_CURRENT_USER } from "@/store/modules/auth/getters"
 
 import { UserInterface } from "@/types/user"
@@ -57,12 +62,34 @@ export default defineComponent({
     const changeAbout = (value: string) => store.commit(commitProfileModule(SET_CHANGE_FORM_ABOUT), value)
     const changeInfo = () => store.dispatch(dispatchProfileModule(CHANGE_INFO))
 
+    const changeAvatar = (file: File) => {
+      const form = new FormData()
+      form.append("avatar", file)
+
+      store
+        .dispatch(dispatchProfileModule(CHANGE_AVATAR), {
+          data: form,
+          onProgressChange: (e: ProgressEvent) => {
+            console.log("progress", Math.round((e.loaded * 100) / e.total))
+          }
+        })
+        .then(() => store.commit(commitAuthModule(CHANGE_AVATAR)))
+    }
+    const removeAvatar = () => {
+      store
+        .dispatch(dispatchProfileModule(REMOVE_AVATAR))
+        .then(() => store.commit(commitAuthModule(REMOVE_AVATAR)))
+    }
+
     return {
       user,
       userAvatar,
 
       changeAbout,
-      changeInfo
+      changeInfo,
+
+      changeAvatar,
+      removeAvatar
     }
   }
 })

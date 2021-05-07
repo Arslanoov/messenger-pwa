@@ -2,7 +2,7 @@ export interface UserInterface {
   uuid: string,
   username: string,
   aboutMe: string,
-  avatar: string,
+  avatar: string | null,
   isOnline: boolean,
   messagesCount?: number
 }
