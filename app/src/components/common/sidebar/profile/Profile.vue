@@ -27,9 +27,9 @@
           }"
           class="profile__popup"
         >
-          <div class="profile__popup-item">
+          <router-link to="/profile" class="profile__popup-item">
             Profile
-          </div>
+          </router-link>
           <div @click="toggleSidebar" class="profile__popup-item">
             Hide
           </div>

@@ -18,7 +18,7 @@ import {
   SET_CURRENT_USER,
   CLEAR_CURRENT_USER_INFO,
 } from "@/store/modules/auth/mutations"
-import { GET_AUTH_FORM, GET_SIGN_UP_FORM } from "@/store/modules/auth/getters"
+import {GET_AUTH_FORM, GET_CURRENT_USER, GET_SIGN_UP_FORM} from "@/store/modules/auth/getters"
 
 import AuthService from "@/services/api/v1/AuthService"
 const service = new AuthService()
@@ -27,6 +27,8 @@ export const LOGIN = "login"
 export const SIGN_UP = "signUp"
 export const FETCH_USER = "fetchUser"
 export const LOGOUT = "logout"
+
+// TODO: Add token refresh
 
 export default {
   [LOGIN]: ({ dispatch, commit, getters }: ActionContext<AuthStateInterface, StateInterface>): Promise<string> => {
