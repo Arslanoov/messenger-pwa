@@ -23,6 +23,15 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: "/profile",
+    name: routesNames.Profile,
+    component: loadView("Profile"),
+    meta: {
+      layout: "main",
+      requiresAuth: true
+    }
+  },
+  {
     path: "/login",
     name: routesNames.Login,
     component: loadView("auth/Login"),

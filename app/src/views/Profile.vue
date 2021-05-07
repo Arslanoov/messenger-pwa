@@ -1,0 +1,209 @@
+<template>
+  <div class="profile">
+    <h1 class="profile__title">Profile</h1>
+
+    <div class="profile__username">{{ user.username }}</div>
+    <div class="profile__avatar">
+      <img
+        :src="userAvatar"
+        class="profile__avatar-img"
+        draggable="false"
+        alt="Avatar"
+      />
+
+      <input
+        @change="e => changeAvatar(e.target.files[0])"
+        id="upload"
+        type="file"
+        class="profile__file-upload"
+      />
+    </div>
+
+    <div
+      v-if="user.avatar"
+      @click="removeAvatar"
+      class="profile__avatar-action"
+    >Remove</div>
+    <label class="profile__avatar-action" for="upload">Upload</label>
+
+    <div class="profile__about">
+      <div class="profile__about-title">About me</div>
+      <textarea
+        @change="e => changeAbout(e.target.value)"
+        :value="user.aboutMe"
+        class="profile__about-textarea"
+      ></textarea>
+      <button @click="changeInfo" class="profile__about-button">Save</button>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed } from "vue"
+
+import { useStore } from "@/composables/store"
+import { commitAuthModule, getterAuthModule } from "@/store/modules/auth"
+import { commitProfileModule, dispatchProfileModule } from "@/store/modules/profile"
+
+import { SET_CHANGE_FORM_ABOUT } from "@/store/modules/profile/mutations"
+import { CHANGE_AVATAR, CHANGE_INFO, REMOVE_AVATAR } from "@/store/modules/profile/actions"
+import { GET_CURRENT_USER } from "@/store/modules/auth/getters"
+
+import { UserInterface } from "@/types/user"
+
+export default defineComponent({
+  name: "Profile",
+  setup() {
+    const store = useStore()
+
+    const user = computed(() => store.getters[getterAuthModule(GET_CURRENT_USER)] as UserInterface)
+    const userAvatar = computed(() => user.value.avatar || require("@/assets/images/profile/no-avatar.svg"))
+
+    const changeAbout = (value: string) => store.commit(commitProfileModule(SET_CHANGE_FORM_ABOUT), value)
+    const changeInfo = () => store.dispatch(dispatchProfileModule(CHANGE_INFO))
+
+    const changeAvatar = (file: File) => {
+      const form = new FormData()
+      form.append("avatar", file)
+
+      store
+        .dispatch(dispatchProfileModule(CHANGE_AVATAR), {
+          data: form,
+          onProgressChange: (e: ProgressEvent) => {
+            console.log("progress", Math.round((e.loaded * 100) / e.total))
+          }
+        })
+        .then(() => store.commit(commitAuthModule(CHANGE_AVATAR)))
+    }
+    const removeAvatar = () => {
+      store
+        .dispatch(dispatchProfileModule(REMOVE_AVATAR))
+        .then(() => store.commit(commitAuthModule(REMOVE_AVATAR)))
+    }
+
+    return {
+      user,
+      userAvatar,
+
+      changeAbout,
+      changeInfo,
+
+      changeAvatar,
+      removeAvatar
+    }
+  }
+})
+</script>
+
+<style lang="stylus" scoped>
+.profile
+  display flex
+  flex-direction column
+  align-items center
+
+  padding 2rem
+
+  font-size 1.5rem
+
+  color #180b34
+  background-color #ebeafd
+
+  &__title
+    margin-bottom 2rem
+
+    font-size 2rem
+    font-weight 500
+
+  &__username
+    margin-bottom .5rem
+
+  &__avatar
+    position relative
+
+    width 10rem
+    height 10rem
+
+    margin-bottom 1.5rem
+
+    &-img
+      position absolute
+
+      top 0
+      right 0
+
+      width 10rem
+      height 10rem
+
+      border-radius 10rem
+
+      user-select none
+
+  &__about
+    display flex
+    flex-direction column
+    align-items center
+
+    width 100%
+
+    &-title
+      margin-bottom .5rem
+
+    &-textarea
+      margin-bottom 1rem
+
+      width 45%
+      height 20rem
+
+      padding 1rem
+
+      color inherit
+      background-color titan-white
+
+      border 1px solid #541a8b
+      outline none
+
+      font-size 1rem
+
+      resize none
+
+      +breakpoint-to(breakpoints.desktop-md)
+        width 50%
+
+      +breakpoint-to(breakpoints.desktop-sm)
+        width 60%
+
+      +breakpoint-to(breakpoints.tablet)
+        width 75%
+
+      +breakpoint-to(breakpoints.mobile)
+        width 90%
+
+    &-button
+      padding .5rem 1.5rem
+
+      background titan-white
+
+      border 1px solid grey
+      outline none
+
+      font-size 1rem
+
+      pointer-on-hover()
+
+  &__avatar
+    &-action
+      position relative
+
+      margin-bottom .2rem
+
+      z-index 2
+
+      pointer-on-hover()
+
+      &:last-of-type {
+        margin-bottom 2rem
+      }
+
+  &__file-upload
+    visibility hidden
+</style>

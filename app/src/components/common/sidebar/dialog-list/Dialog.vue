@@ -26,7 +26,7 @@
           alt="">
       </template>
       <template v-if="dialog.sentByPartner && !dialog.sentByPartner.isRead">
-        <img class="dialog-status__icon" src="~@/assets/images/profile/icons/new.svg" alt="">
+        <img src="~@/assets/images/profile/icons/new.svg" class="dialog-status__icon" alt="">
       </template>
     </div>
   </div>

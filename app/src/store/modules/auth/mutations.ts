@@ -5,6 +5,8 @@ import { ViolationInterface } from "@/types/violation"
 
 export const SET_AUTH_TOKEN = "SET_AUTH_TOKEN"
 export const SET_CURRENT_USER = "SET_CURRENT_USER"
+export const SET_AVATAR = "SET_AVATAR"
+export const REMOVE_AVATAR = "REMOVE_AVATAR"
 export const CLEAR_CURRENT_USER_INFO = "CLEAR_CURRENT_USER_INFO"
 
 export const SET_AUTH_FORM_USERNAME = "SET_AUTH_FORM_USERNAME"
@@ -21,6 +23,19 @@ export const CLEAR_SIGN_UP_FORM_VIOLATIONS = "CLEAR_SIGN_UP_FORM_VIOLATIONS"
 export default {
   [SET_AUTH_TOKEN]: (state: StateInterface, token: string) => state.token = token,
   [SET_CURRENT_USER]: (state: StateInterface, user: UserInterface) => state.user = user,
+  [SET_AVATAR]: (state: StateInterface, avatar: string) => {
+    const user = state.user as UserInterface
+    if (user) {
+      user.avatar = avatar
+    }
+  },
+  [REMOVE_AVATAR]: (state: StateInterface) => {
+    const user = state.user as UserInterface
+    if (user?.avatar) {
+      let avatar: string | null = user.avatar
+      avatar = null
+    }
+  },
   [CLEAR_CURRENT_USER_INFO]: (state: StateInterface) => {
     state.token = null
     state.user = null
