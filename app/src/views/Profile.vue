@@ -11,15 +11,11 @@
         alt="Avatar"
       />
 
-      <div
-        class="profile__avatar-action"
-      >
-        <input
-          id="upload"
-          type="file"
-          class="profile__file-upload"
-        />
-      </div>
+      <input
+        id="upload"
+        type="file"
+        class="profile__file-upload"
+      />
     </div>
 
     <div v-if="user.avatar" class="profile__avatar-action">Remove</div>
@@ -28,10 +24,11 @@
     <div class="profile__about">
       <div class="profile__about-title">About me</div>
       <textarea
+        @change="e => changeAbout(e.target.value)"
         :value="user.aboutMe"
         class="profile__about-textarea"
       ></textarea>
-      <button class="profile__about-button">Save</button>
+      <button @click="changeInfo" class="profile__about-button">Save</button>
     </div>
   </div>
 </template>
@@ -41,7 +38,10 @@ import { defineComponent, computed } from "vue"
 
 import { useStore } from "@/composables/store"
 import { getterAuthModule } from "@/store/modules/auth"
+import { commitProfileModule, dispatchProfileModule } from "@/store/modules/profile"
 
+import { SET_CHANGE_FORM_ABOUT } from "@/store/modules/profile/mutations"
+import { CHANGE_INFO } from "@/store/modules/profile/actions"
 import { GET_CURRENT_USER } from "@/store/modules/auth/getters"
 
 import { UserInterface } from "@/types/user"
@@ -54,9 +54,15 @@ export default defineComponent({
     const user = computed(() => store.getters[getterAuthModule(GET_CURRENT_USER)] as UserInterface)
     const userAvatar = computed(() => user.value.avatar || require("@/assets/images/profile/no-avatar.svg"))
 
+    const changeAbout = (value: string) => store.commit(commitProfileModule(SET_CHANGE_FORM_ABOUT), value)
+    const changeInfo = () => store.dispatch(dispatchProfileModule(CHANGE_INFO))
+
     return {
       user,
-      userAvatar
+      userAvatar,
+
+      changeAbout,
+      changeInfo
     }
   }
 })
