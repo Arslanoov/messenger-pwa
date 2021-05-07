@@ -1,9 +1,7 @@
 <template>
   <div
     v-if="user"
-    :class="{
-      'profile_opened': isStartedOpeningSidebar
-    }"
+    :class="{ 'profile_opened': isStartedOpeningSidebar }"
     class="profile"
   >
     <user-card
@@ -14,17 +12,14 @@
       is-online
       with-margin
     />
+
     <div class="profile__actions">
       <div
-        :class="{
-          'profile__action_with-margin': isStartedOpeningSidebar
-        }"
+        :class="{ 'profile__action_with-margin': isStartedOpeningSidebar }"
         class="profile__action"
       >
         <div
-          :class="{
-            'profile__popup_opened': isOpenedPopup
-          }"
+          :class="{ 'profile__popup_opened': isOpenedPopup }"
           class="profile__popup"
         >
           <div @click="profile" class="profile__popup-item">
@@ -37,19 +32,19 @@
             Logout
           </div>
         </div>
+
         <img
-          class="profile__bell"
           src="~@/assets/images/profile/icons/bell.svg"
+          class="profile__bell"
           alt="">
       </div>
       <img
         @click="togglePopup"
-        :class="{
-          'profile__action_with-margin': isStartedOpeningSidebar
-        }"
-        class="profile__action profile__settings"
+        :class="{ 'profile__action_with-margin': isStartedOpeningSidebar }"
         src="~@/assets/images/profile/icons/settings.svg"
-        alt="">
+        class="profile__action profile__settings"
+        alt=""
+      />
     </div>
   </div>
 </template>
@@ -61,24 +56,18 @@ import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
 import { useStore } from "@/composables/store"
-import { getterAuthModule } from "@/store/modules/auth"
-
-import {
-  UserInterface
-} from "@/types/user"
-
-import {
-  GET_CURRENT_USER
-} from "@/store/modules/auth/getters"
-
-import UserCard from "@/components/base/user-card/UserCard.vue"
-
-import { dispatchAuthModule } from "@/store/modules/auth"
-import { LOGOUT } from "@/store/modules/auth/actions"
-
+import { dispatchAuthModule, getterAuthModule } from "@/store/modules/auth"
 import { commitSidebarModule, getterSidebarModule } from "@/store/modules/sidebar"
+
+import { LOGOUT } from "@/store/modules/auth/actions"
+import { GET_CURRENT_USER } from "@/store/modules/auth/getters"
+
 import { START_SIDEBAR_OPENING, TOGGLE_SIDEBAR } from "@/store/modules/sidebar/mutations"
 import { GET_IS_SIDEBAR_STARTED_OPENING, GET_IS_SIDEBAR_OPENED } from "@/store/modules/sidebar/getters"
+
+import { UserInterface } from "@/types/user"
+
+import UserCard from "@/components/base/user-card/UserCard.vue"
 
 export default defineComponent({
   name: "Profile",
@@ -90,6 +79,8 @@ export default defineComponent({
 
     const store = useStore()
 
+    /* User */
+
     const user = computed(() => store.getters[getterAuthModule(GET_CURRENT_USER)] as UserInterface | null)
     const logout = () => {
       store.dispatch(dispatchAuthModule(LOGOUT))
@@ -98,19 +89,25 @@ export default defineComponent({
       })
     }
 
-    const isStartedOpeningSidebar = computed(() => store.getters[getterSidebarModule(GET_IS_SIDEBAR_STARTED_OPENING)])
+    /* Sidebar */
+
+    const isStartedOpeningSidebar = computed(
+      () => store.getters[getterSidebarModule(GET_IS_SIDEBAR_STARTED_OPENING)]
+    )
     const isOpenedSidebar = computed(() => store.getters[getterSidebarModule(GET_IS_SIDEBAR_OPENED)])
 
     const startOpeningSidebar = () => store.commit(commitSidebarModule(START_SIDEBAR_OPENING))
     const toggleSidebar = () => {
-      if (!isOpenedSidebar.value) {
-        startOpeningSidebar()
-        window.setTimeout(() => store.commit(commitSidebarModule(TOGGLE_SIDEBAR)), 500)
-      } else {
+      if (isOpenedSidebar.value) {
         closePopup()
         store.commit(commitSidebarModule(TOGGLE_SIDEBAR))
+      } else {
+        startOpeningSidebar()
+        window.setTimeout(() => store.commit(commitSidebarModule(TOGGLE_SIDEBAR)), 500)
       }
     }
+
+    /* Popup */
 
     const isOpenedPopup = ref(false)
     const closePopup = () => isOpenedPopup.value = false
@@ -121,6 +118,8 @@ export default defineComponent({
       }
       isOpenedPopup.value = !isOpenedPopup.value
     }
+
+    /* Profile */
 
     const profile = () => {
       closePopup()
@@ -154,7 +153,7 @@ export default defineComponent({
 
   padding-top .8rem + line-margin
 
-  transition padding .5s
+  transition profile-padding-transition
 
   &_opened
     justify-content space-between
@@ -186,13 +185,13 @@ export default defineComponent({
 
     padding 1rem 2rem
 
-    color #541a8b
-    background-color #fff
+    color profile-popup-color
+    background-color profile-popup-background-color
 
     visibility hidden
     opacity 0
 
-    transition opacity .6s
+    transition profile-popup-transition
 
     z-index 1
 

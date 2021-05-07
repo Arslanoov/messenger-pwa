@@ -78,9 +78,9 @@ export default defineComponent({
 
   padding: 1.2rem 1.5rem
 
-  color white
+  color dialog-color
 
-  transition background-color .2s ease-in-out
+  transition dialog-background-transition
 
   &:hover
   &.selected
