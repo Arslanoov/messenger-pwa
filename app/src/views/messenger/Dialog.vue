@@ -16,9 +16,9 @@ import MessageForm from "@/components/common/messenger/message-form/MessageForm.
 export default defineComponent({
   name: "Dialog",
   components: {
-    MessageForm,
+    DialogHeader,
     MessagesList,
-    DialogHeader
+    MessageForm
   }
 })
 </script>

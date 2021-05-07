@@ -47,8 +47,8 @@ export default defineComponent({
   width 100%
   height auto
 
+  color message-send-form-color
   background-color message-send-form-background
-  color grey
 
   &__input
     max-height 30vh
@@ -65,7 +65,7 @@ export default defineComponent({
     &:empty
       &:not(:focus):before
         content attr(data-ph)
-        color grey
+        color message-send-form-color
 
       &:focus:before
         content "\feff"

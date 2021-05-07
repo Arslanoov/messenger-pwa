@@ -57,5 +57,5 @@ export default defineComponent({
   width 100%
 
   &__partner
-    color black
+    color dialog-header-partner-color
 </style>

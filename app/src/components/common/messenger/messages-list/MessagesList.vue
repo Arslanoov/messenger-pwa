@@ -47,7 +47,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .messages-list
   display flex
   flex-direction column
