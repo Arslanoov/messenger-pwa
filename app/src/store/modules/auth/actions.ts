@@ -16,7 +16,7 @@ import {
   CLEAR_SIGN_UP_FORM_VIOLATIONS,
   SET_SIGN_UP_FORM_VIOLATIONS,
   SET_CURRENT_USER,
-  CLEAR_CURRENT_USER_INFO,
+  CLEAR_CURRENT_USER_INFO, CLEAR_SIGN_UP_FORM_ERROR, SET_SIGN_UP_FORM_ERROR,
 } from "@/store/modules/auth/mutations"
 import {
   GET_AUTH_FORM,
@@ -62,6 +62,7 @@ export default {
   [SIGN_UP]: ({ commit, getters }: ActionContext<AuthStateInterface, StateInterface>): Promise<string | void> => {
     return new Promise((resolve, reject) => {
       commit(CLEAR_SIGN_UP_FORM_VIOLATIONS)
+      commit(CLEAR_SIGN_UP_FORM_ERROR)
 
       const form: SignUpFormStateInterface = getters[GET_SIGN_UP_FORM]
       if (form.password !== form.repeatPassword) {
@@ -81,6 +82,7 @@ export default {
           if (error.response) {
             console.error(error)
             commit(SET_SIGN_UP_FORM_VIOLATIONS, error.response.data.violations || [])
+            commit(SET_SIGN_UP_FORM_ERROR, error.response.data.message || null)
             reject(error.response)
           }
           reject(error)

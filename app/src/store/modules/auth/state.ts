@@ -11,6 +11,7 @@ export interface SignUpFormStateInterface {
   username: string,
   password: string,
   repeatPassword: string,
+  error: string | null,
   violations: ViolationInterface[]
 }
 
@@ -33,6 +34,7 @@ const state: StateInterface = {
     username: "",
     password: "",
     repeatPassword: "",
+    error: null,
     violations: []
   }
 }

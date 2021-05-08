@@ -17,8 +17,10 @@ export const CLEAR_AUTH_FORM_ERROR = "CLEAR_AUTH_FORM_ERROR"
 export const SET_SIGN_UP_FORM_USERNAME = "SET_SIGN_UP_FORM_USERNAME"
 export const SET_SIGN_UP_FORM_PASSWORD = "SET_SIGN_UP_FORM_PASSWORD"
 export const SET_SIGN_UP_FORM_REPEAT_PASSWORD = "SET_SIGN_UP_FORM_REPEAT_PASSWORD"
+export const SET_SIGN_UP_FORM_ERROR = "SET_SIGN_UP_FORM_ERROR"
 export const SET_SIGN_UP_FORM_VIOLATIONS = "SET_SIGN_UP_FORM_ERROR"
 export const CLEAR_SIGN_UP_FORM_VIOLATIONS = "CLEAR_SIGN_UP_FORM_VIOLATIONS"
+export const CLEAR_SIGN_UP_FORM_ERROR = "CLEAR_SIGN_UP_FORM_ERROR"
 
 export default {
   [SET_AUTH_TOKEN]: (state: StateInterface, token: string) => state.token = token,
@@ -48,7 +50,9 @@ export default {
   [SET_SIGN_UP_FORM_PASSWORD]: (state: StateInterface, password: string) => state.signUpForm.password = password,
   [SET_SIGN_UP_FORM_REPEAT_PASSWORD]:
     (state: StateInterface, password: string) =>state.signUpForm.repeatPassword = password,
+  [SET_SIGN_UP_FORM_ERROR]: (state: StateInterface, error: string) => state.signUpForm.error = error,
   [SET_SIGN_UP_FORM_VIOLATIONS]:
     (state: StateInterface, list: ViolationInterface[]) => state.signUpForm.violations = list,
   [CLEAR_SIGN_UP_FORM_VIOLATIONS]: (state: StateInterface) => state.signUpForm.violations = [],
+  [CLEAR_SIGN_UP_FORM_ERROR]: (state: StateInterface) => state.signUpForm.error = null,
 }
