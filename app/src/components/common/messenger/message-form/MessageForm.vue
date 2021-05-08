@@ -42,20 +42,22 @@ export default defineComponent({
   display flex
   align-items center
 
-  padding .5rem 3rem
+  padding .8rem 4.8rem
 
   width 100%
   height auto
 
+  font-size message-form-font-size
+
+  color message-send-form-color
   background-color message-send-form-background
-  color grey
 
   &__input
     max-height 30vh
 
     width 80%
 
-    padding 2rem 0
+    padding 3.2rem 0
 
     border none
     outline none
@@ -65,7 +67,7 @@ export default defineComponent({
     &:empty
       &:not(:focus):before
         content attr(data-ph)
-        color grey
+        color message-send-form-color
 
       &:focus:before
         content "\feff"
@@ -77,8 +79,8 @@ export default defineComponent({
 
     &-icon
       position absolute
-      bottom 2rem
-      right 3rem
+      bottom 3.2rem
+      right 4.8rem
 
       width message-send-icon-size
       height message-send-icon-size

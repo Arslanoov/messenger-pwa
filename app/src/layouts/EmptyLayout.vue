@@ -1,7 +1,5 @@
 <template>
-  <div class="empty-layout">
-
-  </div>
+  <div class="empty-layout"></div>
 </template>
 
 <script lang="ts">

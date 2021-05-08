@@ -12,6 +12,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue"
 
+import { DialogInterface } from "@/types/dialog"
+
 import Dialog from "@/components/common/sidebar/dialog-list/Dialog.vue"
 
 export default defineComponent({
@@ -20,7 +22,7 @@ export default defineComponent({
     Dialog
   },
   setup() {
-    const dialogs = ref([
+    const dialogs = ref<DialogInterface[]>([
       {
         uuid: "123e4567-e89b-12d3-a456-426614174000",
         isSelected: false,

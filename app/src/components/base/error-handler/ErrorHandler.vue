@@ -14,7 +14,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import {defineComponent, PropType} from "vue"
+
+import { ViolationInterface } from "@/types/violation"
 
 import { capitalize } from "@/utils/capitalize"
 
@@ -22,8 +24,7 @@ export default defineComponent({
   name: "ErrorHandler",
   props: {
     violations: {
-      // TODO: Interface
-      type: Array,
+      type: Array as PropType<ViolationInterface[]>,
       required: false,
       default: () => []
     },
@@ -43,7 +44,7 @@ export default defineComponent({
 
 <style lang="stylus" scoped>
 .error
-  margin-bottom .8rem
+  margin-bottom 1.3rem
 
   color error-color
 </style>

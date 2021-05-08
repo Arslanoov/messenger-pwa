@@ -21,6 +21,7 @@ export default defineComponent({
 <style lang="stylus" scoped>
 .main-layout
   display flex
+
   height: 100%
 
   +breakpoint-to(breakpoints.tablet)

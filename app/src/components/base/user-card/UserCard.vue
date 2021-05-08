@@ -1,6 +1,5 @@
 <template>
   <div class="user-card">
-    <!-- TODO: Remove prop drills -->
     <Avatar v-if="avatar" :src="avatar" :is-online="isOnline" :with-margin="withMargin" />
     <div v-if="isSidebarOpened" class="user-card__content">
       <div class="user-card__title">
@@ -30,10 +29,10 @@ import Avatar from "@/components/base/avatar/Avatar.vue"
 export default defineComponent({
   name: "UserCard",
   props: {
-    // TODO: Add interface check
     avatar: {
       type: String,
-      required: true
+      required: false,
+      default: null
     },
     title: {
       type: String,
@@ -41,7 +40,8 @@ export default defineComponent({
     },
     subtitle: {
       type: String,
-      required: true
+      required: false,
+      default: null
     },
     extra: {
       type: String,
@@ -84,7 +84,7 @@ export default defineComponent({
   display flex
   align-items center
 
-  color white
+  color user-card-color
 
   &__content
     display flex
@@ -95,13 +95,12 @@ export default defineComponent({
 
   &__subtitle
     font-size user-card-subtitle-size
-    color grey
+    color user-card-subtitle-color
 
   &__extra
-    margin-left .2rem
+    margin-left .32rem
 
     font-size user-card-extra-size
 
-    color grey
-    opacity .7
+    color user-card-subtitle-extra-color
 </style>

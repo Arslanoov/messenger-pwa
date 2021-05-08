@@ -33,7 +33,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, PropType } from "vue"
+
+import { DialogInterface } from "@/types/dialog"
 
 import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
@@ -47,8 +49,7 @@ export default defineComponent({
   },
   props: {
     dialog: {
-      // TODO: Add interface type <of>
-      type: Object,
+      type: Object as PropType<DialogInterface>,
       required: true
     }
   },
@@ -76,11 +77,11 @@ export default defineComponent({
 
   width 100%
 
-  padding: 1.2rem 1.5rem
+  padding: 1.92rem 2.4rem
 
-  color white
+  color dialog-color
 
-  transition background-color .2s ease-in-out
+  transition dialog-background-transition
 
   &:hover
   &.selected
@@ -90,7 +91,7 @@ export default defineComponent({
 
   &-status
     margin-left auto
-    padding 0 .2rem
+    padding 0 .32rem
 
     &__icon
       flex-shrink 0

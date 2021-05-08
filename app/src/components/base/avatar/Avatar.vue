@@ -1,8 +1,6 @@
 <template>
   <div
-    :class="{
-      'avatar_with-margin': withMargin || isOpenedSidebar
-    }"
+    :class="{ 'avatar_with-margin': withMargin || isOpenedSidebar }"
     :style="{ backgroundImage: `url(${src})` }"
     class="avatar"
   >
@@ -63,9 +61,9 @@ export default defineComponent({
   background-repeat no-repeat
   background-size cover
 
-  border-radius 10rem
+  border-radius 16rem
 
-  transition margin .5s
+  transition avatar-margin-transition
 
   pointer-on-hover()
 
@@ -80,6 +78,6 @@ export default defineComponent({
     bottom 0
     right 0
 
-    width 10px
-    height 10px
+    width 1rem
+    height 1rem
 </style>

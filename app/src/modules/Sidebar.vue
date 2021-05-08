@@ -9,9 +9,7 @@
     <Profile />
     <Line />
     <dialog-list
-      :class="{
-        'sidebar__dialog-list_opened': isStartedOpening
-      }"
+      :class="{ 'sidebar__dialog-list_opened': isStartedOpening }"
       class="sidebar__dialog-list"
     />
   </div>
@@ -55,7 +53,7 @@ export default defineComponent({
 
   background-color sidebar-background
 
-  transition width 1s
+  transition sidebar-width-transition
 
   without-scroll()
 
@@ -74,7 +72,7 @@ export default defineComponent({
       min-height 100vh
 
   &_closed
-    width 6rem
+    width 9.6rem
 
     +breakpoint-to(breakpoints.tablet)
       width 100%

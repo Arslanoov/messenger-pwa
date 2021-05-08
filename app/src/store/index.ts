@@ -29,8 +29,9 @@ export const store = createStore<StateInterface>({
     sidebar,
     profile
   },
-  plugins: [
+  plugins: process.env.NODE_ENV !== "test" ? [
     createLogger(),
     persistencePlugin.plugin
-  ]
+  ] : [],
+  strict: process.env.NODE_ENV !== "production"
 })

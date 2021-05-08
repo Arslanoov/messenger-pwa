@@ -45,9 +45,11 @@ import { useStore } from "@/composables/store"
 import { commitAuthModule, getterAuthModule } from "@/store/modules/auth"
 import { commitProfileModule, dispatchProfileModule } from "@/store/modules/profile"
 
-import { SET_CHANGE_FORM_ABOUT } from "@/store/modules/profile/mutations"
-import { CHANGE_AVATAR, CHANGE_INFO, REMOVE_AVATAR } from "@/store/modules/profile/actions"
+import { SET_AVATAR, REMOVE_AVATAR } from "@/store/modules/auth/mutations"
 import { GET_CURRENT_USER } from "@/store/modules/auth/getters"
+
+import { SET_CHANGE_FORM_ABOUT } from "@/store/modules/profile/mutations"
+import { CHANGE_AVATAR, CHANGE_INFO, REMOVE_AVATAR as REMOVE_AVATAR_ACTION } from "@/store/modules/profile/actions"
 
 import { UserInterface } from "@/types/user"
 
@@ -73,11 +75,16 @@ export default defineComponent({
             console.log("progress", Math.round((e.loaded * 100) / e.total))
           }
         })
-        .then(() => store.commit(commitAuthModule(CHANGE_AVATAR)))
+        .then((url: string) => {
+          const params = new URLSearchParams({
+            hash: String(Math.random())
+          })
+          store.commit(commitAuthModule(SET_AVATAR), `${url}?${params.toString()}`)
+        })
     }
     const removeAvatar = () => {
       store
-        .dispatch(dispatchProfileModule(REMOVE_AVATAR))
+        .dispatch(dispatchProfileModule(REMOVE_AVATAR_ACTION))
         .then(() => store.commit(commitAuthModule(REMOVE_AVATAR)))
     }
 
@@ -101,29 +108,29 @@ export default defineComponent({
   flex-direction column
   align-items center
 
-  padding 2rem
+  padding 3.2rem
 
-  font-size 1.5rem
+  font-size profile-font-size
 
-  color #180b34
-  background-color #ebeafd
+  color profile-color
+  background-color profile-background-color
 
   &__title
-    margin-bottom 2rem
+    margin-bottom 3.2rem
 
-    font-size 2rem
-    font-weight 500
+    font-size profile-title-font-size
+    font-weight profile-title-font-weight
 
   &__username
-    margin-bottom .5rem
+    margin-bottom .8rem
 
   &__avatar
     position relative
 
-    width 10rem
-    height 10rem
+    width 16rem
+    height 16rem
 
-    margin-bottom 1.5rem
+    margin-bottom 2.4rem
 
     &-img
       position absolute
@@ -131,10 +138,10 @@ export default defineComponent({
       top 0
       right 0
 
-      width 10rem
-      height 10rem
+      width 16rem
+      height 16rem
 
-      border-radius 10rem
+      border-radius 16rem
 
       user-select none
 
@@ -146,23 +153,23 @@ export default defineComponent({
     width 100%
 
     &-title
-      margin-bottom .5rem
+      margin-bottom .8rem
 
     &-textarea
-      margin-bottom 1rem
+      margin-bottom 1.6rem
 
       width 45%
-      height 20rem
+      height 32rem
 
-      padding 1rem
+      padding 1.6rem
 
       color inherit
       background-color titan-white
 
-      border 1px solid #541a8b
+      border profile-textarea-border
       outline none
 
-      font-size 1rem
+      font-size profile-textarea-font-size
 
       resize none
 
@@ -179,14 +186,14 @@ export default defineComponent({
         width 90%
 
     &-button
-      padding .5rem 1.5rem
+      padding .8rem 2.4rem
 
       background titan-white
 
-      border 1px solid grey
+      border profile-button-border
       outline none
 
-      font-size 1rem
+      font-size profile-button-font-size
 
       pointer-on-hover()
 
@@ -194,15 +201,14 @@ export default defineComponent({
     &-action
       position relative
 
-      margin-bottom .2rem
+      margin-bottom .32rem
 
       z-index 2
 
       pointer-on-hover()
 
-      &:last-of-type {
-        margin-bottom 2rem
-      }
+      &:last-of-type
+        margin-bottom 3.2rem
 
   &__file-upload
     visibility hidden

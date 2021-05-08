@@ -8,14 +8,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, PropType } from "vue"
+
+import { MessageInterface } from "@/types/message"
 
 export default defineComponent({
   name: "Message",
   props: {
-    // TODO: Add interface check
     message: {
-      type: Object,
+      type: Object as PropType<MessageInterface>,
       required: true
     }
   }
@@ -30,7 +31,7 @@ export default defineComponent({
   max-width 80%
 
   margin-top message-margin
-  padding 1rem 1.5rem
+  padding 1.6rem 2.4rem
 
   &:first-of-type
     margin-top 0

@@ -11,6 +11,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue"
 
+import { MessageInterface } from "@/types/message"
+
 import Message from "@/components/common/messenger/messages-list/Message.vue"
 
 export default defineComponent({
@@ -19,7 +21,7 @@ export default defineComponent({
     Message
   },
   setup() {
-    const messages = ref([
+    const messages = ref<MessageInterface[]>([
       {
         uuid: "123e4567-e89b-12d3-a456-426614174000",
         isMine: false,
@@ -47,7 +49,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .messages-list
   display flex
   flex-direction column
@@ -59,7 +61,9 @@ export default defineComponent({
 
   overflow-y scroll
 
-  padding: .5rem 1rem 1rem 1rem
+  padding: .8rem 1.6rem 1.6rem 1.6rem
+
+  font-size message-list-font-size
 
   background-color messages-layout-background
 

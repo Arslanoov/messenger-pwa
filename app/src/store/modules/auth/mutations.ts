@@ -23,18 +23,16 @@ export const CLEAR_SIGN_UP_FORM_VIOLATIONS = "CLEAR_SIGN_UP_FORM_VIOLATIONS"
 export default {
   [SET_AUTH_TOKEN]: (state: StateInterface, token: string) => state.token = token,
   [SET_CURRENT_USER]: (state: StateInterface, user: UserInterface) => state.user = user,
+  /* TODO: Remove ts ignore */
   [SET_AVATAR]: (state: StateInterface, avatar: string) => {
-    const user = state.user as UserInterface
-    if (user) {
-      user.avatar = avatar
-    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    state.user.avatar = avatar
   },
   [REMOVE_AVATAR]: (state: StateInterface) => {
-    const user = state.user as UserInterface
-    if (user?.avatar) {
-      let avatar: string | null = user.avatar
-      avatar = null
-    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    state.user.avatar = null
   },
   [CLEAR_CURRENT_USER_INFO]: (state: StateInterface) => {
     state.token = null

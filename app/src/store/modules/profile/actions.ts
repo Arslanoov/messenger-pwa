@@ -38,7 +38,7 @@ export default {
     return new Promise((resolve, reject) => {
       service
         .changeAvatar(payload.data, payload.onProgressChange)
-        .then(() => resolve())
+        .then(response => resolve(response.data.url))
         .catch(error => {
           if (error.response) {
             console.error(error)

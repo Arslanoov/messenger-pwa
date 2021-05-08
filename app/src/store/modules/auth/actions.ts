@@ -18,7 +18,10 @@ import {
   SET_CURRENT_USER,
   CLEAR_CURRENT_USER_INFO,
 } from "@/store/modules/auth/mutations"
-import {GET_AUTH_FORM, GET_CURRENT_USER, GET_SIGN_UP_FORM} from "@/store/modules/auth/getters"
+import {
+  GET_AUTH_FORM,
+  GET_SIGN_UP_FORM
+} from "@/store/modules/auth/getters"
 
 import AuthService from "@/services/api/v1/AuthService"
 const service = new AuthService()

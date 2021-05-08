@@ -52,10 +52,10 @@ export default defineComponent({
   justify-content space-between
   align-items center
 
-  padding .8rem + line-margin 1.5rem
+  padding (1.3rem + line-margin) 2.4rem
 
   width 100%
 
   &__partner
-    color black
+    color dialog-header-partner-color
 </style>
