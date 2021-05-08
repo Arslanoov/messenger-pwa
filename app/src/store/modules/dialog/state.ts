@@ -1,16 +1,24 @@
 import { DialogInterface } from "@/types/dialog"
 import { PaginationInterface } from "@/types/pagination"
+import { MessageInterface } from "@/types/message"
 
 export interface StateInterface {
   dialogs: DialogInterface[],
+  pagination: PaginationInterface,
   currentDialog: DialogInterface | null,
-  pagination: PaginationInterface
+  currentDialogMessages: MessageInterface[],
+  currentDialogPagination: PaginationInterface
 }
 
 const state: StateInterface = {
   dialogs: [],
-  currentDialog: null,
   pagination: {
+    currentPage: 1,
+    pageSize: 20
+  },
+  currentDialog: null,
+  currentDialogMessages: [],
+  currentDialogPagination: {
     currentPage: 1,
     pageSize: 20
   }

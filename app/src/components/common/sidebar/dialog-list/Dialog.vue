@@ -7,8 +7,8 @@
     <user-card
       :avatar="dialog.partner.avatar"
       :title="dialog.partner.username"
-      :subtitle="dialog.latestMessage.content"
-      :extra="dialog.latestMessage.date"
+      :subtitle="dialog.latestMessage?.content"
+      :extra="dialog.latestMessage?.date"
       :is-online="dialog.partner.isOnline"
       collapsible
     />
@@ -37,11 +37,6 @@ import { defineComponent, PropType } from "vue"
 
 import { DialogInterface } from "@/types/dialog"
 
-import { useStore } from "@/composables/store"
-import { commitDialogModule } from "@/store/modules/dialog"
-
-import { SET_CURRENT_DIALOG } from "@/store/modules/dialog/mutations"
-
 import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
@@ -59,13 +54,9 @@ export default defineComponent({
     }
   },
   setup() {
-    const store = useStore()
     const router = useRouter()
 
-    const setCurrentDialog = (id: string) => store.commit(commitDialogModule(SET_CURRENT_DIALOG), id)
-
     const onDialogChoose = (id: string) => {
-      setCurrentDialog(id)
       router.push({
         name: routesNames.Dialog,
         params: {
@@ -75,7 +66,6 @@ export default defineComponent({
     }
 
     return {
-      setCurrentDialog,
       onDialogChoose
     }
   }
