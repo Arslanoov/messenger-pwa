@@ -32,6 +32,7 @@ export default {
     context: ActionContext<ProfileStateInterface, StateInterface>,
     payload: {
       data: FormData,
+      // eslint-disable-next-line no-unused-vars
       onProgressChange: (e: ProgressEvent) => void
     }
   ): Promise<string | void> => {
