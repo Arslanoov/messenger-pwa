@@ -3,7 +3,7 @@ import { testAction } from "../../../helpers/testAction"
 import state from "@/store/modules/auth/state"
 import getters from "@/store/modules/auth/getters"
 
-import { CLEAR_SIGN_UP_FORM_VIOLATIONS } from "@/store/modules/auth/mutations"
+import { CLEAR_SIGN_UP_FORM_ERROR, CLEAR_SIGN_UP_FORM_VIOLATIONS } from "@/store/modules/auth/mutations"
 import { SIGN_UP } from "@/store/modules/auth/actions"
 
 const actionsInjector = require("inject-loader!@/store/modules/auth/actions.ts")
@@ -35,7 +35,8 @@ describe("auth sign up action", () => {
       getters,
       () => {},
       [
-        { type: CLEAR_SIGN_UP_FORM_VIOLATIONS }
+        { type: CLEAR_SIGN_UP_FORM_VIOLATIONS },
+        { type: CLEAR_SIGN_UP_FORM_ERROR }
       ],
       done
     )
