@@ -110,7 +110,7 @@ export default defineComponent({
 
   padding 3.2rem
 
-  font-size 2.4rem
+  font-size profile-font-size
 
   color #180b34
   background-color #ebeafd
@@ -118,8 +118,8 @@ export default defineComponent({
   &__title
     margin-bottom 3.2rem
 
-    font-size 3.2rem
-    font-weight 500
+    font-size profile-title-font-size
+    font-weight profile-title-font-weight
 
   &__username
     margin-bottom .8rem
@@ -169,7 +169,7 @@ export default defineComponent({
       border 1px solid #541a8b
       outline none
 
-      font-size 1.6rem
+      font-size profile-textarea-font-size
 
       resize none
 
@@ -193,7 +193,7 @@ export default defineComponent({
       border 1px solid grey
       outline none
 
-      font-size 1.6rem
+      font-size profile-button-font-size
 
       pointer-on-hover()
 
@@ -207,9 +207,8 @@ export default defineComponent({
 
       pointer-on-hover()
 
-      &:last-of-type {
+      &:last-of-type
         margin-bottom 3.2rem
-      }
 
   &__file-upload
     visibility hidden
