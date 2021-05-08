@@ -16,10 +16,13 @@ import {
   CLEAR_SIGN_UP_FORM_VIOLATIONS,
   SET_SIGN_UP_FORM_VIOLATIONS,
   SET_CURRENT_USER,
-  CLEAR_CURRENT_USER_INFO, CLEAR_SIGN_UP_FORM_ERROR, SET_SIGN_UP_FORM_ERROR,
+  CLEAR_CURRENT_USER_INFO,
+  CLEAR_SIGN_UP_FORM_ERROR,
+  SET_SIGN_UP_FORM_ERROR
 } from "@/store/modules/auth/mutations"
 import {
   GET_AUTH_FORM,
+  GET_AUTH_TOKEN,
   GET_SIGN_UP_FORM
 } from "@/store/modules/auth/getters"
 
@@ -45,7 +48,7 @@ export default {
           const token = response.data.access_token
           commit(SET_AUTH_TOKEN, token)
           localStorage.setItem("token", token)
-          axios.defaults.headers.common.Authorization = token
+          axios.defaults.headers.common.Authorization = getters[GET_AUTH_TOKEN]
           dispatch(FETCH_USER)
           resolve(token)
         })

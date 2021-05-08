@@ -3,7 +3,7 @@
     <user-card
       :avatar="dialog.partner.avatar"
       :title="dialog.partner.username"
-      :subtitle="dialog.partner.latestMessage.short"
+      :subtitle="dialog.partner.aboutMe"
       :is-online="dialog.partner.isOnline"
       class="dialog-header__partner"
     />
@@ -11,7 +11,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue"
+import { defineComponent, computed } from "vue"
+
+import { DialogInterface } from "@/types/dialog"
+
+import { useStore } from "@/composables/store"
+import { getterDialogModule } from "@/store/modules/dialog"
+
+import { GET_CURRENT_DIALOG } from "@/store/modules/dialog/getters"
 
 import UserCard from "@/components/base/user-card/UserCard.vue"
 
@@ -21,26 +28,12 @@ export default defineComponent({
     UserCard
   },
   setup() {
-    const dialog = reactive({
-      uuid: "124e4567-e89b-12d3-a456-426614174002",
-      partner: {
-        uuid: "124e4567-e29b-12d3-a456-426614174002",
-        username: "Dmitry Shirshov",
-        isOnline: false,
-        avatar: require("@/assets/images/profile/avatar4.jpg"),
-        latestMessage: {
-          short: "Can you invite me to your conversation?",
-          date: "21 min"
-        }
-      },
-      sentByPartner: {
-        isRead: true
-      },
-      messages: []
-    })
+    const store = useStore()
+
+    const currentDialog = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG)] as DialogInterface)
 
     return {
-      dialog
+      dialog: currentDialog
     }
   }
 })

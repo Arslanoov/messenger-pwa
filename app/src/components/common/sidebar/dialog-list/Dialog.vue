@@ -7,8 +7,8 @@
     <user-card
       :avatar="dialog.partner.avatar"
       :title="dialog.partner.username"
-      :subtitle="dialog.partner.latestMessage.short"
-      :extra="dialog.partner.latestMessage.date"
+      :subtitle="dialog.latestMessage?.content"
+      :extra="dialog.latestMessage?.date"
       :is-online="dialog.partner.isOnline"
       collapsible
     />
@@ -56,12 +56,14 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
-    const onDialogChoose = (id: string) => router.push({
-      name: routesNames.Dialog,
-      params: {
-        id
-      }
-    })
+    const onDialogChoose = (id: string) => {
+      router.push({
+        name: routesNames.Dialog,
+        params: {
+          id
+        }
+      })
+    }
 
     return {
       onDialogChoose
