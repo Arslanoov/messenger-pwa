@@ -9,9 +9,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue"
+import { defineComponent, computed } from "vue"
 
 import { MessageInterface } from "@/types/message"
+
+import { useStore } from "@/composables/store"
+import { getterDialogModule } from "@/store/modules/dialog"
+
+import { GET_CURRENT_DIALOG_MESSAGES } from "@/store/modules/dialog/getters"
 
 import Message from "@/components/common/messenger/messages-list/Message.vue"
 
@@ -21,26 +26,10 @@ export default defineComponent({
     Message
   },
   setup() {
-    const messages = ref<MessageInterface[]>([
-      {
-        uuid: "123e4567-e89b-12d3-a456-426614174000",
-        isMine: false,
-        wroteAt: "date",
-        content: "We can go to the bar we were last Saturday. I like it."
-      },
-      {
-        uuid: "123e4567-e89b-12d3-a456-426614174100",
-        isMine: true,
-        wroteAt: "date",
-        content: "This is a great idea! We will start from Joe’s then we will go to the Fortune Pub and after we will stay at the Natalie’s home."
-      },
-      {
-        uuid: "123e4567-e89b-12d3-a456-426614174200",
-        isMine: false,
-        wroteAt: "date",
-        content: "I am new here. Nice to meet you guys."
-      }
-    ])
+    const store = useStore()
+
+    const messages = computed(
+        () => store.getters[getterDialogModule(GET_CURRENT_DIALOG_MESSAGES)] as MessageInterface[])
 
     return {
       messages
