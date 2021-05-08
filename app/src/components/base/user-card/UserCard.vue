@@ -29,7 +29,6 @@ import Avatar from "@/components/base/avatar/Avatar.vue"
 export default defineComponent({
   name: "UserCard",
   props: {
-    // TODO: Add interface check
     avatar: {
       type: String,
       required: false,

@@ -33,7 +33,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, PropType } from "vue"
+
+import { DialogInterface } from "@/types/dialog"
 
 import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
@@ -47,8 +49,7 @@ export default defineComponent({
   },
   props: {
     dialog: {
-      // TODO: Add interface type <of>
-      type: Object,
+      type: Object as PropType<DialogInterface>,
       required: true
     }
   },

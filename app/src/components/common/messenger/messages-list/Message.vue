@@ -8,14 +8,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, PropType } from "vue"
+
+import { MessageInterface } from "@/types/message"
 
 export default defineComponent({
   name: "Message",
   props: {
-    // TODO: Add interface check
     message: {
-      type: Object,
+      type: Object as PropType<MessageInterface>,
       required: true
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="not-found">
-    <h1>Page Not Found</h1>
+    <h1 class="not-found__title">Page Not Found</h1>
   </div>
 </template>
 
@@ -18,4 +18,7 @@ export default defineComponent({
   flex-direction column
 
   color white
+
+  &__title
+    font-size 3rem
 </style>
