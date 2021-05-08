@@ -1,4 +1,4 @@
-import { testAction } from "../../helpers/testAction"
+import { testAction } from "../../../helpers/testAction"
 
 import state from "@/store/modules/auth/state"
 import getters from "@/store/modules/auth/getters"

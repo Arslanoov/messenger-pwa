@@ -23,7 +23,7 @@ import {
 import { UserInterface } from "@/types/user"
 import { ViolationInterface } from "@/types/violation"
 
-describe("main mutations", () => {
+describe("auth main mutations", () => {
   it("sets auth token", () => {
     expect(store.state.auth.token).to.equal(null)
 
@@ -82,7 +82,7 @@ describe("main mutations", () => {
   })
 })
 
-describe("form mutations", () => {
+describe("auth form mutations", () => {
   it("auth form", () => {
     assert.deepEqual(store.state.auth.authForm, {
       username: "",
