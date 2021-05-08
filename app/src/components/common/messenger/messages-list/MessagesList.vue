@@ -59,7 +59,9 @@ export default defineComponent({
 
   overflow-y scroll
 
-  padding: .5rem 1rem 1rem 1rem
+  padding: .8rem 1.6rem 1.6rem 1.6rem
+
+  font-size message-list-font-size
 
   background-color messages-layout-background
 

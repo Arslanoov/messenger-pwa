@@ -103,7 +103,9 @@ export default defineComponent({
 
 <style lang="stylus" scoped>
 .sign-up
-  width 20rem
+  width 32rem
+
+  font-size auth-page-font-size
 
   color auth-page-color
 
@@ -113,18 +115,18 @@ export default defineComponent({
     flex-direction column
 
   &__title
-    margin-bottom 1rem
+    margin-bottom 1.6rem
 
   +breakpoint-to(breakpoints.mobile-sm)
     width auto
-    max-width 20rem
+    max-width 32rem
 
   &__input
-    margin-bottom 1rem
+    margin-bottom 1.6rem
 
-    padding .4rem
+    padding .64rem
 
-    border-radius .18rem
+    border-radius .28rem
 
     background auth-page-input-background
 
@@ -132,11 +134,11 @@ export default defineComponent({
     outline none
 
   &__button
-    margin-bottom 1rem
+    margin-bottom 1.6rem
 
-    padding .625rem .18rem
+    padding 1rem .28rem
 
-    border-radius .3rem
+    border-radius .48rem
 
     border none
     outline none

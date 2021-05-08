@@ -99,7 +99,7 @@ export default defineComponent({
     color user-card-subtitle-color
 
   &__extra
-    margin-left .2rem
+    margin-left .32rem
 
     font-size user-card-extra-size
 

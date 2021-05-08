@@ -151,16 +151,16 @@ export default defineComponent({
   justify-content center
   align-items center
 
-  padding-top .8rem + line-margin
+  padding-top 1.3rem + line-margin
 
   transition profile-padding-transition
 
   &_opened
     justify-content space-between
 
-    padding-bottom: .8rem
-    padding-left 1.5rem
-    padding-right 1.5rem
+    padding-bottom: 1.3rem
+    padding-left 2.4rem
+    padding-right 2.4rem
 
   &__action
     position relative
@@ -168,11 +168,11 @@ export default defineComponent({
     margin-left 0
 
     &_with-margin
-      margin-left .7rem
+      margin-left 1.1rem
 
   &__popup
     position absolute
-    top 4rem
+    top 6.4rem
     right 0
 
     display flex
@@ -180,10 +180,12 @@ export default defineComponent({
     justify-content center
     align-items center
 
-    min-width 8rem
-    min-height 1rem
+    min-width 12.8
+    min-height 1.6rem
 
-    padding 1rem 2rem
+    padding 1.6rem 3.2rem
+
+    font-size popup-font-size
 
     color profile-popup-color
     background-color profile-popup-background-color
@@ -203,10 +205,10 @@ export default defineComponent({
       opacity 1
 
     &-item
-      padding .5rem 1rem
+      padding .8rem 1.6rem
 
       &:not(:last-of-type)
-        margin-bottom .5rem
+        margin-bottom .8rem
 
       pointer-on-hover()
 

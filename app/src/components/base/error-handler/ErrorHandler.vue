@@ -43,7 +43,7 @@ export default defineComponent({
 
 <style lang="stylus" scoped>
 .error
-  margin-bottom .8rem
+  margin-bottom 1.3rem
 
   color error-color
 </style>

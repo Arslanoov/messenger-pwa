@@ -76,7 +76,7 @@ export default defineComponent({
 
   width 100%
 
-  padding: 1.2rem 1.5rem
+  padding: 1.92rem 2.4rem
 
   color dialog-color
 
@@ -90,7 +90,7 @@ export default defineComponent({
 
   &-status
     margin-left auto
-    padding 0 .2rem
+    padding 0 .32rem
 
     &__icon
       flex-shrink 0

@@ -61,7 +61,7 @@ export default defineComponent({
   background-repeat no-repeat
   background-size cover
 
-  border-radius 10rem
+  border-radius 16rem
 
   transition avatar-margin-transition
 

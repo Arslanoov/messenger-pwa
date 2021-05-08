@@ -108,29 +108,29 @@ export default defineComponent({
   flex-direction column
   align-items center
 
-  padding 2rem
+  padding 3.2rem
 
-  font-size 1.5rem
+  font-size 2.4rem
 
   color #180b34
   background-color #ebeafd
 
   &__title
-    margin-bottom 2rem
+    margin-bottom 3.2rem
 
-    font-size 2rem
+    font-size 3.2rem
     font-weight 500
 
   &__username
-    margin-bottom .5rem
+    margin-bottom .8rem
 
   &__avatar
     position relative
 
-    width 10rem
-    height 10rem
+    width 16rem
+    height 16rem
 
-    margin-bottom 1.5rem
+    margin-bottom 2.4rem
 
     &-img
       position absolute
@@ -138,10 +138,10 @@ export default defineComponent({
       top 0
       right 0
 
-      width 10rem
-      height 10rem
+      width 16rem
+      height 16rem
 
-      border-radius 10rem
+      border-radius 16rem
 
       user-select none
 
@@ -153,15 +153,15 @@ export default defineComponent({
     width 100%
 
     &-title
-      margin-bottom .5rem
+      margin-bottom .8rem
 
     &-textarea
-      margin-bottom 1rem
+      margin-bottom 1.6rem
 
       width 45%
-      height 20rem
+      height 32rem
 
-      padding 1rem
+      padding 1.6rem
 
       color inherit
       background-color titan-white
@@ -169,7 +169,7 @@ export default defineComponent({
       border 1px solid #541a8b
       outline none
 
-      font-size 1rem
+      font-size 1.6rem
 
       resize none
 
@@ -186,14 +186,14 @@ export default defineComponent({
         width 90%
 
     &-button
-      padding .5rem 1.5rem
+      padding .8rem 2.4rem
 
       background titan-white
 
       border 1px solid grey
       outline none
 
-      font-size 1rem
+      font-size 1.6rem
 
       pointer-on-hover()
 
@@ -201,14 +201,14 @@ export default defineComponent({
     &-action
       position relative
 
-      margin-bottom .2rem
+      margin-bottom .32rem
 
       z-index 2
 
       pointer-on-hover()
 
       &:last-of-type {
-        margin-bottom 2rem
+        margin-bottom 3.2rem
       }
 
   &__file-upload

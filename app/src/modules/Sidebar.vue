@@ -72,7 +72,7 @@ export default defineComponent({
       min-height 100vh
 
   &_closed
-    width 6rem
+    width 9.6rem
 
     +breakpoint-to(breakpoints.tablet)
       width 100%

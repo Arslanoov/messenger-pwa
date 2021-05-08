@@ -21,7 +21,7 @@ export default defineComponent({
   width 100%
   height 100vh
 
-  padding 5rem 0
+  padding 8rem
 
   background: auth-page-background
   background: auth-page-gradient
