@@ -59,7 +59,7 @@ const testAction = (action, payload, state, getters, dispatch, expectedMutations
   }
 }
 
-describe("actions", () => {
+describe("auth login action", () => {
   it("login", done => {
     testAction(
       actions.default[LOGIN],
