@@ -2,7 +2,10 @@
   <div class="sign-up">
     <h1 class="sign-up__title">Sign Up</h1>
 
-    <error-handler :violations="form.violations" />
+    <error-handler
+        :violations="form.violations"
+        :message="form.error"
+    />
 
     <form
       @submit.prevent="signUp"

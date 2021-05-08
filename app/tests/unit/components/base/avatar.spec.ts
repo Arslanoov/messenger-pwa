@@ -15,7 +15,12 @@ describe("Avatar.vue", () => {
     })
 
     const avatar = wrapper.find(".avatar")
-    expect((avatar.element as HTMLElement).style.getPropertyValue("background-image")).to.include(`url(${url})`)
+    const avatarElement = avatar.element as HTMLElement
+    expect(avatarElement.style.getPropertyValue("background-image")).to.include(`url(${url})`)
+    expect(avatarElement.classList.contains("avatar_with-margin"))
+
+    const onlineIndicators = wrapper.findAll(".avatar__online")
+    expect(onlineIndicators.length === 1).to.be.true
   })
 })
 

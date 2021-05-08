@@ -19,4 +19,6 @@ export default defineComponent({
   display flex
   justify-content center
   align-items center
+
+  font-size select-dialog-font-size
 </style>

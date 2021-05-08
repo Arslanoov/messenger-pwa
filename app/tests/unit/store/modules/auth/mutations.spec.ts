@@ -17,7 +17,9 @@ import {
   SET_SIGN_UP_FORM_PASSWORD,
   SET_SIGN_UP_FORM_REPEAT_PASSWORD,
   SET_SIGN_UP_FORM_VIOLATIONS,
-  CLEAR_SIGN_UP_FORM_VIOLATIONS
+  SET_SIGN_UP_FORM_ERROR,
+  CLEAR_SIGN_UP_FORM_VIOLATIONS,
+  CLEAR_SIGN_UP_FORM_ERROR, CLEAR_AUTH_FORM_ERROR
 } from "@/store/modules/auth/mutations"
 
 import { UserInterface } from "@/types/user"
@@ -112,12 +114,14 @@ describe("auth form mutations", () => {
       username: "",
       password: "",
       repeatPassword: "",
+      error: null,
       violations: []
     })
 
     const newUsername = "new_username"
     const newPassword = "new_password"
     const newRepeatPassword = "new_repeat_password"
+    const newError = "Some error"
     const newViolations: ViolationInterface[] = [
       {
         propertyPath: "username",
@@ -129,6 +133,7 @@ describe("auth form mutations", () => {
       username: newUsername,
       password: newPassword,
       repeatPassword: newRepeatPassword,
+      error: newError,
       violations: newViolations
     }
 
@@ -136,11 +141,16 @@ describe("auth form mutations", () => {
     store.commit(AUTH_MODULE_PREFIX + SET_SIGN_UP_FORM_PASSWORD, newPassword)
     store.commit(AUTH_MODULE_PREFIX + SET_SIGN_UP_FORM_REPEAT_PASSWORD, newRepeatPassword)
     store.commit(AUTH_MODULE_PREFIX + SET_SIGN_UP_FORM_VIOLATIONS, newViolations)
+    store.commit(AUTH_MODULE_PREFIX + SET_SIGN_UP_FORM_ERROR, newError)
 
     assert.deepEqual(store.state.auth.signUpForm, newSignUpForm)
 
     store.commit(AUTH_MODULE_PREFIX + CLEAR_SIGN_UP_FORM_VIOLATIONS)
 
     assert.deepEqual(store.state.auth.signUpForm.violations, [])
+
+    store.commit(AUTH_MODULE_PREFIX + CLEAR_SIGN_UP_FORM_ERROR)
+
+    expect(store.state.auth.signUpForm.error).to.equal(null)
   })
 })

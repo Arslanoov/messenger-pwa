@@ -7,6 +7,7 @@ export default class ProfileService {
     })
   }
 
+  // eslint-disable-next-line no-unused-vars
   public changeAvatar(data: FormData, onUploadProgress: (e: ProgressEvent) => void = () => {}) {
     return axios.post("/profile/avatar/upload", data, {
       onUploadProgress
