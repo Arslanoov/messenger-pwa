@@ -112,8 +112,8 @@ export default defineComponent({
 
   font-size profile-font-size
 
-  color #180b34
-  background-color #ebeafd
+  color profile-color
+  background-color profile-background-color
 
   &__title
     margin-bottom 3.2rem
@@ -166,7 +166,7 @@ export default defineComponent({
       color inherit
       background-color titan-white
 
-      border 1px solid #541a8b
+      border profile-textarea-border
       outline none
 
       font-size profile-textarea-font-size
@@ -190,7 +190,7 @@ export default defineComponent({
 
       background titan-white
 
-      border 1px solid grey
+      border profile-button-border
       outline none
 
       font-size profile-button-font-size

@@ -13,7 +13,7 @@ export default defineComponent({
 <style lang="stylus" scoped>
 .line
   width 100%
-  height 1px
+  height .1rem
 
   margin line-margin 0
 

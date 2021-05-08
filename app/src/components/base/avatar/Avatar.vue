@@ -78,7 +78,6 @@ export default defineComponent({
     bottom 0
     right 0
 
-    /* TODO: To rem */
-    width 10px
-    height 10px
+    width 1rem
+    height 1rem
 </style>
