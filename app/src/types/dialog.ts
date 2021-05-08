@@ -1,6 +1,7 @@
 export interface PartnerInterface {
   uuid: string,
   username: string,
+  aboutMe: string,
   isOnline: boolean,
   avatar: string
 }

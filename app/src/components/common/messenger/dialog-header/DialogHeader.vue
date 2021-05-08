@@ -3,7 +3,7 @@
     <user-card
       :avatar="dialog.partner.avatar"
       :title="dialog.partner.username"
-      :subtitle="dialog.latestMessage?.content"
+      :subtitle="dialog.partner.aboutMe"
       :is-online="dialog.partner.isOnline"
       class="dialog-header__partner"
     />

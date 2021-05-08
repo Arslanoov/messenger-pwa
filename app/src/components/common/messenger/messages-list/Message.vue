@@ -4,6 +4,9 @@
     partner: !message.isMine
   }">
     {{ message.content }}
+    <div class="message__date">
+      {{ formatDate(new Date(message.wroteAt)) }}
+    </div>
   </div>
 </template>
 
@@ -12,12 +15,19 @@ import { defineComponent, PropType } from "vue"
 
 import { MessageInterface } from "@/types/message"
 
+import { formatDate } from "@/utils/dateFormatter"
+
 export default defineComponent({
   name: "Message",
   props: {
     message: {
       type: Object as PropType<MessageInterface>,
       required: true
+    }
+  },
+  setup() {
+    return {
+      formatDate
     }
   }
 })
@@ -51,4 +61,7 @@ export default defineComponent({
 
     background-color message-partner-background
     color message-partner-color
+
+  &__date
+    font-size 1.2rem
 </style>

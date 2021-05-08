@@ -36,7 +36,8 @@ export default defineComponent({
       store.commit(commitDialogModule(SET_CURRENT_DIALOG), id)
       store.dispatch(dispatchDialogModule(FETCH_DIALOG_MESSAGES))
     }
-    fetchCurrentDialog(route.params.id as string)
+
+    // TODO: Smooth scroll to page bottom
 
     watch(() => route.params.id, newId => fetchCurrentDialog(newId as string))
   }
