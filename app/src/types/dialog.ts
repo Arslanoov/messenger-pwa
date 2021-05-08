@@ -2,11 +2,7 @@ export interface PartnerInterface {
   uuid: string,
   username: string,
   isOnline: boolean,
-  avatar: string,
-  latestMessage: {
-    short: string,
-    date: string
-  }
+  avatar: string
 }
 
 export interface DialogInterface {
@@ -19,5 +15,9 @@ export interface DialogInterface {
   sentByMe?: {
     isSent: boolean,
     isRead: boolean
+  },
+  latestMessage: {
+    content: string,
+    date: string
   }
 }

@@ -19,8 +19,10 @@
 import { defineComponent, computed } from "vue"
 
 import { useStore } from "@/composables/store"
+import { dispatchDialogModule } from "@/store/modules/dialog"
 import { getterSidebarModule } from "@/store/modules/sidebar"
 
+import { FETCH_DIALOGS } from "@/store/modules/dialog/actions"
 import { GET_IS_SIDEBAR_STARTED_OPENING } from "@/store/modules/sidebar/getters"
 
 import Profile from "@/components/common/sidebar/profile/Profile.vue"
@@ -38,6 +40,9 @@ export default defineComponent({
     const store = useStore()
 
     const isStartedOpening = computed(() => store.getters[getterSidebarModule(GET_IS_SIDEBAR_STARTED_OPENING)])
+
+    const fetchDialogs = () => store.dispatch(dispatchDialogModule(FETCH_DIALOGS))
+    fetchDialogs()
 
     return {
       isStartedOpening
