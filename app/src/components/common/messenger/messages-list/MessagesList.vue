@@ -9,7 +9,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch, onUpdated } from "vue"
+import { defineComponent, computed, ref, onUpdated } from "vue"
+
+import { useOnResize, useOnScroll } from "vue-composable"
 
 import { MessageInterface } from "@/types/message"
 
@@ -26,16 +28,19 @@ export default defineComponent({
     Message
   },
   setup() {
-    const store = useStore()
+    const { width } = useOnResize(document.body)
+    const { scrollTo } = useOnScroll()
 
+    const store = useStore()
     const messages = computed(
         () => store.getters[getterDialogModule(GET_CURRENT_DIALOG_MESSAGES)] as MessageInterface[])
-
     const list = ref<HTMLDivElement>()
 
     onUpdated(() => {
-      // TODO: Add smooth scroll
       (list.value as HTMLDivElement).scrollTop = (list.value as HTMLDivElement).scrollHeight
+      if (width.value < 768 + 5) {
+        scrollTo(0, document.body.scrollHeight)
+      }
     })
 
     return {
