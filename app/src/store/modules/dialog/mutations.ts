@@ -29,6 +29,11 @@ export default {
     const dialog = state.dialogs.find(item => item.uuid === uuid)
     if (dialog) {
       state.currentDialog = dialog
+      state.currentDialogMessages = []
+      state.currentDialogPagination = {
+        pageSize: 20,
+        currentPage: 1
+      }
     }
   },
   [SET_CURRENT_DIALOG_MESSAGES]:
