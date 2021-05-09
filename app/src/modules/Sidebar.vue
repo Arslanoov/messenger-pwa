@@ -81,8 +81,11 @@ export default defineComponent({
 
     +breakpoint-to(breakpoints.tablet)
       width 100%
-      height auto
+      height 12.7rem
       min-height auto
+
+      overflow-y hidden
+
 
   &__dialog-list
     +breakpoint-to(breakpoints.tablet)

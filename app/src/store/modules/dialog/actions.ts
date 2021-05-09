@@ -7,6 +7,8 @@ import { StateInterface as DialogStateInterface } from "./state"
 import { StateInterface } from "@/store"
 
 import {
+  ADD_CURRENT_DIALOG_MESSAGE,
+  CLEAR_SEND_FORM,
   SET_CURRENT_DIALOG_CURRENT_PAGE,
   SET_CURRENT_DIALOG_MESSAGES,
   SET_DIALOG_LIST,
@@ -14,18 +16,18 @@ import {
 } from "@/store/modules/dialog/mutations"
 import {
   GET_DIALOGS_LIST_CURRENT_PAGE,
-  GET_CURRENT_DIALOG
+  GET_CURRENT_DIALOG, GET_SEND_FORM
 } from "@/store/modules/dialog/getters"
 
 import DialogService from "@/services/api/v1/DialogService"
 const service = new DialogService()
 
-export const FETCH_DIALOGS = "FETCH_DIALOGS"
-export const FETCH_DIALOG_MESSAGES = "FETCH_DIALOG_MESSAGES"
+export const FETCH_DIALOGS = "fetchDialogs"
+export const FETCH_DIALOG_MESSAGES = "fetchDialogMessages"
+export const SEND_MESSAGE = "sendMessage"
 
 export default {
   [FETCH_DIALOGS]: ({
-    dispatch,
     commit,
     getters
   }: ActionContext<DialogStateInterface, StateInterface>): Promise<DialogInterface[] | string> => {
@@ -35,7 +37,6 @@ export default {
         .then(response => {
           commit(SET_DIALOG_LIST, response.data.items)
           commit(SET_DIALOG_LIST_PAGE_SIZE, response.data.perPage)
-          dispatch(FETCH_DIALOG_MESSAGES)
           resolve(response.data.items)
         })
         .catch(error => {
@@ -69,5 +70,29 @@ export default {
           reject(error)
         })
     })
-  }
+  },
+  [SEND_MESSAGE]: ({
+    commit,
+    getters
+  }: ActionContext<DialogStateInterface, StateInterface>): Promise<MessageInterface[] | string> => {
+    return new Promise((resolve, reject) => {
+      service
+        .sendMessage(
+          getters[GET_CURRENT_DIALOG].uuid,
+          getters[GET_SEND_FORM].content
+        )
+        .then(response => {
+          commit(ADD_CURRENT_DIALOG_MESSAGE, response.data)
+          commit(CLEAR_SEND_FORM)
+          resolve(response.data)
+        })
+        .catch(error => {
+          if (error.response) {
+            console.error(error)
+            reject(error.response)
+          }
+          reject(error)
+        })
+    })
+  },
 }

@@ -6,7 +6,7 @@ import { routesNames } from "@/router/names"
 import { store } from "@/store"
 import { dispatchAuthModule } from "@/store/modules/auth"
 
-import { LOGOUT } from "@/store/modules/auth/actions"
+import { REFRESH_TOKEN, LOGOUT } from "@/store/modules/auth/actions"
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
@@ -16,11 +16,23 @@ if (token) {
 }
 
 axios.interceptors.response.use(response => response, error => {
+  console.log("url", error.response.config.url)
+  if (error.response.config.url === "/token") return
+
   if (401 === error.response.status) {
-    store.dispatch(dispatchAuthModule(LOGOUT))
-      .then(() => router.push({
-        name: routesNames.Login
-      }))
+    store.dispatch(dispatchAuthModule(REFRESH_TOKEN))
+      .catch(() => {
+        store.dispatch(dispatchAuthModule(LOGOUT))
+          .then(() => router.push({
+            name: routesNames.Login
+          }))
+      })
+  }
+
+  if (404 === error.response.status) {
+    router.push({
+      name: routesNames.NotFound
+    })
   }
 
   return Promise.reject(error)

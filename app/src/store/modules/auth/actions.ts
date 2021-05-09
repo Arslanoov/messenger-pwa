@@ -18,11 +18,11 @@ import {
   SET_CURRENT_USER,
   CLEAR_CURRENT_USER_INFO,
   CLEAR_SIGN_UP_FORM_ERROR,
-  SET_SIGN_UP_FORM_ERROR
+  SET_SIGN_UP_FORM_ERROR, SET_REFRESH_TOKEN
 } from "@/store/modules/auth/mutations"
 import {
   GET_AUTH_FORM,
-  GET_AUTH_TOKEN,
+  GET_REFRESH_TOKEN,
   GET_SIGN_UP_FORM
 } from "@/store/modules/auth/getters"
 
@@ -30,11 +30,11 @@ import AuthService from "@/services/api/v1/AuthService"
 const service = new AuthService()
 
 export const LOGIN = "login"
+export const REFRESH_TOKEN = "refreshToken"
+export const AUTHORIZE = "authorize"
 export const SIGN_UP = "signUp"
 export const FETCH_USER = "fetchUser"
 export const LOGOUT = "logout"
-
-// TODO: Add token refresh
 
 export default {
   [LOGIN]: ({ dispatch, commit, getters }: ActionContext<AuthStateInterface, StateInterface>): Promise<string> => {
@@ -45,12 +45,34 @@ export default {
       service
         .login(form.username, form.password)
         .then(response => {
-          const token = response.data.access_token
-          commit(SET_AUTH_TOKEN, token)
-          localStorage.setItem("token", token)
-          axios.defaults.headers.common.Authorization = getters[GET_AUTH_TOKEN]
-          dispatch(FETCH_USER)
-          resolve(token)
+          dispatch(AUTHORIZE, {
+            accessToken: response.data.access_token,
+            refreshToken: response.data.refresh_token
+          })
+          resolve(response.data.access_token)
+        })
+        .catch(() => {
+          dispatch(LOGOUT)
+          reject()
+        })
+    })
+  },
+  [REFRESH_TOKEN]: ({
+    dispatch,
+    commit,
+    getters
+  }: ActionContext<AuthStateInterface, StateInterface>): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      delete axios.defaults.headers.common.Authorization
+
+      service
+        .refreshToken(getters[GET_REFRESH_TOKEN] as string)
+        .then(response => {
+          dispatch(AUTHORIZE, {
+            accessToken: response.data.access_token,
+            refreshToken: response.data.refresh_token
+          })
+          resolve(response.data.access_token)
         })
         .catch(error => {
           if (error.response) {
@@ -61,6 +83,19 @@ export default {
           reject(error)
         })
     })
+  },
+  [AUTHORIZE]: (
+    { dispatch, commit }: ActionContext<AuthStateInterface, StateInterface>,
+    payload: {
+      accessToken: string,
+      refreshToken: string
+    }
+  ): void => {
+    commit(SET_AUTH_TOKEN, payload.accessToken)
+    commit(SET_REFRESH_TOKEN, payload.refreshToken)
+    localStorage.setItem("token", payload.accessToken)
+    axios.defaults.headers.common.Authorization = payload.accessToken
+    dispatch(FETCH_USER)
   },
   [SIGN_UP]: ({ commit, getters }: ActionContext<AuthStateInterface, StateInterface>): Promise<string | void> => {
     return new Promise((resolve, reject) => {

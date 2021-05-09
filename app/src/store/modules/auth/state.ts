@@ -17,6 +17,7 @@ export interface SignUpFormStateInterface {
 
 export interface StateInterface {
   token: string | null,
+  refreshToken: string | null,
   user: UserInterface | null,
   authForm: AuthFormStateInterface,
   signUpForm: SignUpFormStateInterface
@@ -24,6 +25,7 @@ export interface StateInterface {
 
 const state: StateInterface = {
   token: localStorage.getItem("token") || null,
+  refreshToken: localStorage.getItem("refresh_token") || null,
   user: null,
   authForm: {
     username: "",
