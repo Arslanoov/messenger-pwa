@@ -1,7 +1,7 @@
 {
   "pluginsFile": "tests/e2e/plugins/index.js",
   "env": {
-    "username": "admin4@gmail.com",
+    "username": "Arslanoov",
     "password": "111111",
     "apiUrl": "http://localhost:8081"
   }
