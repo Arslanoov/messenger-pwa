@@ -3,10 +3,7 @@ import { testAction } from "../../../helpers/testAction"
 import state from "@/store/modules/auth/state"
 import getters from "@/store/modules/auth/getters"
 
-import {
-  CLEAR_AUTH_FORM_ERROR,
-  SET_AUTH_TOKEN
-} from "@/store/modules/auth/mutations"
+import { CLEAR_AUTH_FORM_ERROR } from "@/store/modules/auth/mutations"
 import { LOGIN } from "@/store/modules/auth/actions"
 
 const actionsInjector = require("inject-loader!@/store/modules/auth/actions.ts")
@@ -39,11 +36,7 @@ describe("auth login action", () => {
       getters,
       () => {},
       [
-        { type: CLEAR_AUTH_FORM_ERROR },
-        {
-          type: SET_AUTH_TOKEN,
-          payload: "access_token"
-        }
+        { type: CLEAR_AUTH_FORM_ERROR }
       ],
       done
     )
