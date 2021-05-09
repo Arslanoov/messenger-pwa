@@ -6,11 +6,16 @@ import { MessageInterface } from "@/types/message"
 export const SET_DIALOG_LIST = "SET_DIALOG_LIST"
 export const SET_DIALOG_LIST_CURRENT_PAGE = "SET_DIALOG_LIST_CURRENT_PAGE"
 export const SET_DIALOG_LIST_PAGE_SIZE = "SET_DIALOG_LIST_PAGE_SIZE"
+
 export const SET_CURRENT_DIALOG = "SET_CURRENT_DIALOG"
 export const SET_CURRENT_DIALOG_MESSAGES = "SET_CURRENT_DIALOG_MESSAGES"
 export const SET_CURRENT_DIALOG_CURRENT_PAGE = "SET_CURRENT_DIALOG_CURRENT_PAGE"
 export const SET_CURRENT_DIALOG_PAGE_SIZE = "SET_CURRENT_DIALOG_PAGE_SIZE"
 export const CLEAR_CURRENT_DIALOG = "CLEAR_CURRENT_DIALOG"
+
+export const SET_SEND_FORM_CONTENT = "SET_SEND_FORM_CONTENT"
+export const CLEAR_SEND_FORM = "CLEAR_SEND_FORM"
+export const ADD_CURRENT_DIALOG_MESSAGE = "ADD_CURRENT_DIALOG_MESSAGE"
 
 export default {
   [SET_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = dialogs,
@@ -40,4 +45,10 @@ export default {
       pageSize: 20
     }
   },
+  [ADD_CURRENT_DIALOG_MESSAGE]:
+    (state: StateInterface, message: MessageInterface) => state.currentDialogMessages.push(message),
+  [SET_SEND_FORM_CONTENT]:
+    (state: StateInterface, content: string) => state.sendMessageForm.content = content,
+  [CLEAR_SEND_FORM]:
+    (state: StateInterface) => state.sendMessageForm.content = ""
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="dialog-header">
     <user-card
+      v-if="dialog"
       :avatar="dialog.partner.avatar"
       :title="dialog.partner.username"
       :subtitle="dialog.partner.aboutMe"

@@ -1,5 +1,5 @@
 <template>
-  <div class="messages-list">
+  <div ref="list" class="messages-list">
     <Message
       v-for="message in messages"
       :message="message"
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue"
+import { defineComponent, computed, ref, watch, onUpdated } from "vue"
 
 import { MessageInterface } from "@/types/message"
 
@@ -31,8 +31,16 @@ export default defineComponent({
     const messages = computed(
         () => store.getters[getterDialogModule(GET_CURRENT_DIALOG_MESSAGES)] as MessageInterface[])
 
+    const list = ref<HTMLDivElement>()
+
+    onUpdated(() => {
+      // TODO: Add smooth scroll
+      (list.value as HTMLDivElement).scrollTop = (list.value as HTMLDivElement).scrollHeight
+    })
+
     return {
-      messages
+      messages,
+      list
     }
   }
 })

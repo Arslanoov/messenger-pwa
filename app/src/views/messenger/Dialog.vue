@@ -40,6 +40,7 @@ export default defineComponent({
     // TODO: Smooth scroll to page bottom
 
     watch(() => route.params.id, newId => fetchCurrentDialog(newId as string))
+    fetchCurrentDialog(route.params.id as string)
   }
 })
 </script>

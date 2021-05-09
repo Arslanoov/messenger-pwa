@@ -1,13 +1,16 @@
 <template>
   <div class="message-form">
     <span
-      @input="e => onContentChange(e.target.value)"
+      @input="e => onContentChange(e.target.innerText)"
       data-ph="Write a message"
       class="message-form__input"
       role="textbox"
       contenteditable
-    ></span>
-    <div class="message-form__send">
+    >{{ form.content }}</span>
+    <div
+      @click="sendMessage"
+      class="message-form__send"
+    >
       <img
         class="message-form__send-icon"
         src="~@/assets/images/profile/icons/send.svg"
@@ -18,20 +21,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue"
+import { defineComponent, computed } from "vue"
+
+import { SendMessageFormStateInterface } from "@/store/modules/dialog/state"
+
+import { useStore } from "@/composables/store"
+import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
+
+import { SET_SEND_FORM_CONTENT } from "@/store/modules/dialog/mutations"
+import { SEND_MESSAGE } from "@/store/modules/dialog/actions"
+import { GET_SEND_FORM } from "@/store/modules/dialog/getters"
 
 export default defineComponent({
   name: "MessageForm",
   setup() {
-    const form = reactive({
-      content: ""
-    })
+    const store = useStore()
 
-    const onContentChange = (v: string) => form.content = v
+    const form = computed(() => store.getters[getterDialogModule(GET_SEND_FORM)] as SendMessageFormStateInterface)
+    const onContentChange = (v: string) => store.commit(commitDialogModule(SET_SEND_FORM_CONTENT), v)
+    const sendMessage = () => store.dispatch(dispatchDialogModule(SEND_MESSAGE))
 
     return {
       form,
-      onContentChange
+      onContentChange,
+      sendMessage
     }
   }
 })
