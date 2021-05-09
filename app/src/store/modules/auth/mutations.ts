@@ -4,6 +4,7 @@ import { UserInterface } from "@/types/user"
 import { ViolationInterface } from "@/types/violation"
 
 export const SET_AUTH_TOKEN = "SET_AUTH_TOKEN"
+export const SET_REFRESH_TOKEN = "SET_REFRESH_TOKEN"
 export const SET_CURRENT_USER = "SET_CURRENT_USER"
 export const SET_AVATAR = "SET_AVATAR"
 export const REMOVE_AVATAR = "REMOVE_AVATAR"
@@ -24,6 +25,7 @@ export const CLEAR_SIGN_UP_FORM_ERROR = "CLEAR_SIGN_UP_FORM_ERROR"
 
 export default {
   [SET_AUTH_TOKEN]: (state: StateInterface, token: string) => state.token = token,
+  [SET_REFRESH_TOKEN]: (state: StateInterface, token: string) => state.refreshToken = token,
   [SET_CURRENT_USER]: (state: StateInterface, user: UserInterface) => state.user = user,
   /* TODO: Remove ts ignore */
   [SET_AVATAR]: (state: StateInterface, avatar: string) => {
