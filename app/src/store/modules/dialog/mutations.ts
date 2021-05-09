@@ -10,7 +10,6 @@ export const SET_DIALOG_LIST_PAGE_SIZE = "SET_DIALOG_LIST_PAGE_SIZE"
 export const SET_CURRENT_DIALOG = "SET_CURRENT_DIALOG"
 export const SET_CURRENT_DIALOG_MESSAGES = "SET_CURRENT_DIALOG_MESSAGES"
 export const SET_CURRENT_DIALOG_CURRENT_PAGE = "SET_CURRENT_DIALOG_CURRENT_PAGE"
-export const SET_CURRENT_DIALOG_PAGE_SIZE = "SET_CURRENT_DIALOG_PAGE_SIZE"
 export const CLEAR_CURRENT_DIALOG = "CLEAR_CURRENT_DIALOG"
 
 export const SET_SEND_FORM_CONTENT = "SET_SEND_FORM_CONTENT"
@@ -40,8 +39,6 @@ export default {
     (state: StateInterface, messages: MessageInterface[]) => state.currentDialogMessages = messages,
   [SET_CURRENT_DIALOG_CURRENT_PAGE]:
     (state: StateInterface, page: number) => state.currentDialogPagination.currentPage = page,
-  [SET_CURRENT_DIALOG_PAGE_SIZE]:
-    (state: StateInterface, size: number) => state.currentDialogPagination.pageSize = size,
   [CLEAR_CURRENT_DIALOG]: (state: StateInterface) => {
     state.currentDialog = null
     state.currentDialogMessages = []
