@@ -19,7 +19,7 @@ import {
   SET_SIGN_UP_FORM_VIOLATIONS,
   SET_SIGN_UP_FORM_ERROR,
   CLEAR_SIGN_UP_FORM_VIOLATIONS,
-  CLEAR_SIGN_UP_FORM_ERROR, CLEAR_AUTH_FORM_ERROR
+  CLEAR_SIGN_UP_FORM_ERROR
 } from "@/store/modules/auth/mutations"
 
 import { UserInterface } from "@/types/user"

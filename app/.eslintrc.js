@@ -23,10 +23,11 @@ module.exports = {
 
     "semi": ["error", "never"],
     "quotes": [ "error", "double" ],
-    "no-unused-vars": "warn",
     "vue/no-unused-vars": "warn",
     "vue/require-v-for-key": "off",
-    "vue/experimental-script-setup-vars": "off"
+    "vue/experimental-script-setup-vars": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
   },
   overrides: [
     {
@@ -39,4 +40,4 @@ module.exports = {
       },
     },
   ],
-};
+}
