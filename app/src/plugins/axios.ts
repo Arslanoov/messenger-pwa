@@ -23,5 +23,11 @@ axios.interceptors.response.use(response => response, error => {
       }))
   }
 
+  if (404 === error.response.status) {
+    router.push({
+      name: routesNames.NotFound
+    })
+  }
+
   return Promise.reject(error)
 })

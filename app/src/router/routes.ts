@@ -52,8 +52,17 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: "/:catchAll(.*)",
+    path: "/404",
     name: routesNames.NotFound,
+    component: loadView("NotFound"),
+    meta: {
+      layout: "auth",
+      requiresAuth: false,
+      requiresNoAuth: false
+    }
+  },
+  {
+    path: "/:catchAll(.*)",
     component: loadView("NotFound"),
     meta: {
       layout: "auth",
