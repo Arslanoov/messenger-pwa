@@ -1,19 +1,23 @@
 <template>
   <vue-final-modal
-    name="add-dialog-modal"
-    class="modal"
-    content-class="modal__wrapper"
     v-model="isOpened"
+    content-class="modal__wrapper"
+    class="modal"
+    name="add-dialog-modal"
   >
     <div class="modal__content">
       <h3 class="modal__title">Add Dialog</h3>
 
-      <autocomplete-input />
-
-      <input
-        type="text"
+      <autocomplete-input
         class="modal__input"
-        placeholder="Username"
+        :items="[
+          {
+            value: 'Username 1'
+          },
+          {
+            value: 'Username 2'
+          }
+        ]"
       />
     </div>
 </vue-final-modal>
@@ -49,6 +53,8 @@ export default defineComponent({
 
 <style lang="stylus">
 .modal
+  font-size 1.8rem
+
   &__wrapper
     display flex
     justify-content center
@@ -74,16 +80,4 @@ export default defineComponent({
 
     font-size 2rem
     font-weight 700
-
-  &__input
-    width 100%
-
-    padding 1rem 1.5rem
-
-    border .1rem solid grey
-    border-radius .2rem
-    outline none
-
-    &::placeholder
-      font-family inherit
 </style>
