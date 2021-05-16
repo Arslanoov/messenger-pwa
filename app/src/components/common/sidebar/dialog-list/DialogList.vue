@@ -1,11 +1,26 @@
 <template>
   <div class="dialog-list">
-    <Dialog
-      v-for="dialog in dialogs"
-      :key="dialog.uuid"
-      :dialog="dialog"
-      class="dialog-list__item"
-    />
+    <template v-if="dialogs.length">
+      <Dialog
+          v-for="dialog in dialogs"
+          :key="dialog.uuid"
+          :dialog="dialog"
+          class="dialog-list__item"
+      />
+    </template>
+    <div
+        v-else
+        class="dialog-list__content"
+    >
+      No dialogs found.
+
+      <div
+          @click="toggleModal"
+          class="dialog-list__add"
+      >
+        Add dialog
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,8 +29,10 @@ import { defineComponent, computed, watch } from "vue"
 
 import { useStore } from "@/composables/store"
 import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
+import { commitSidebarModule } from "@/store/modules/sidebar"
 
 import { SET_DIALOG_LIST_CURRENT_PAGE } from "@/store/modules/dialog/mutations"
+import { TOGGLE_ADD_DIALOG_MODAL } from "@/store/modules/sidebar/mutations"
 import { FETCH_DIALOGS } from "@/store/modules/dialog/actions"
 import {
   GET_DIALOGS_LIST,
@@ -45,12 +62,16 @@ export default defineComponent({
 
     watch(currentPage, (page: number) => fetchDialogs(page))
 
+    const toggleModal = () => store.commit(commitSidebarModule(TOGGLE_ADD_DIALOG_MODAL))
+
     return {
       dialogs,
       prevPage,
       nextPage,
       currentPage,
-      pageSize
+      pageSize,
+
+      toggleModal
     }
   }
 })
@@ -59,4 +80,18 @@ export default defineComponent({
 <style lang="stylus" scoped>
 .dialog-list
   user-select none
+
+  &__content
+    display flex
+    flex-direction column
+    align-items center
+
+    color #fff
+
+    font-size 1.8rem
+
+  &__add
+    margin-top 1rem
+
+    pointer-on-hover()
 </style>

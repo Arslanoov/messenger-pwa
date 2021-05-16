@@ -16,10 +16,9 @@ if (token) {
 }
 
 axios.interceptors.response.use(response => response, error => {
-  console.log("url", error.response.config.url)
-  if (error.response.config.url === "/token") return
+  if (error.response?.config?.url === "/token") return
 
-  if (401 === error.response.status) {
+  if (401 === error.response?.status) {
     store.dispatch(dispatchAuthModule(REFRESH_TOKEN))
       .catch(() => {
         store.dispatch(dispatchAuthModule(LOGOUT))
@@ -29,7 +28,7 @@ axios.interceptors.response.use(response => response, error => {
       })
   }
 
-  if (404 === error.response.status) {
+  if (404 === error.response?.status) {
     router.push({
       name: routesNames.NotFound
     })
