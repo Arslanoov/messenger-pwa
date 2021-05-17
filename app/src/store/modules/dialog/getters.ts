@@ -2,6 +2,7 @@ import { SendMessageFormStateInterface, StateInterface } from "./state"
 
 import { DialogInterface } from "@/types/dialog"
 import { MessageInterface } from "@/types/message"
+import { UserSearchInterface } from "@/types/user"
 
 export const GET_DIALOGS_LIST = "getDialogsList"
 export const GET_DIALOGS_LIST_CURRENT_PAGE = "getDialogsListCurrentPage"
@@ -14,6 +15,9 @@ export const GET_CURRENT_DIALOG_PAGE_SIZE = "getCurrentDialogPageSize"
 
 export const GET_SEND_FORM = "getSendForm"
 
+export const GET_USERS_SEARCH_QUERY = "getUsersSearchQuery"
+export const GET_USERS_SEARCH_RESULTS = "getUsersSearchResults"
+
 export default {
   [GET_DIALOGS_LIST]: (state: StateInterface): DialogInterface[] => state.dialogs,
   [GET_DIALOGS_LIST_CURRENT_PAGE]: (state: StateInterface): number => state.pagination.currentPage,
@@ -25,4 +29,7 @@ export default {
   [GET_CURRENT_DIALOG_PAGE_SIZE]: (state: StateInterface): number => state.currentDialogPagination.pageSize,
 
   [GET_SEND_FORM]: (state: StateInterface): SendMessageFormStateInterface => state.sendMessageForm,
+
+  [GET_USERS_SEARCH_QUERY]: (state: StateInterface): string => state.search.query,
+  [GET_USERS_SEARCH_RESULTS]: (state: StateInterface): UserSearchInterface[] => state.search.results,
 }

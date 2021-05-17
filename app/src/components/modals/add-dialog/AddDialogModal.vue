@@ -9,15 +9,13 @@
       <h3 class="modal__title">Add Dialog</h3>
 
       <autocomplete-input
+        @change="setQuery"
+        @select="onDialogSelect"
+        @submit="onDialogSelect"
+        :items="filteredSearchResults"
+        :input="{ defaultValue: query }"
+        :case-sensitive="false"
         class="modal__input"
-        :items="[
-          {
-            value: 'Username 1'
-          },
-          {
-            value: 'Username 2'
-          }
-        ]"
       />
     </div>
 </vue-final-modal>
@@ -26,11 +24,18 @@
 <script lang="ts">
 import { defineComponent, computed, inject } from "vue"
 
+import { UserSearchInterface } from "@/types/user"
+
 import { useStore } from "@/composables/store"
+import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
 import { commitSidebarModule, getterSidebarModule } from "@/store/modules/sidebar"
 
 import { TOGGLE_ADD_DIALOG_MODAL } from "@/store/modules/sidebar/mutations"
 import { GET_IS_ADD_DIALOG_MODAL_OPENED } from "@/store/modules/sidebar/getters"
+
+import { SET_USERS_SEARCH_QUERY } from "@/store/modules/dialog/mutations"
+import { SEARCH_USERS } from "@/store/modules/dialog/actions"
+import { GET_USERS_SEARCH_QUERY, GET_USERS_SEARCH_RESULTS } from "@/store/modules/dialog/getters"
 
 export default defineComponent({
   name: "AddDialogModal",
@@ -42,10 +47,30 @@ export default defineComponent({
     const isOpened = computed(() => store.getters[getterSidebarModule(GET_IS_ADD_DIALOG_MODAL_OPENED)])
     const toggle = () => store.commit(commitSidebarModule(TOGGLE_ADD_DIALOG_MODAL))
 
+    const searchResults = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_RESULTS)])
+    const filteredSearchResults = computed(() => searchResults.value.map((item: UserSearchInterface) => ({
+      id: item.uuid,
+      value: item.username
+    })))
+    const query = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_QUERY)])
+    const search = () => store.dispatch(dispatchDialogModule(SEARCH_USERS))
+    const setQuery = (v: string) => {
+      store.commit(commitDialogModule(SET_USERS_SEARCH_QUERY), v)
+      search()
+    }
+
+    const onDialogSelect = () => {}
+
     return {
       isOpened,
       toggle,
-      modal
+      modal,
+
+      filteredSearchResults,
+      query,
+      setQuery,
+      search,
+      onDialogSelect
     }
   }
 })
