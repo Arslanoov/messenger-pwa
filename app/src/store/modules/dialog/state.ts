@@ -1,6 +1,7 @@
 import { DialogInterface } from "@/types/dialog"
 import { PaginationInterface } from "@/types/pagination"
 import { MessageInterface } from "@/types/message"
+import { UserSearchInterface } from "@/types/user"
 
 export interface SendMessageFormStateInterface {
   content: string
@@ -12,7 +13,11 @@ export interface StateInterface {
   currentDialog: DialogInterface | null,
   currentDialogMessages: MessageInterface[],
   currentDialogPagination: PaginationInterface,
-  sendMessageForm: SendMessageFormStateInterface
+  sendMessageForm: SendMessageFormStateInterface,
+  search: {
+    query: string,
+    results: UserSearchInterface[]
+  }
 }
 
 const state: StateInterface = {
@@ -29,6 +34,10 @@ const state: StateInterface = {
   },
   sendMessageForm: {
     content: ""
+  },
+  search: {
+    query: "",
+    results: []
   }
 }
 

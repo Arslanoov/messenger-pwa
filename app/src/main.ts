@@ -1,7 +1,7 @@
 import { createApp } from "vue"
 import App from "@/App.vue"
 
-const app = createApp(App)
+export const app = createApp(App)
 
 import "@/registerServiceWorker"
 
@@ -10,6 +10,13 @@ app.use(router)
 
 import { store, key } from "@/store"
 app.use(store, key)
+
+import VueFinalModal from "vue-final-modal"
+app.use(VueFinalModal())
+
+import AutocompleteInput from "@arslanoov/vue-autocomplete-input"
+import "@arslanoov/vue-autocomplete-input/dist/vue-autocomplete-input.esm.css"
+app.use(AutocompleteInput)
 
 import "@/plugins/axios"
 

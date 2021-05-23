@@ -2,6 +2,7 @@ import { StateInterface } from "./state"
 
 import { DialogInterface } from "@/types/dialog"
 import { MessageInterface } from "@/types/message"
+import { UserSearchInterface } from "@/types/user"
 
 export const SET_DIALOG_LIST = "SET_DIALOG_LIST"
 export const SET_DIALOG_LIST_CURRENT_PAGE = "SET_DIALOG_LIST_CURRENT_PAGE"
@@ -15,6 +16,9 @@ export const CLEAR_CURRENT_DIALOG = "CLEAR_CURRENT_DIALOG"
 export const SET_SEND_FORM_CONTENT = "SET_SEND_FORM_CONTENT"
 export const CLEAR_SEND_FORM = "CLEAR_SEND_FORM"
 export const ADD_CURRENT_DIALOG_MESSAGE = "ADD_CURRENT_DIALOG_MESSAGE"
+
+export const SET_USERS_SEARCH_QUERY = "SET_USERS_SEARCH_QUERY"
+export const SET_USERS_SEARCH_RESULTS = "SET_USERS_SEARCH_RESULTS"
 
 export default {
   [SET_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = dialogs,
@@ -52,5 +56,10 @@ export default {
   [SET_SEND_FORM_CONTENT]:
     (state: StateInterface, content: string) => state.sendMessageForm.content = content,
   [CLEAR_SEND_FORM]:
-    (state: StateInterface) => state.sendMessageForm.content = ""
+    (state: StateInterface) => state.sendMessageForm.content = "",
+
+  [SET_USERS_SEARCH_QUERY]:
+    (state: StateInterface, query: string) => state.search.query = query,
+  [SET_USERS_SEARCH_RESULTS]:
+    (state: StateInterface, results: UserSearchInterface[]) => state.search.results = results,
 }

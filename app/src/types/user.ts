@@ -6,3 +6,8 @@ export interface UserInterface {
   isOnline: boolean,
   messagesCount?: number
 }
+
+export interface UserSearchInterface {
+  uuid: string,
+  username: string
+}

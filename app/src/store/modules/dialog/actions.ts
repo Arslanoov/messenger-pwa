@@ -2,6 +2,7 @@ import { ActionContext } from "vuex"
 
 import { DialogInterface } from "@/types/dialog"
 import { MessageInterface } from "@/types/message"
+import { UserSearchInterface } from "@/types/user"
 
 import { StateInterface as DialogStateInterface } from "./state"
 import { StateInterface } from "@/store"
@@ -12,21 +13,45 @@ import {
   SET_CURRENT_DIALOG_CURRENT_PAGE,
   SET_CURRENT_DIALOG_MESSAGES,
   SET_DIALOG_LIST,
-  SET_DIALOG_LIST_PAGE_SIZE
+  SET_DIALOG_LIST_PAGE_SIZE, SET_USERS_SEARCH_RESULTS
 } from "@/store/modules/dialog/mutations"
 import {
   GET_DIALOGS_LIST_CURRENT_PAGE,
-  GET_CURRENT_DIALOG, GET_SEND_FORM
+  GET_CURRENT_DIALOG, GET_SEND_FORM, GET_USERS_SEARCH_QUERY
 } from "@/store/modules/dialog/getters"
 
 import DialogService from "@/services/api/v1/DialogService"
 const service = new DialogService()
 
+import UserService from "@/services/api/v1/UserService"
+const userService = new UserService()
+
+export const SEARCH_USERS = "searchUsers"
 export const FETCH_DIALOGS = "fetchDialogs"
 export const FETCH_DIALOG_MESSAGES = "fetchDialogMessages"
 export const SEND_MESSAGE = "sendMessage"
 
 export default {
+  [SEARCH_USERS]: ({
+    commit,
+    getters
+  }: ActionContext<DialogStateInterface, StateInterface>): Promise<UserSearchInterface[]> => {
+    return new Promise((resolve, reject) => {
+      userService
+        .searchByUsername(getters[GET_USERS_SEARCH_QUERY])
+        .then(response => {
+          commit(SET_USERS_SEARCH_RESULTS, response.data.items)
+          resolve(response.data.items)
+        })
+        .catch(error => {
+          if (error.response) {
+            console.error(error)
+            reject(error.response)
+          }
+          reject(error)
+        })
+    })
+  },
   [FETCH_DIALOGS]: ({
     commit,
     getters

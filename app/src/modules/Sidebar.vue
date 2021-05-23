@@ -12,6 +12,8 @@
       :class="{ 'sidebar__dialog-list_opened': isStartedOpening }"
       class="sidebar__dialog-list"
     />
+
+    <add-dialog-modal />
   </div>
 </template>
 
@@ -29,12 +31,16 @@ import Profile from "@/components/common/sidebar/profile/Profile.vue"
 import Line from "@/components/base/line/Line.vue"
 import DialogList from "@/components/common/sidebar/dialog-list/DialogList.vue"
 
+import AddDialogModal from "@/components/modals/add-dialog/AddDialogModal.vue"
+
 export default defineComponent({
   name: "Sidebar",
   components: {
     Profile,
     Line,
-    DialogList
+    DialogList,
+
+    AddDialogModal
   },
   setup() {
     const store = useStore()
