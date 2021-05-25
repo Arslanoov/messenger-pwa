@@ -8,21 +8,44 @@
     <div class="modal__content">
       <h3 class="modal__title">Add Dialog</h3>
 
-      <autocomplete-input
-        @change="setQuery"
-        @select="onDialogSelect"
-        @submit="onDialogSelect"
-        :items="filteredSearchResults"
-        :input="{ defaultValue: query }"
-        :case-sensitive="false"
+      <label for="uuid" class="modal__label">User uuid</label>
+      <input
+        @change="e => setQuery(e.target.value)"
+        :value="query"
+        id="uuid"
         class="modal__input"
       />
+      <button
+        @click="search"
+        :disabled="isLoading"
+        type="submit"
+        class="modal__button"
+      >
+        Search
+      </button>
+
+      <div v-if="searchError" class="modal__error">
+        {{ searchError }}
+      </div>
+      <template v-if="searchResult">
+        <div class="modal__user user">
+          <img
+            v-if="searchResult.avatar"
+            :src="searchResult.avatar"
+            :is-online="false"
+            class="user__avatar"
+            draggable="false"
+            alt=""
+          />
+          <div class="user__username">{{ searchResult.username }}</div>
+        </div>
+      </template>
     </div>
 </vue-final-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject } from "vue"
+import { defineComponent, computed, inject, ref } from "vue"
 
 import { UserSearchInterface } from "@/types/user"
 
@@ -34,8 +57,12 @@ import { TOGGLE_ADD_DIALOG_MODAL } from "@/store/modules/sidebar/mutations"
 import { GET_IS_ADD_DIALOG_MODAL_OPENED } from "@/store/modules/sidebar/getters"
 
 import { SET_USERS_SEARCH_QUERY } from "@/store/modules/dialog/mutations"
-import { SEARCH_USERS } from "@/store/modules/dialog/actions"
-import { GET_USERS_SEARCH_QUERY, GET_USERS_SEARCH_RESULTS } from "@/store/modules/dialog/getters"
+import { SEARCH_USER } from "@/store/modules/dialog/actions"
+import {
+  GET_USERS_SEARCH_ERROR,
+  GET_USERS_SEARCH_QUERY,
+  GET_USERS_SEARCH_RESULT
+} from "@/store/modules/dialog/getters"
 
 export default defineComponent({
   name: "AddDialogModal",
@@ -44,20 +71,24 @@ export default defineComponent({
 
     const store = useStore()
 
+    const isLoading = ref(false)
+    const startLoading = () => isLoading.value = true
+    const stopLoading = () => isLoading.value = false
+
     const isOpened = computed(() => store.getters[getterSidebarModule(GET_IS_ADD_DIALOG_MODAL_OPENED)])
     const toggle = () => store.commit(commitSidebarModule(TOGGLE_ADD_DIALOG_MODAL))
 
-    const searchResults = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_RESULTS)])
-    const filteredSearchResults = computed(() => searchResults.value.map((item: UserSearchInterface) => ({
-      id: item.uuid,
-      value: item.username
-    })))
+    const searchResult = computed(
+      () => store.getters[getterDialogModule(GET_USERS_SEARCH_RESULT)] as UserSearchInterface
+    )
     const query = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_QUERY)])
-    const search = () => store.dispatch(dispatchDialogModule(SEARCH_USERS))
-    const setQuery = (v: string) => {
-      store.commit(commitDialogModule(SET_USERS_SEARCH_QUERY), v)
-      search()
+    const searchError = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_ERROR)])
+    const search = () => {
+      startLoading()
+      store.dispatch(dispatchDialogModule(SEARCH_USER))
+        .finally(() => stopLoading())
     }
+    const setQuery = (v: string) => store.commit(commitDialogModule(SET_USERS_SEARCH_QUERY), v)
 
     const onDialogSelect = () => {}
 
@@ -66,10 +97,14 @@ export default defineComponent({
       toggle,
       modal,
 
-      filteredSearchResults,
+      isLoading,
+      startLoading,
+      stopLoading,
       query,
       setQuery,
       search,
+      searchError,
+      searchResult,
       onDialogSelect
     }
   }
@@ -105,4 +140,48 @@ export default defineComponent({
 
     font-size 2rem
     font-weight 700
+
+  &__error
+    color red
+
+  &__input
+    // TODO: Fix
+    overflow-y hidden
+
+    min-width 32rem
+    height auto
+
+    padding 0 1rem
+
+  &__button
+    margin-top: .5rem
+    padding .5rem 3rem
+
+    border .1rem solid #bbb
+    outline 0
+
+    background transparent
+
+    pointer-on-hover()
+
+.user
+  display flex
+  flex-direction column
+  align-items center
+
+  margin-top 2rem
+
+  &,
+  &__avatar
+    user-select none
+
+  &__avatar
+    width 10rem
+    height 10rem
+    border-radius 5rem
+
+  &__username
+    margin-top .5rem
+
+    font-size 1.6rem
 </style>
