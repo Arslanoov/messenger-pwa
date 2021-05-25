@@ -14,7 +14,6 @@
         @submit="onDialogSelect"
         :items="filteredSearchResults"
         :input="{ defaultValue: query }"
-        :case-sensitive="false"
         class="modal__input"
       />
     </div>

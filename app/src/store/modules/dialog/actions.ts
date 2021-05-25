@@ -13,7 +13,7 @@ import {
   SET_CURRENT_DIALOG_CURRENT_PAGE,
   SET_CURRENT_DIALOG_MESSAGES,
   SET_DIALOG_LIST,
-  SET_DIALOG_LIST_PAGE_SIZE, SET_USERS_SEARCH_RESULTS
+  SET_DIALOG_LIST_PAGE_SIZE
 } from "@/store/modules/dialog/mutations"
 import {
   GET_DIALOGS_LIST_CURRENT_PAGE,
@@ -38,7 +38,7 @@ export default {
   }: ActionContext<DialogStateInterface, StateInterface>): Promise<UserSearchInterface[]> => {
     return new Promise((resolve, reject) => {
       userService
-        .searchByUsername(getters[GET_USERS_SEARCH_QUERY])
+        .findByUuid(getters[GET_USERS_SEARCH_QUERY])
         .then(response => {
           commit(SET_USERS_SEARCH_RESULTS, response.data.items)
           resolve(response.data.items)

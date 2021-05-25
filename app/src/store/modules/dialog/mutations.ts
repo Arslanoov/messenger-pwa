@@ -18,7 +18,8 @@ export const CLEAR_SEND_FORM = "CLEAR_SEND_FORM"
 export const ADD_CURRENT_DIALOG_MESSAGE = "ADD_CURRENT_DIALOG_MESSAGE"
 
 export const SET_USERS_SEARCH_QUERY = "SET_USERS_SEARCH_QUERY"
-export const SET_USERS_SEARCH_RESULTS = "SET_USERS_SEARCH_RESULTS"
+export const SET_USERS_SEARCH_RESULT = "SET_USERS_SEARCH_RESULT"
+export const CLEAR_USERS_SEARCH_RESULT = "CLEAR_USERS_SEARCH_RESULT"
 
 export default {
   [SET_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = dialogs,
@@ -60,6 +61,6 @@ export default {
 
   [SET_USERS_SEARCH_QUERY]:
     (state: StateInterface, query: string) => state.search.query = query,
-  [SET_USERS_SEARCH_RESULTS]:
-    (state: StateInterface, results: UserSearchInterface[]) => state.search.results = results,
+  [SET_USERS_SEARCH_RESULT]:
+    (state: StateInterface, result: UserSearchInterface) => state.search.result = result,
 }
