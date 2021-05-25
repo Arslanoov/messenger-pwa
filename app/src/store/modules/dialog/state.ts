@@ -16,7 +16,8 @@ export interface StateInterface {
   sendMessageForm: SendMessageFormStateInterface,
   search: {
     query: string,
-    result: UserSearchInterface | null
+    result: UserSearchInterface | null,
+    error: string | null
   }
 }
 
@@ -37,7 +38,8 @@ const state: StateInterface = {
   },
   search: {
     query: "",
-    result: null
+    result: null,
+    error: null
   }
 }
 

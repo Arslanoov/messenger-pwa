@@ -16,7 +16,8 @@ export const GET_CURRENT_DIALOG_PAGE_SIZE = "getCurrentDialogPageSize"
 export const GET_SEND_FORM = "getSendForm"
 
 export const GET_USERS_SEARCH_QUERY = "getUsersSearchQuery"
-export const GET_USERS_SEARCH_RESULTS = "getUsersSearchResults"
+export const GET_USERS_SEARCH_RESULT = "getUsersSearchResult"
+export const GET_USERS_SEARCH_ERROR = "getUsersSearchError"
 
 export default {
   [GET_DIALOGS_LIST]: (state: StateInterface): DialogInterface[] => state.dialogs,
@@ -31,5 +32,6 @@ export default {
   [GET_SEND_FORM]: (state: StateInterface): SendMessageFormStateInterface => state.sendMessageForm,
 
   [GET_USERS_SEARCH_QUERY]: (state: StateInterface): string => state.search.query,
-  [GET_USERS_SEARCH_RESULTS]: (state: StateInterface): UserSearchInterface[] => state.search.results,
+  [GET_USERS_SEARCH_RESULT]: (state: StateInterface): UserSearchInterface | null => state.search.result,
+  [GET_USERS_SEARCH_ERROR]: (state: StateInterface): string | null => state.search.error,
 }

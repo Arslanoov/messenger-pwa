@@ -9,5 +9,6 @@ export interface UserInterface {
 
 export interface UserSearchInterface {
   uuid: string,
-  username: string
+  username: string,
+  avatar: string | null,
 }
