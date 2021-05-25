@@ -44,6 +44,8 @@ export default {
   }: ActionContext<DialogStateInterface, StateInterface>): Promise<UserSearchInterface[]> => {
     commit(CLEAR_USERS_SEARCH_RESULT)
     commit(CLEAR_USERS_SEARCH_ERROR)
+
+    // TODO: New axios instance
     return new Promise((resolve, reject) => {
       userService
         .findByUuid(getters[GET_USERS_SEARCH_QUERY])

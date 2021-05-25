@@ -8,15 +8,18 @@
     <div class="modal__content">
       <h3 class="modal__title">Add Dialog</h3>
 
+      <label for="uuid" class="modal__label">User uuid</label>
       <input
         @change="e => setQuery(e.target.value)"
         :value="query"
+        id="uuid"
         class="modal__input"
       />
-
       <button
         @click="search"
+        :disabled="isLoading"
         type="submit"
+        class="modal__button"
       >
         Search
       </button>
@@ -29,10 +32,11 @@
           <img
             v-if="searchResult.avatar"
             :src="searchResult.avatar"
+            :is-online="false"
             class="user__avatar"
+            draggable="false"
             alt=""
           />
-          <div class="user__uuid">{{ searchResult.uuid }}</div>
           <div class="user__username">{{ searchResult.username }}</div>
         </div>
       </template>
@@ -41,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject } from "vue"
+import { defineComponent, computed, inject, ref } from "vue"
 
 import { UserSearchInterface } from "@/types/user"
 
@@ -67,6 +71,10 @@ export default defineComponent({
 
     const store = useStore()
 
+    const isLoading = ref(false)
+    const startLoading = () => isLoading.value = true
+    const stopLoading = () => isLoading.value = false
+
     const isOpened = computed(() => store.getters[getterSidebarModule(GET_IS_ADD_DIALOG_MODAL_OPENED)])
     const toggle = () => store.commit(commitSidebarModule(TOGGLE_ADD_DIALOG_MODAL))
 
@@ -75,7 +83,11 @@ export default defineComponent({
     )
     const query = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_QUERY)])
     const searchError = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_ERROR)])
-    const search = () => store.dispatch(dispatchDialogModule(SEARCH_USER))
+    const search = () => {
+      startLoading()
+      store.dispatch(dispatchDialogModule(SEARCH_USER))
+        .finally(() => stopLoading())
+    }
     const setQuery = (v: string) => store.commit(commitDialogModule(SET_USERS_SEARCH_QUERY), v)
 
     const onDialogSelect = () => {}
@@ -85,6 +97,9 @@ export default defineComponent({
       toggle,
       modal,
 
+      isLoading,
+      startLoading,
+      stopLoading,
       query,
       setQuery,
       search,
@@ -125,4 +140,48 @@ export default defineComponent({
 
     font-size 2rem
     font-weight 700
+
+  &__error
+    color red
+
+  &__input
+    // TODO: Fix
+    overflow-y hidden
+
+    min-width 32rem
+    height auto
+
+    padding 0 1rem
+
+  &__button
+    margin-top: .5rem
+    padding .5rem 3rem
+
+    border .1rem solid #bbb
+    outline 0
+
+    background transparent
+
+    pointer-on-hover()
+
+.user
+  display flex
+  flex-direction column
+  align-items center
+
+  margin-top 2rem
+
+  &,
+  &__avatar
+    user-select none
+
+  &__avatar
+    width 10rem
+    height 10rem
+    border-radius 5rem
+
+  &__username
+    margin-top .5rem
+
+    font-size 1.6rem
 </style>
