@@ -9,6 +9,7 @@ import { StateInterface } from "@/store"
 
 import {
   ADD_CURRENT_DIALOG_MESSAGE,
+  ADD_DIALOG,
   CLEAR_SEND_FORM,
   CLEAR_USERS_SEARCH_ERROR,
   CLEAR_USERS_SEARCH_RESULT,
@@ -23,7 +24,7 @@ import {
   GET_DIALOGS_LIST_CURRENT_PAGE,
   GET_CURRENT_DIALOG,
   GET_SEND_FORM,
-  GET_USERS_SEARCH_QUERY
+  GET_USERS_SEARCH_QUERY, GET_USERS_SEARCH_RESULT
 } from "@/store/modules/dialog/getters"
 
 import DialogService from "@/services/api/v1/DialogService"
@@ -36,6 +37,7 @@ export const SEARCH_USER = "searchUser"
 export const FETCH_DIALOGS = "fetchDialogs"
 export const FETCH_DIALOG_MESSAGES = "fetchDialogMessages"
 export const SEND_MESSAGE = "sendMessage"
+export const START_DIALOG = "startDialog"
 
 export default {
   [SEARCH_USER]: ({
@@ -45,7 +47,6 @@ export default {
     commit(CLEAR_USERS_SEARCH_RESULT)
     commit(CLEAR_USERS_SEARCH_ERROR)
 
-    // TODO: New axios instance
     return new Promise((resolve, reject) => {
       userService
         .findByUuid(getters[GET_USERS_SEARCH_QUERY])
@@ -121,6 +122,32 @@ export default {
           commit(ADD_CURRENT_DIALOG_MESSAGE, response.data)
           commit(CLEAR_SEND_FORM)
           resolve(response.data)
+        })
+        .catch(error => {
+          if (error.response) {
+            console.error(error)
+            reject(error.response)
+          }
+          reject(error)
+        })
+    })
+  },
+  [START_DIALOG]: ({
+      commit,
+      getters
+    }: ActionContext<DialogStateInterface, StateInterface>
+  ): Promise<MessageInterface[] | string> => {
+    return new Promise((resolve, reject) => {
+      const searchResult: UserSearchInterface | null = getters[GET_USERS_SEARCH_RESULT]
+      if (!searchResult) {
+        reject()
+      }
+
+      service
+        .startDialog((searchResult as UserSearchInterface).uuid)
+        .then(response => {
+          commit(ADD_DIALOG, response.data.item)
+          resolve(response.data.item)
         })
         .catch(error => {
           if (error.response) {

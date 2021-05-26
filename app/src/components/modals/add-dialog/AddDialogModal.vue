@@ -38,6 +38,14 @@
             alt=""
           />
           <div class="user__username">{{ searchResult.username }}</div>
+
+          <button
+            @click="startDialog"
+            type="submit"
+            class="modal__button"
+          >
+            Start Dialog
+          </button>
         </div>
       </template>
     </div>
@@ -49,6 +57,9 @@ import { defineComponent, computed, inject, ref } from "vue"
 
 import { UserSearchInterface } from "@/types/user"
 
+import { useRouter } from "vue-router"
+import { routesNames } from "@/router/names"
+
 import { useStore } from "@/composables/store"
 import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
 import { commitSidebarModule, getterSidebarModule } from "@/store/modules/sidebar"
@@ -57,7 +68,7 @@ import { TOGGLE_ADD_DIALOG_MODAL } from "@/store/modules/sidebar/mutations"
 import { GET_IS_ADD_DIALOG_MODAL_OPENED } from "@/store/modules/sidebar/getters"
 
 import { SET_USERS_SEARCH_QUERY } from "@/store/modules/dialog/mutations"
-import { SEARCH_USER } from "@/store/modules/dialog/actions"
+import { SEARCH_USER, START_DIALOG } from "@/store/modules/dialog/actions"
 import {
   GET_USERS_SEARCH_ERROR,
   GET_USERS_SEARCH_QUERY,
@@ -69,6 +80,7 @@ export default defineComponent({
   setup() {
     const modal = inject("$vfm")
 
+    const router = useRouter()
     const store = useStore()
 
     const isLoading = ref(false)
@@ -90,7 +102,13 @@ export default defineComponent({
     }
     const setQuery = (v: string) => store.commit(commitDialogModule(SET_USERS_SEARCH_QUERY), v)
 
-    const onDialogSelect = () => {}
+    const startDialog = () => store.dispatch(dispatchDialogModule(START_DIALOG))
+      .then((item) => router.push({
+        name: routesNames.Dialog,
+        params: {
+          id: item.uuid
+        }
+      }))
 
     return {
       isOpened,
@@ -105,7 +123,8 @@ export default defineComponent({
       search,
       searchError,
       searchResult,
-      onDialogSelect
+
+      startDialog
     }
   }
 })

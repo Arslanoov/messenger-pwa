@@ -5,6 +5,12 @@ export default class DialogService {
     return axios.get(`/messenger/dialogs?page=${page}`)
   }
 
+  public startDialog(partnerId: string) {
+    return axios.post("/messenger/dialog/create", {
+      with_author: partnerId
+    })
+  }
+
   public getMessages(dialogId: number, page = 1) {
     return axios.get(`/messenger/dialog/${dialogId}/messages?page=${page}`)
   }
