@@ -14,7 +14,10 @@ app.use(store, key)
 import VueFinalModal from "vue-final-modal"
 app.use(VueFinalModal())
 
-import "@/plugins/axios"
+import axios from "axios"
+import plugins from "@/plugins/axios"
+import interceptors from "@/plugins/axios/interceptors"
+interceptors(plugins(axios))
 
 import "@/assets/styles/main.styl"
 
