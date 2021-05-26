@@ -5,6 +5,7 @@ import { MessageInterface } from "@/types/message"
 import { UserSearchInterface } from "@/types/user"
 
 export const SET_DIALOG_LIST = "SET_DIALOG_LIST"
+export const ADD_DIALOG = "ADD_DIALOG"
 export const SET_DIALOG_LIST_CURRENT_PAGE = "SET_DIALOG_LIST_CURRENT_PAGE"
 export const SET_DIALOG_LIST_PAGE_SIZE = "SET_DIALOG_LIST_PAGE_SIZE"
 
@@ -25,6 +26,7 @@ export const CLEAR_USERS_SEARCH_ERROR = "CLEAR_USERS_SEARCH_ERROR"
 
 export default {
   [SET_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = dialogs,
+  [ADD_DIALOG]: (state: StateInterface, dialog: DialogInterface) => state.dialogs.unshift(dialog),
   [SET_DIALOG_LIST_CURRENT_PAGE]: (state: StateInterface, page: number) => {
     if (page >= 1) {
       state.pagination.currentPage = page
