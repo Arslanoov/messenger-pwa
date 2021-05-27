@@ -5,6 +5,7 @@
     class="dialog"
   >
     <user-card
+      v-if="dialog.partner"
       :avatar="dialog.partner.avatarUrl"
       :title="dialog.partner.username"
       :subtitle="dialog.latestMessage?.content"

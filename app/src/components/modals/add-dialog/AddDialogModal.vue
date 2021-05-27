@@ -1,11 +1,20 @@
 <template>
   <vue-final-modal
     v-model="isOpened"
+    :esc-to-close="true"
     content-class="modal__wrapper"
     class="modal"
     name="add-dialog-modal"
   >
     <div class="modal__content">
+      <div @click="toggle" class="modal__close">
+        <img
+          class="modal__close-icon"
+          src="~@/assets/images/icons/close.svg"
+          alt=""
+        />
+      </div>
+      
       <h3 class="modal__title">Add Dialog</h3>
 
       <label for="uuid" class="modal__label">User uuid</label>
@@ -89,7 +98,10 @@ export default defineComponent({
     const startLoading = () => isLoading.value = true
     const stopLoading = () => isLoading.value = false
 
-    const isOpened = computed(() => store.getters[getterSidebarModule(GET_IS_ADD_DIALOG_MODAL_OPENED)])
+    const isOpened = computed({
+      get: (): boolean => store.getters[getterSidebarModule(GET_IS_ADD_DIALOG_MODAL_OPENED)],
+      set: () => toggle()
+    })
     const toggle = () => store.commit(commitSidebarModule(TOGGLE_ADD_DIALOG_MODAL))
 
     const searchResult = computed(
@@ -161,6 +173,22 @@ export default defineComponent({
 
     background white
 
+    +breakpoint-to(breakpoints.tablet)
+      min-width 35rem
+
+    +breakpoint-to(breakpoints.mobile)
+      min-width 30rem
+      width 30rem
+
+  &__close
+    margin-bottom 1rem
+
+    pointer-on-hover()
+
+    &-icon
+      width 1.5rem
+      height 1.5rem
+
   &__title
     margin-bottom 1.5rem
 
@@ -180,6 +208,9 @@ export default defineComponent({
     height auto
 
     padding 0 1rem
+
+    +breakpoint-to(breakpoints.tablet)
+      min-width 28rem
 
   &__button
     margin-top: .5rem

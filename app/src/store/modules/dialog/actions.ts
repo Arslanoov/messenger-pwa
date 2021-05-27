@@ -24,7 +24,8 @@ import {
   GET_DIALOGS_LIST_CURRENT_PAGE,
   GET_CURRENT_DIALOG,
   GET_SEND_FORM,
-  GET_USERS_SEARCH_QUERY, GET_USERS_SEARCH_RESULT
+  GET_USERS_SEARCH_QUERY,
+  GET_USERS_SEARCH_RESULT
 } from "@/store/modules/dialog/getters"
 
 import DialogService from "@/services/api/v1/DialogService"
@@ -143,10 +144,12 @@ export default {
         reject()
       }
 
+      commit(CLEAR_USERS_SEARCH_ERROR)
+
       service
         .startDialog((searchResult as UserSearchInterface).uuid)
         .then(response => {
-          commit(ADD_DIALOG, response.data.uuid)
+          commit(ADD_DIALOG, response.data)
           resolve(response.data.uuid)
         })
         .catch(error => {
