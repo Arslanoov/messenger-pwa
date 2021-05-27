@@ -13,10 +13,12 @@
         class="dialog-list__content"
     >
       No dialogs found.
+    </div>
 
+    <div class="dialog-list__content">
       <div
-          @click="toggleModal"
-          class="dialog-list__add"
+        @click="toggleModal"
+        class="dialog-list__add"
       >
         Add dialog
       </div>
@@ -86,9 +88,9 @@ export default defineComponent({
     flex-direction column
     align-items center
 
-    color #fff
-
     font-size 1.8rem
+
+    color #fff
 
   &__add
     margin-top 1rem
