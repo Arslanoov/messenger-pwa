@@ -102,7 +102,7 @@ export default {
         .catch(error => {
           if (error.response) {
             console.error(error)
-            reject(error.response)
+            reject(error)
           }
           reject(error)
         })
