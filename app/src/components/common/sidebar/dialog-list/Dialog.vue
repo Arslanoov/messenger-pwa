@@ -5,7 +5,7 @@
     class="dialog"
   >
     <user-card
-      :avatar="dialog.partner.avatar"
+      :avatar="dialog.partner.avatarUrl"
       :title="dialog.partner.username"
       :subtitle="dialog.latestMessage?.content"
       :extra="dialog.latestMessage?.date"

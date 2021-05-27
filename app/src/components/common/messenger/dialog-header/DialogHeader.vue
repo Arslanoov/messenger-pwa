@@ -2,7 +2,7 @@
   <div class="dialog-header">
     <user-card
       v-if="dialog"
-      :avatar="dialog.partner.avatar"
+      :avatar="dialog.partner.avatarUrl"
       :title="dialog.partner.username"
       :subtitle="dialog.partner.aboutMe"
       :is-online="dialog.partner.isOnline"

@@ -146,12 +146,13 @@ export default {
       service
         .startDialog((searchResult as UserSearchInterface).uuid)
         .then(response => {
-          commit(ADD_DIALOG, response.data.item)
-          resolve(response.data.item)
+          commit(ADD_DIALOG, response.data.uuid)
+          resolve(response.data.uuid)
         })
         .catch(error => {
           if (error.response) {
             console.error(error)
+            commit(SET_USERS_SEARCH_ERROR, error.response.data.message)
             reject(error.response)
           }
           reject(error)

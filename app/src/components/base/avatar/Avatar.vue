@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{ 'avatar_with-margin': withMargin || isOpenedSidebar }"
-    :style="{ backgroundImage: `url(${src})` }"
+    :style="{ backgroundImage: `url(${avatarUrl(src)})` }"
     class="avatar"
   >
     <img
@@ -19,6 +19,8 @@ import { useStore } from "@/composables/store"
 import { getterSidebarModule } from "@/store/modules/sidebar"
 
 import { GET_IS_SIDEBAR_OPENED } from "@/store/modules/sidebar/getters"
+
+import { avatarUrl } from "@/helpers/avatar"
 
 export default defineComponent({
   name: "Avatar",
@@ -43,7 +45,8 @@ export default defineComponent({
     const isOpenedSidebar = computed(() => store.getters[getterSidebarModule(GET_IS_SIDEBAR_OPENED)])
 
     return {
-      isOpenedSidebar
+      isOpenedSidebar,
+      avatarUrl
     }
   }
 })

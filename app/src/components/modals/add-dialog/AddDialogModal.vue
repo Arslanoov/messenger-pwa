@@ -31,7 +31,7 @@
         <div class="modal__user user">
           <img
             v-if="searchResult.avatar"
-            :src="searchResult.avatar"
+            :src="avatarUrl(searchResult.avatar)"
             :is-online="false"
             class="user__avatar"
             draggable="false"
@@ -75,6 +75,8 @@ import {
   GET_USERS_SEARCH_RESULT
 } from "@/store/modules/dialog/getters"
 
+import { avatarUrl } from "@/helpers/avatar"
+
 export default defineComponent({
   name: "AddDialogModal",
   setup() {
@@ -103,12 +105,15 @@ export default defineComponent({
     const setQuery = (v: string) => store.commit(commitDialogModule(SET_USERS_SEARCH_QUERY), v)
 
     const startDialog = () => store.dispatch(dispatchDialogModule(START_DIALOG))
-      .then((item) => router.push({
-        name: routesNames.Dialog,
-        params: {
-          id: item.uuid
-        }
-      }))
+      .then(uuid => {
+        toggle()
+        router.push({
+          name: routesNames.Dialog,
+          params: {
+            id: uuid
+          }
+        })
+      })
 
     return {
       isOpened,
@@ -124,7 +129,9 @@ export default defineComponent({
       searchError,
       searchResult,
 
-      startDialog
+      startDialog,
+
+      avatarUrl
     }
   }
 })
@@ -161,6 +168,8 @@ export default defineComponent({
     font-weight 700
 
   &__error
+    margin-top 1rem
+
     color red
 
   &__input
