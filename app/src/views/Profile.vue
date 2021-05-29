@@ -5,7 +5,7 @@
     <div class="profile__username">{{ user.username }}</div>
     <div class="profile__avatar">
       <img
-        :src="userAvatar"
+        :src="avatarUrl(userAvatar)"
         class="profile__avatar-img"
         draggable="false"
         alt="Avatar"
@@ -53,6 +53,8 @@ import { CHANGE_AVATAR, CHANGE_INFO, REMOVE_AVATAR as REMOVE_AVATAR_ACTION } fro
 
 import { UserInterface } from "@/types/user"
 
+import { avatarUrl } from "@/helpers/avatar"
+
 export default defineComponent({
   name: "Profile",
   setup() {
@@ -91,6 +93,7 @@ export default defineComponent({
     return {
       user,
       userAvatar,
+      avatarUrl,
 
       changeAbout,
       changeInfo,
