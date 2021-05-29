@@ -2,7 +2,7 @@ import { expect } from "chai"
 
 import { capitalize } from "@/utils/capitalize"
 
-describe("capitalize utils", () => {
+describe("capitalize util", () => {
   it("works", () => {
     const name = "vasya"
     expect(capitalize(name)).to.equal("Vasya")
