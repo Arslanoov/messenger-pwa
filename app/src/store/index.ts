@@ -33,7 +33,7 @@ export const store = createStore<StateInterface>({
     profile,
     dialog
   },
-  plugins: process.env.NODE_ENV !== "test" ? [
+  plugins: process.env.NODE_ENV === "development" ? [
     createLogger(),
     persistencePlugin.plugin
   ] : [],

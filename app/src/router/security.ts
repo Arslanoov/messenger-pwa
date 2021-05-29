@@ -1,5 +1,4 @@
 import router from "@/router/router"
-
 import { routesNames } from "@/router/names"
 
 import { isAuth, isNotAuth } from "@/helpers/auth/isAuth"
