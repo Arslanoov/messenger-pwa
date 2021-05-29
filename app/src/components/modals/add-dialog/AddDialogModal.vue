@@ -26,7 +26,7 @@
       />
       <button
         @click="search"
-        :disabled="isLoading"
+        :disabled="isSearching"
         type="submit"
         class="modal__button"
       >
@@ -50,6 +50,7 @@
 
           <button
             @click="startDialog"
+            :disabled="isLoading"
             type="submit"
             class="modal__button"
           >
@@ -98,6 +99,10 @@ export default defineComponent({
     const startLoading = () => isLoading.value = true
     const stopLoading = () => isLoading.value = false
 
+    const isSearching = ref(false)
+    const startSearching = () => isSearching.value = true
+    const stopSearching = () => isSearching.value = false
+
     const isOpened = computed({
       get: (): boolean => store.getters[getterSidebarModule(GET_IS_ADD_DIALOG_MODAL_OPENED)],
       set: () => toggle()
@@ -110,31 +115,40 @@ export default defineComponent({
     const query = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_QUERY)])
     const searchError = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_ERROR)])
     const search = () => {
-      startLoading()
+      startSearching()
       store.dispatch(dispatchDialogModule(SEARCH_USER))
-        .finally(() => stopLoading())
+        .finally(() => stopSearching())
     }
     const setQuery = (v: string) => store.commit(commitDialogModule(SET_USERS_SEARCH_QUERY), v)
 
-    const startDialog = () => store.dispatch(dispatchDialogModule(START_DIALOG))
-      .then(uuid => {
-        toggle()
-        router.push({
-          name: routesNames.Dialog,
-          params: {
-            id: uuid
-          }
+    const startDialog = () => {
+      startLoading()
+      store.dispatch(dispatchDialogModule(START_DIALOG))
+        .then(uuid => {
+          toggle()
+          router.push({
+            name: routesNames.Dialog,
+            params: {
+              id: uuid
+            }
+          })
         })
-      })
+        .finally(() => stopLoading())
+    }
 
     return {
       isOpened,
       toggle,
       modal,
 
+      isSearching,
+      startSearching,
+      stopSearching,
+
       isLoading,
       startLoading,
       stopLoading,
+
       query,
       setQuery,
       search,
@@ -171,6 +185,8 @@ export default defineComponent({
 
     padding 2rem
 
+    border-radius: .7rem;
+
     background white
 
     +breakpoint-to(breakpoints.tablet)
@@ -193,7 +209,7 @@ export default defineComponent({
     margin-bottom 1.5rem
 
     font-size 2rem
-    font-weight 700
+    font-weight 500
 
   &__error
     margin-top 1rem
@@ -206,13 +222,19 @@ export default defineComponent({
     min-width 32rem
     height auto
 
-    padding 0 1rem
+    margin-bottom 1rem
+    padding .5rem 1rem
+
+    border .1rem solid #20174c
+    border-radius: 0.4rem
+    outline 0
+
+    line-height 2rem
 
     +breakpoint-to(breakpoints.tablet)
       min-width 28rem
 
   &__button
-    margin-top: .5rem
     padding .5rem 3rem
 
     border .1rem solid #bbb
@@ -240,6 +262,7 @@ export default defineComponent({
 
   &__username
     margin-top .5rem
+    margin-bottom 1rem
 
     font-size 1.6rem
 </style>
