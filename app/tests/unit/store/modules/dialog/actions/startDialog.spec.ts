@@ -4,44 +4,55 @@ import state from "@/store/modules/dialog/state"
 import getters from "@/store/modules/dialog/getters"
 
 import {
-  CLEAR_USERS_SEARCH_ERROR,
-  CLEAR_USERS_SEARCH_RESULT,
-  SET_USERS_SEARCH_RESULT
+  ADD_DIALOG,
+  CLEAR_USERS_SEARCH_ERROR
 } from "@/store/modules/dialog/mutations"
-import { SEARCH_USER } from "@/store/modules/dialog/actions"
+import { START_DIALOG } from "@/store/modules/dialog/actions"
 
 const actionsInjector = require("inject-loader!@/store/modules/dialog/actions.ts")
 
-const searchUser = {
+const dialog = {
   uuid: "uuid",
-  username: "username",
-  avatar: "url"
+  isSelected: true,
+  partner: {
+    uuid: "uuid",
+    username: "username",
+    aboutMe: "aboutMe",
+    isOnline: true,
+    avatar: "url"
+  },
+  sentByPartner: {
+    isRead: true
+  },
+  latestMessage: {
+    content: "content",
+    date: "date"
+  }
 }
 
 const actions = actionsInjector({
-  "@/services/api/v1/UserService": class {
-    findByUuid () {
+  "@/services/api/v1/DialogService": class {
+    startDialog () {
       return new Promise(resolve => {
         setTimeout(() => resolve({
-          data: searchUser
+          data: dialog
         }), 10)
       })
     }
   }
 })
 
-describe("dialog search user action", () => {
+describe("dialog start dialog action", () => {
   it("fetch", done => {
     testAction(
-      actions.default[SEARCH_USER],
+      actions.default[START_DIALOG],
       null,
       state,
       getters,
       () => {},
       [
-        { type: CLEAR_USERS_SEARCH_RESULT },
         { type: CLEAR_USERS_SEARCH_ERROR },
-        { type: SET_USERS_SEARCH_RESULT, payload: searchUser },
+        { type: ADD_DIALOG, payload: dialog },
       ],
       done
     )
