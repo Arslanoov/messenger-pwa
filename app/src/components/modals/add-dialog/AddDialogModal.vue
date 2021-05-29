@@ -165,7 +165,7 @@ export default defineComponent({
 
 <style lang="stylus">
 .add-dialog-modal
-  font-size 1.8rem
+  font-size add-dialog-font-size
 
   &__wrapper
     display flex
@@ -185,9 +185,9 @@ export default defineComponent({
 
     padding 2rem
 
-    border-radius: .7rem;
+    border-radius: .7rem
 
-    background white
+    background add-dialog-background
 
     +breakpoint-to(breakpoints.tablet)
       min-width 35rem
@@ -208,13 +208,13 @@ export default defineComponent({
   &__title
     margin-bottom 1.5rem
 
-    font-size 2rem
-    font-weight 500
+    font-size add-dialog-title-font-size
+    font-weight add-dialog-title-font-weight
 
   &__error
     margin-top 1rem
 
-    color red
+    color add-dialog-error-color
 
   &__input
     overflow-y hidden
@@ -225,11 +225,11 @@ export default defineComponent({
     margin-bottom 1rem
     padding .5rem 1rem
 
-    border .1rem solid #20174c
+    border add-dialog-input-border
     border-radius: 0.4rem
     outline 0
 
-    line-height 2rem
+    line-height add-dialog-input-line-height
 
     +breakpoint-to(breakpoints.tablet)
       min-width 28rem
@@ -237,7 +237,7 @@ export default defineComponent({
   &__button
     padding .5rem 3rem
 
-    border .1rem solid #bbb
+    border add-dialog-button-border
     outline 0
 
     background transparent
@@ -256,13 +256,13 @@ export default defineComponent({
     user-select none
 
   &__avatar
-    width 10rem
-    height 10rem
+    width avatar-bigger-size
+    height avatar-bigger-size
     border-radius 5rem
 
   &__username
     margin-top .5rem
     margin-bottom 1rem
 
-    font-size 1.6rem
+    font-size add-dialog-username-font-size
 </style>
