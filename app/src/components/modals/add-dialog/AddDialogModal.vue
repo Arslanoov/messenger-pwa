@@ -2,42 +2,42 @@
   <vue-final-modal
     v-model="isOpened"
     :esc-to-close="true"
-    content-class="modal__wrapper"
-    class="modal"
+    content-class="add-dialog-modal__wrapper"
+    class="add-dialog-modal"
     name="add-dialog-modal"
   >
-    <div class="modal__content">
-      <div @click="toggle" class="modal__close">
+    <div class="add-dialog-modal__content">
+      <div @click="toggle" class="add-dialog-modal__close">
         <img
-          class="modal__close-icon"
+          class="add-dialog-modal__close-icon"
           src="~@/assets/images/icons/close.svg"
           alt=""
         />
       </div>
       
-      <h3 class="modal__title">Add Dialog</h3>
+      <h3 class="add-dialog-modal__title">Add Dialog</h3>
 
-      <label for="uuid" class="modal__label">User uuid</label>
+      <label for="uuid" class="add-dialog-modal__label">User uuid</label>
       <input
         @change="e => setQuery(e.target.value)"
         :value="query"
         id="uuid"
-        class="modal__input"
+        class="add-dialog-modal__input"
       />
       <button
         @click="search"
         :disabled="isSearching"
         type="submit"
-        class="modal__button"
+        class="add-dialog-modal__button"
       >
         Search
       </button>
 
-      <div v-if="searchError" class="modal__error">
+      <div v-if="searchError" class="add-dialog-modal__error">
         {{ searchError }}
       </div>
       <template v-if="searchResult">
-        <div class="modal__user user">
+        <div class="add-dialog-modal__user user">
           <img
             v-if="searchResult.avatar"
             :src="avatarUrl(searchResult.avatar)"
@@ -52,7 +52,7 @@
             @click="startDialog"
             :disabled="isLoading"
             type="submit"
-            class="modal__button"
+            class="add-dialog-modal__button"
           >
             Start Dialog
           </button>
@@ -164,7 +164,7 @@ export default defineComponent({
 </script>
 
 <style lang="stylus">
-.modal
+.add-dialog-modal
   font-size 1.8rem
 
   &__wrapper
