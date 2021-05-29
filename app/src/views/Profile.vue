@@ -164,7 +164,7 @@ export default defineComponent({
       padding 1.6rem
 
       color inherit
-      background-color titan-white
+      background-color profile-textarea-button-background
 
       border profile-textarea-border
       outline none
@@ -188,7 +188,7 @@ export default defineComponent({
     &-button
       padding .8rem 2.4rem
 
-      background titan-white
+      background profile-textarea-button-background
 
       border profile-button-border
       outline none
