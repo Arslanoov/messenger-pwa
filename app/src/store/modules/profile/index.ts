@@ -1,5 +1,3 @@
-// TODO: Add tests
-
 import state from "./state"
 import mutations from "./mutations"
 import actions from "./actions"

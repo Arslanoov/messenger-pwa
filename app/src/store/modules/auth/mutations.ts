@@ -27,17 +27,8 @@ export default {
   [SET_AUTH_TOKEN]: (state: StateInterface, token: string) => state.token = token,
   [SET_REFRESH_TOKEN]: (state: StateInterface, token: string) => state.refreshToken = token,
   [SET_CURRENT_USER]: (state: StateInterface, user: UserInterface) => state.user = user,
-  /* TODO: Remove ts ignore */
-  [SET_AVATAR]: (state: StateInterface, avatar: string) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    state.user.avatar = avatar
-  },
-  [REMOVE_AVATAR]: (state: StateInterface) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    state.user.avatar = null
-  },
+  [SET_AVATAR]: (state: StateInterface, avatar: string) => (state.user as UserInterface).avatar = avatar,
+  [REMOVE_AVATAR]: (state: StateInterface) => (state.user as UserInterface).avatar = null,
   [CLEAR_CURRENT_USER_INFO]: (state: StateInterface) => {
     state.token = null
     state.user = null

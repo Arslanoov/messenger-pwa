@@ -201,7 +201,6 @@ export default defineComponent({
     color red
 
   &__input
-    // TODO: Fix
     overflow-y hidden
 
     min-width 32rem
