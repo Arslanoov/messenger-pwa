@@ -6,14 +6,14 @@ import { DIALOG_MODULE_PREFIX } from "@/store/modules/dialog"
 import {
   ADD_CURRENT_DIALOG_MESSAGE,
   CLEAR_CURRENT_DIALOG,
-  CLEAR_SEND_FORM,
+  CLEAR_SEND_FORM, CLEAR_USERS_SEARCH_ERROR, CLEAR_USERS_SEARCH_RESULT,
   SET_CURRENT_DIALOG,
   SET_CURRENT_DIALOG_CURRENT_PAGE,
   SET_CURRENT_DIALOG_MESSAGES,
   SET_DIALOG_LIST,
   SET_DIALOG_LIST_CURRENT_PAGE,
   SET_DIALOG_LIST_PAGE_SIZE,
-  SET_SEND_FORM_CONTENT
+  SET_SEND_FORM_CONTENT, SET_USERS_SEARCH_ERROR, SET_USERS_SEARCH_QUERY, SET_USERS_SEARCH_RESULT
 } from "@/store/modules/dialog/mutations"
 
 const dialog = {
@@ -169,5 +169,50 @@ describe("dialog form mutations", () => {
     assert.deepEqual(store.state.dialog.sendMessageForm, {
       content: ""
     })
+  })
+})
+
+describe("dialog form search", () => {
+  it("sets search query", () => {
+    expect(store.state.dialog.search.query).to.equal("")
+
+    const query = "query"
+
+    store.commit(DIALOG_MODULE_PREFIX + SET_USERS_SEARCH_QUERY, query)
+    expect(store.state.dialog.search.query).to.equal(query)
+  })
+
+  it("sets search result", () => {
+    expect(store.state.dialog.search.result).to.equal(null)
+
+    const result = "result"
+
+    store.commit(DIALOG_MODULE_PREFIX + SET_USERS_SEARCH_RESULT, result)
+    expect(store.state.dialog.search.result).to.equal(result)
+  })
+
+  it("clears search result", () => {
+    expect(store.state.dialog.search.result).to.not.equal(null)
+
+    store.commit(DIALOG_MODULE_PREFIX + CLEAR_USERS_SEARCH_RESULT)
+
+    expect(store.state.dialog.search.result).to.equal(null)
+  })
+
+  it("sets search error", () => {
+    expect(store.state.dialog.search.error).to.equal(null)
+
+    const error = "error"
+
+    store.commit(DIALOG_MODULE_PREFIX + SET_USERS_SEARCH_ERROR, error)
+    expect(store.state.dialog.search.error).to.equal(error)
+  })
+
+  it("clears search error", () => {
+    expect(store.state.dialog.search.error).to.not.equal(null)
+
+    store.commit(DIALOG_MODULE_PREFIX + CLEAR_USERS_SEARCH_ERROR)
+
+    expect(store.state.dialog.search.error).to.equal(null)
   })
 })

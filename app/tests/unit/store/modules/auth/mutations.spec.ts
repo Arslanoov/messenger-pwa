@@ -19,7 +19,8 @@ import {
   SET_SIGN_UP_FORM_VIOLATIONS,
   SET_SIGN_UP_FORM_ERROR,
   CLEAR_SIGN_UP_FORM_VIOLATIONS,
-  CLEAR_SIGN_UP_FORM_ERROR
+  CLEAR_SIGN_UP_FORM_ERROR,
+  CLEAR_AUTH_FORM_ERROR
 } from "@/store/modules/auth/mutations"
 
 import { UserInterface } from "@/types/user"
@@ -107,6 +108,13 @@ describe("auth form mutations", () => {
     store.commit(AUTH_MODULE_PREFIX + SET_AUTH_FORM_ERROR, newError)
 
     assert.deepEqual(store.state.auth.authForm, newAuthForm)
+
+    store.commit(AUTH_MODULE_PREFIX + CLEAR_AUTH_FORM_ERROR)
+
+    assert.deepEqual(store.state.auth.authForm, {
+      ...newAuthForm,
+      error: null
+    })
   })
 
   it("sign up form", () => {
