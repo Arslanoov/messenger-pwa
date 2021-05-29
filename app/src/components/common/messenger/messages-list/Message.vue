@@ -63,5 +63,5 @@ export default defineComponent({
     color message-partner-color
 
   &__date
-    font-size 1.2rem
+    font-size message-date-font-size
 </style>
