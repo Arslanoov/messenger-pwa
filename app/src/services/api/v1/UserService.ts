@@ -10,6 +10,6 @@ export default class UserService {
   }
 
   public findByUuid(uuid: string) {
-    return newAxios.get(`/users/find/${uuid}`)
+    return newAxios.get(`/users/find${uuid ? "/" + uuid : ""}`)
   }
 }

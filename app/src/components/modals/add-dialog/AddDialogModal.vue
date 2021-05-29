@@ -2,42 +2,42 @@
   <vue-final-modal
     v-model="isOpened"
     :esc-to-close="true"
-    content-class="modal__wrapper"
-    class="modal"
+    content-class="add-dialog-modal__wrapper"
+    class="add-dialog-modal"
     name="add-dialog-modal"
   >
-    <div class="modal__content">
-      <div @click="toggle" class="modal__close">
+    <div class="add-dialog-modal__content">
+      <div @click="toggle" class="add-dialog-modal__close">
         <img
-          class="modal__close-icon"
+          class="add-dialog-modal__close-icon"
           src="~@/assets/images/icons/close.svg"
           alt=""
         />
       </div>
       
-      <h3 class="modal__title">Add Dialog</h3>
+      <h3 class="add-dialog-modal__title">Add Dialog</h3>
 
-      <label for="uuid" class="modal__label">User uuid</label>
+      <label for="uuid" class="add-dialog-modal__label">User uuid</label>
       <input
         @change="e => setQuery(e.target.value)"
         :value="query"
         id="uuid"
-        class="modal__input"
+        class="add-dialog-modal__input"
       />
       <button
         @click="search"
-        :disabled="isLoading"
+        :disabled="isSearching"
         type="submit"
-        class="modal__button"
+        class="add-dialog-modal__button"
       >
         Search
       </button>
 
-      <div v-if="searchError" class="modal__error">
+      <div v-if="searchError" class="add-dialog-modal__error">
         {{ searchError }}
       </div>
       <template v-if="searchResult">
-        <div class="modal__user user">
+        <div class="add-dialog-modal__user user">
           <img
             v-if="searchResult.avatar"
             :src="avatarUrl(searchResult.avatar)"
@@ -50,8 +50,9 @@
 
           <button
             @click="startDialog"
+            :disabled="isLoading"
             type="submit"
-            class="modal__button"
+            class="add-dialog-modal__button"
           >
             Start Dialog
           </button>
@@ -98,6 +99,10 @@ export default defineComponent({
     const startLoading = () => isLoading.value = true
     const stopLoading = () => isLoading.value = false
 
+    const isSearching = ref(false)
+    const startSearching = () => isSearching.value = true
+    const stopSearching = () => isSearching.value = false
+
     const isOpened = computed({
       get: (): boolean => store.getters[getterSidebarModule(GET_IS_ADD_DIALOG_MODAL_OPENED)],
       set: () => toggle()
@@ -110,31 +115,40 @@ export default defineComponent({
     const query = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_QUERY)])
     const searchError = computed(() => store.getters[getterDialogModule(GET_USERS_SEARCH_ERROR)])
     const search = () => {
-      startLoading()
+      startSearching()
       store.dispatch(dispatchDialogModule(SEARCH_USER))
-        .finally(() => stopLoading())
+        .finally(() => stopSearching())
     }
     const setQuery = (v: string) => store.commit(commitDialogModule(SET_USERS_SEARCH_QUERY), v)
 
-    const startDialog = () => store.dispatch(dispatchDialogModule(START_DIALOG))
-      .then(uuid => {
-        toggle()
-        router.push({
-          name: routesNames.Dialog,
-          params: {
-            id: uuid
-          }
+    const startDialog = () => {
+      startLoading()
+      store.dispatch(dispatchDialogModule(START_DIALOG))
+        .then(uuid => {
+          toggle()
+          router.push({
+            name: routesNames.Dialog,
+            params: {
+              id: uuid
+            }
+          })
         })
-      })
+        .finally(() => stopLoading())
+    }
 
     return {
       isOpened,
       toggle,
       modal,
 
+      isSearching,
+      startSearching,
+      stopSearching,
+
       isLoading,
       startLoading,
       stopLoading,
+
       query,
       setQuery,
       search,
@@ -150,8 +164,8 @@ export default defineComponent({
 </script>
 
 <style lang="stylus">
-.modal
-  font-size 1.8rem
+.add-dialog-modal
+  font-size add-dialog-font-size
 
   &__wrapper
     display flex
@@ -171,7 +185,9 @@ export default defineComponent({
 
     padding 2rem
 
-    background white
+    border-radius: .7rem
+
+    background add-dialog-background
 
     +breakpoint-to(breakpoints.tablet)
       min-width 35rem
@@ -192,13 +208,13 @@ export default defineComponent({
   &__title
     margin-bottom 1.5rem
 
-    font-size 2rem
-    font-weight 700
+    font-size add-dialog-title-font-size
+    font-weight add-dialog-title-font-weight
 
   &__error
     margin-top 1rem
 
-    color red
+    color add-dialog-error-color
 
   &__input
     overflow-y hidden
@@ -206,16 +222,22 @@ export default defineComponent({
     min-width 32rem
     height auto
 
-    padding 0 1rem
+    margin-bottom 1rem
+    padding .5rem 1rem
+
+    border add-dialog-input-border
+    border-radius: 0.4rem
+    outline 0
+
+    line-height add-dialog-input-line-height
 
     +breakpoint-to(breakpoints.tablet)
       min-width 28rem
 
   &__button
-    margin-top: .5rem
     padding .5rem 3rem
 
-    border .1rem solid #bbb
+    border add-dialog-button-border
     outline 0
 
     background transparent
@@ -234,12 +256,13 @@ export default defineComponent({
     user-select none
 
   &__avatar
-    width 10rem
-    height 10rem
+    width avatar-bigger-size
+    height avatar-bigger-size
     border-radius 5rem
 
   &__username
     margin-top .5rem
+    margin-bottom 1rem
 
-    font-size 1.6rem
+    font-size add-dialog-username-font-size
 </style>

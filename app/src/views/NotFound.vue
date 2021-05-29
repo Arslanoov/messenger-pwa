@@ -17,8 +17,8 @@ export default defineComponent({
   display flex
   flex-direction column
 
-  color white
+  color not-found-color
 
   &__title
-    font-size 3rem
+    font-size not-found-title-font-size
 </style>

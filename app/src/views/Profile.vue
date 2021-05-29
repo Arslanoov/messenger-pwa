@@ -5,7 +5,7 @@
     <div class="profile__username">{{ user.username }}</div>
     <div class="profile__avatar">
       <img
-        :src="userAvatar"
+        :src="avatarUrl(userAvatar)"
         class="profile__avatar-img"
         draggable="false"
         alt="Avatar"
@@ -53,6 +53,8 @@ import { CHANGE_AVATAR, CHANGE_INFO, REMOVE_AVATAR as REMOVE_AVATAR_ACTION } fro
 
 import { UserInterface } from "@/types/user"
 
+import { avatarUrl } from "@/helpers/avatar"
+
 export default defineComponent({
   name: "Profile",
   setup() {
@@ -91,6 +93,7 @@ export default defineComponent({
     return {
       user,
       userAvatar,
+      avatarUrl,
 
       changeAbout,
       changeInfo,
@@ -164,7 +167,7 @@ export default defineComponent({
       padding 1.6rem
 
       color inherit
-      background-color titan-white
+      background-color profile-textarea-button-background
 
       border profile-textarea-border
       outline none
@@ -188,7 +191,7 @@ export default defineComponent({
     &-button
       padding .8rem 2.4rem
 
-      background titan-white
+      background profile-textarea-button-background
 
       border profile-button-border
       outline none

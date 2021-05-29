@@ -88,9 +88,9 @@ export default defineComponent({
     flex-direction column
     align-items center
 
-    font-size 1.8rem
+    font-size dialog-list-font-size
 
-    color #fff
+    color dialog-list-color
 
   &__add
     margin-top 1rem
