@@ -1,6 +1,8 @@
 import { shallowMount } from "@vue/test-utils"
 import { expect } from "chai"
 
+import { avatarUrl } from "@/helpers/avatar"
+
 import Avatar from "@/components/base/avatar/Avatar.vue"
 
 describe("Avatar.vue", () => {
@@ -16,7 +18,7 @@ describe("Avatar.vue", () => {
 
     const avatar = wrapper.find(".avatar")
     const avatarElement = avatar.element as HTMLElement
-    expect(avatarElement.style.getPropertyValue("background-image")).to.include(`url(${url})`)
+    expect(avatarElement.style.getPropertyValue("background-image")).to.include(`url(${avatarUrl(url)})`)
     expect(avatarElement.classList.contains("avatar_with-margin"))
 
     const onlineIndicators = wrapper.findAll(".avatar__online")

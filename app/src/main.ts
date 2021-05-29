@@ -19,6 +19,8 @@ import plugins from "@/plugins/axios"
 import interceptors from "@/plugins/axios/interceptors"
 interceptors(plugins(axios))
 
+require("./websocket")
+
 import "@/assets/styles/main.styl"
 
 app.mount("#app")

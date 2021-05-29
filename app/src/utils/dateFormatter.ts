@@ -1,5 +1,3 @@
-// TODO: Add tests
-
 export const isToday = (date: Date, todayDate: Date) => {
   return date.getDate() == todayDate.getDate() &&
     date.getMonth() == todayDate.getMonth() &&
@@ -13,9 +11,11 @@ export const isYesterday = (date: Date, todayDate: Date) => {
 }
 
 export const isNotOlderThanMonth = (date: Date, todayDate: Date) => {
-  return date.getDate() == todayDate.getDate() &&
-    (date.getMonth() + 1) > todayDate.getMonth() &&
-    date.getFullYear() == todayDate.getFullYear()
+  let months: number
+  months = (todayDate.getFullYear() - date.getFullYear()) * 12
+  months -= date.getMonth()
+  months += todayDate.getMonth()
+  return (months <= 0 ? 0 : months) < 1
 }
 
 export interface DateFormatterTextsInterface {
