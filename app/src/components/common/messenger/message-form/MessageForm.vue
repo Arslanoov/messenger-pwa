@@ -30,16 +30,40 @@ import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/
 
 import { SET_SEND_FORM_CONTENT } from "@/store/modules/dialog/mutations"
 import { SEND_MESSAGE } from "@/store/modules/dialog/actions"
-import { GET_SEND_FORM } from "@/store/modules/dialog/getters"
+import { GET_CURRENT_DIALOG, GET_SEND_FORM } from "@/store/modules/dialog/getters"
+
+import { MessageInterface } from "@/types/message"
+
+import { sendMessage as sendWsMessage } from "@/websocket"
+import { DialogInterface } from "@/types/dialog"
 
 export default defineComponent({
   name: "MessageForm",
   setup() {
     const store = useStore()
 
+    const currentDialog = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG)] as DialogInterface)
+
     const form = computed(() => store.getters[getterDialogModule(GET_SEND_FORM)] as SendMessageFormStateInterface)
     const onContentChange = (v: string) => store.commit(commitDialogModule(SET_SEND_FORM_CONTENT), v)
-    const sendMessage = () => store.dispatch(dispatchDialogModule(SEND_MESSAGE))
+    const sendMessage = () => {
+      store.dispatch(dispatchDialogModule(SEND_MESSAGE))
+        .then((message: MessageInterface) => sendWsMessage({
+          ...currentDialog.value,
+          // TODO: Remove undefined
+          sentByMe: undefined,
+          sentByPartner: {
+            isRead: true
+          },
+          latestMessage: {
+            date: message.wroteAt,
+            content: message.content
+          }
+        }, {
+          ...message,
+          isMine: false
+        }))
+    }
 
     return {
       form,

@@ -112,7 +112,7 @@ export default {
   [SEND_MESSAGE]: ({
     commit,
     getters
-  }: ActionContext<DialogStateInterface, StateInterface>): Promise<MessageInterface[] | string> => {
+  }: ActionContext<DialogStateInterface, StateInterface>): Promise<MessageInterface> => {
     return new Promise((resolve, reject) => {
       service
         .sendMessage(

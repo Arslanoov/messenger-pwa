@@ -1,4 +1,11 @@
 const ws = new WebSocket(process.env.VUE_APP_WS_URL as string)
+import { store } from "@/store"
+
+import { commitDialogModule } from "@/store/modules/dialog"
+import { ADD_CURRENT_DIALOG_MESSAGE } from "@/store/modules/dialog/mutations"
+
+import { DialogInterface } from "@/types/dialog"
+import { MessageInterface } from "@/types/message"
 
 ws.onopen = () => {
   const token = localStorage.getItem("token") as string
@@ -8,4 +15,20 @@ ws.onopen = () => {
       token: token
     }))
   }
+}
+
+ws.onmessage = (e: MessageEvent) => {
+  const data = JSON.parse(e.data)
+  console.log(data)
+  if (data.type === "new-message") {
+    store.commit(commitDialogModule(ADD_CURRENT_DIALOG_MESSAGE), data.message)
+  }
+}
+
+export const sendMessage = (dialog: DialogInterface, message: MessageInterface) => {
+  ws.send(JSON.stringify({
+    type: "new-message",
+    dialog,
+    message
+  }))
 }

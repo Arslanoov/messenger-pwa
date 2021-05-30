@@ -57,7 +57,36 @@ export default {
     }
   },
   [ADD_CURRENT_DIALOG_MESSAGE]:
-    (state: StateInterface, message: MessageInterface) => state.currentDialogMessages.push(message),
+    (state: StateInterface, message: MessageInterface) => {
+    const dialogs: DialogInterface[] = []
+      if (state.currentDialog) {
+        state.currentDialogMessages.push(message)
+        dialogs.push(state.currentDialog)
+      }
+
+      const dialog: DialogInterface | null = state.dialogs.find(item => item.isSelected) || null
+      if (dialog) {
+        dialogs.push(dialog)
+      }
+
+      dialogs.forEach(dialog => {
+        dialog.latestMessage = {
+          date: message.wroteAt,
+          content: message.content
+        }
+
+        if (message.isMine) {
+          dialog.sentByMe = {
+            isSent: true,
+            isRead: false
+          }
+        } else {
+          dialog.sentByPartner = {
+            isRead: true
+          }
+        }
+      })
+    },
   [SET_SEND_FORM_CONTENT]:
     (state: StateInterface, content: string) => state.sendMessageForm.content = content,
   [CLEAR_SEND_FORM]:
