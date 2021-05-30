@@ -1,11 +1,11 @@
 const ws = new WebSocket(process.env.VUE_APP_WS_URL as string)
 
 ws.onopen = () => {
-  const user = JSON.parse(localStorage.getItem("user") as string)
-  if (user) {
+  const token = localStorage.getItem("token") as string
+  if (token) {
     ws.send(JSON.stringify({
       type: "auth",
-      token: user.access_token
+      token: token
     }))
   }
 }
