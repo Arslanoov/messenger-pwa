@@ -1,12 +1,9 @@
 <template>
   <div class="message-form">
-    <span
-      @input="e => onContentChange(e.target.innerText)"
-      data-ph="Write a message"
+    <div
+      id="editor"
       class="message-form__input"
-      role="textbox"
-      contenteditable
-    >{{ form.content }}</span>
+    >Write a message</div>
     <div
       @click="sendMessage"
       class="message-form__send"
@@ -21,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue"
+import { defineComponent, computed, onMounted } from "vue"
 
 import { SendMessageFormStateInterface } from "@/store/modules/dialog/state"
 
@@ -37,9 +34,23 @@ import { MessageInterface } from "@/types/message"
 import { sendMessage as sendWsMessage } from "@/websocket"
 import { DialogInterface } from "@/types/dialog"
 
+import EditorJS from "@editorjs/editorjs"
+import config from "@/config/editor"
+
+import { jsonToHtml } from "@/helpers/html"
+
 export default defineComponent({
   name: "MessageForm",
   setup() {
+    let editor: typeof EditorJS | null = null
+    onMounted(() => {
+      editor = new EditorJS({
+        ...config,
+        holder: "editor",
+        minHeight: 0,
+      })
+    })
+
     const store = useStore()
 
     const currentDialog = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG)] as DialogInterface)
@@ -47,22 +58,29 @@ export default defineComponent({
     const form = computed(() => store.getters[getterDialogModule(GET_SEND_FORM)] as SendMessageFormStateInterface)
     const onContentChange = (v: string) => store.commit(commitDialogModule(SET_SEND_FORM_CONTENT), v)
     const sendMessage = () => {
-      store.dispatch(dispatchDialogModule(SEND_MESSAGE))
-        .then((message: MessageInterface) => sendWsMessage({
-          ...currentDialog.value,
-          // TODO: Remove undefined
-          sentByMe: undefined,
-          sentByPartner: {
-            isRead: true
-          },
-          latestMessage: {
-            date: message.wroteAt,
-            content: message.content
-          }
-        }, {
-          ...message,
-          isMine: false
-        }))
+      editor.save()
+        .then((data: never) => {
+          onContentChange(jsonToHtml(data))
+
+          store.dispatch(dispatchDialogModule(SEND_MESSAGE))
+            .then((message: MessageInterface) => sendWsMessage({
+              ...currentDialog.value,
+              // TODO: Remove undefined
+              sentByMe: undefined,
+              sentByPartner: {
+                isRead: true
+              },
+              latestMessage: {
+                date: message.wroteAt,
+                content: message.content
+              }
+            }, {
+              ...message,
+              isMine: false
+            }))
+
+          editor.clear()
+        })
     }
 
     return {
@@ -73,6 +91,12 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="stylus">
+.ce-block__content,
+.ce-toolbar__content
+  max-width: unset
+</style>
 
 <style lang="stylus" scoped>
 .message-form
@@ -113,6 +137,8 @@ export default defineComponent({
 
   &__send
     width 20%
+
+    user-select none
 
     &-icon
       position absolute

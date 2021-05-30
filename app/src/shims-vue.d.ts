@@ -1,8 +1,9 @@
 /* eslint-disable */
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
+declare module "*.vue" {
+  import type { DefineComponent } from "vue"
   const component: DefineComponent<{}, {}, any>
   export default component
 }
 
-declare module '@arslanoov/vue-autocomplete-input'
+declare module "@arslanoov/vue-autocomplete-input"
+declare module "@editorjs/editorjs"

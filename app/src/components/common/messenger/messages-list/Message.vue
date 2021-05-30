@@ -3,7 +3,7 @@
     mine: message.isMine,
     partner: !message.isMine
   }">
-    {{ message.content }}
+    <div v-html="message.content" class="message__content"></div>
     <div class="message__date">
       {{ formatDate(new Date(message.wroteAt)) }}
     </div>
@@ -32,6 +32,15 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="stylus">
+.message
+  &__content
+    p
+      margin .5rem 0
+
+      line-height 1.3
+</style>
 
 <style lang="stylus" scoped>
 .message
