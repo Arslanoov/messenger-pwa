@@ -11,7 +11,7 @@
           {{ extra }}
         </span>
       </div>
-      <div class="user-card__subtitle">{{ subtitle }}</div>
+      <div class="user-card__subtitle">{{ extractText(subtitle) }}</div>
     </div>
   </div>
 </template>
@@ -69,11 +69,19 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
+    const extractText = (value: string) => {
+      const div = document.createElement("div")
+      div.innerHTML = value
+      return div.textContent || div.innerText || ""
+    }
+
     const isSidebarOpened =
       computed(() => !props.collapsible || store.getters[getterSidebarModule(GET_IS_SIDEBAR_OPENED)])
 
     return {
-      isSidebarOpened
+      isSidebarOpened,
+
+      extractText
     }
   }
 })
