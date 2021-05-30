@@ -15,7 +15,9 @@
         />
       </div>
       
-      <h3 class="add-dialog-modal__title">Add Dialog</h3>
+      <h3 class="add-dialog-modal__title">
+        Add Dialog
+      </h3>
 
       <label for="uuid" class="add-dialog-modal__label">User uuid</label>
       <input

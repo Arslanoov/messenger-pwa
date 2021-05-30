@@ -13,6 +13,7 @@
       </div>
       <div class="user-card__subtitle">{{ extractText(subtitle) }}</div>
     </div>
+    <div v-if="!isSidebarOpened && !avatar" class="user-card__title">{{ title }}</div>
   </div>
 </template>
 
