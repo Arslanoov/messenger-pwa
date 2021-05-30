@@ -112,15 +112,19 @@ export default {
   [SEND_MESSAGE]: ({
     commit,
     getters
-  }: ActionContext<DialogStateInterface, StateInterface>): Promise<MessageInterface[] | string> => {
+  }: ActionContext<DialogStateInterface, StateInterface>): Promise<MessageInterface> => {
     return new Promise((resolve, reject) => {
+      const currentDialog: DialogInterface = getters[GET_CURRENT_DIALOG]
       service
         .sendMessage(
-          getters[GET_CURRENT_DIALOG].uuid,
+          currentDialog.uuid,
           getters[GET_SEND_FORM].content
         )
         .then(response => {
-          commit(ADD_CURRENT_DIALOG_MESSAGE, response.data)
+          commit(ADD_CURRENT_DIALOG_MESSAGE, {
+            message: response.data,
+            dialog: currentDialog
+          })
           commit(CLEAR_SEND_FORM)
           resolve(response.data)
         })

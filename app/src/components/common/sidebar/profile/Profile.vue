@@ -32,11 +32,6 @@
             Logout
           </div>
         </div>
-
-        <img
-          src="~@/assets/images/profile/icons/bell.svg"
-          class="profile__bell"
-          alt="">
       </div>
       <img
         @click="togglePopup"
@@ -172,7 +167,7 @@ export default defineComponent({
 
   &__popup
     position absolute
-    top 6.4rem
+    top 3.5rem
     right 0
 
     display flex

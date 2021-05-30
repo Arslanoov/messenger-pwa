@@ -1,11 +1,36 @@
 const ws = new WebSocket(process.env.VUE_APP_WS_URL as string)
+import { store } from "@/store"
+
+import { commitDialogModule } from "@/store/modules/dialog"
+import { ADD_CURRENT_DIALOG_MESSAGE } from "@/store/modules/dialog/mutations"
+
+import { DialogInterface } from "@/types/dialog"
+import { MessageInterface } from "@/types/message"
 
 ws.onopen = () => {
-  const user = JSON.parse(localStorage.getItem("user") as string)
-  if (user) {
+  const token = localStorage.getItem("token") as string
+  if (token) {
     ws.send(JSON.stringify({
       type: "auth",
-      token: user.access_token
+      token: token
     }))
   }
+}
+
+ws.onmessage = (e: MessageEvent) => {
+  const data = JSON.parse(e.data)
+  if (data.type === "new-message") {
+    store.commit(commitDialogModule(ADD_CURRENT_DIALOG_MESSAGE), {
+      message: data.message,
+      dialog: data.dialog
+    })
+  }
+}
+
+export const sendMessage = (dialog: DialogInterface, message: MessageInterface) => {
+  ws.send(JSON.stringify({
+    type: "new-message",
+    dialog,
+    message
+  }))
 }

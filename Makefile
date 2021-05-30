@@ -1,6 +1,5 @@
 serve:
 	cd app && npm run serve
-
 build:
 	cd app && npm run build
 

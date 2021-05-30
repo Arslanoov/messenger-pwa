@@ -33,7 +33,15 @@ export const formatDate = (
     "July", "August", "September", "October", "November", "December" ]
 ): string => {
   const today = new Date()
-  if (isToday(date, today)) return `${date.getHours()}:${date.getMinutes()}`
+  if (isToday(date, today)) {
+    return `${date.getHours() < 10 ?
+      "0" + date.getHours() :
+      date.getHours()
+    }:${date.getMinutes() < 10 ?
+      "0" + date.getMinutes() :
+      date.getMinutes()
+    }`
+  }
   if (isYesterday(date, today)) return texts.yesterday
   if (isNotOlderThanMonth(date, today)) return `${today.getMonth() - date.getMonth()} ${texts.daysAgo}`
   return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`

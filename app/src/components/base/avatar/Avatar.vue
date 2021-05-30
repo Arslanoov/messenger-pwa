@@ -61,6 +61,8 @@ export default defineComponent({
   width avatar-size
   height avatar-size
 
+  margin-right .5rem
+
   background-repeat no-repeat
   background-size cover
 
