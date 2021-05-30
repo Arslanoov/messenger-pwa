@@ -117,7 +117,7 @@ export default {
       const currentDialog: DialogInterface = getters[GET_CURRENT_DIALOG]
       service
         .sendMessage(
-          getters[GET_CURRENT_DIALOG].uuid,
+          currentDialog.uuid,
           getters[GET_SEND_FORM].content
         )
         .then(response => {
