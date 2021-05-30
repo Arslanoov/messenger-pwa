@@ -19,9 +19,11 @@ ws.onopen = () => {
 
 ws.onmessage = (e: MessageEvent) => {
   const data = JSON.parse(e.data)
-  console.log(data)
   if (data.type === "new-message") {
-    store.commit(commitDialogModule(ADD_CURRENT_DIALOG_MESSAGE), data.message)
+    store.commit(commitDialogModule(ADD_CURRENT_DIALOG_MESSAGE), {
+      message: data.message,
+      dialog: data.dialog
+    })
   }
 }
 

@@ -57,10 +57,12 @@ export default {
     }
   },
   [ADD_CURRENT_DIALOG_MESSAGE]:
-    (state: StateInterface, message: MessageInterface) => {
+    (state: StateInterface, payload: { dialog: DialogInterface, message: MessageInterface }) => {
+    if (state.currentDialog?.uuid !== payload.dialog?.uuid) return
+
     const dialogs: DialogInterface[] = []
       if (state.currentDialog) {
-        state.currentDialogMessages.push(message)
+        state.currentDialogMessages.push(payload.message)
         dialogs.push(state.currentDialog)
       }
 
@@ -71,11 +73,11 @@ export default {
 
       dialogs.forEach(dialog => {
         dialog.latestMessage = {
-          date: message.wroteAt,
-          content: message.content
+          date: payload.message.wroteAt,
+          content: payload.message.content
         }
 
-        if (message.isMine) {
+        if (payload.message.isMine) {
           dialog.sentByMe = {
             isSent: true,
             isRead: false
