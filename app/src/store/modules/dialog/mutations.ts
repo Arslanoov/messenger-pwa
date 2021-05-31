@@ -29,7 +29,7 @@ export const CLEAR_USERS_SEARCH_ERROR = "CLEAR_USERS_SEARCH_ERROR"
 
 export default {
   [SET_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = dialogs,
-  [ADD_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs.concat(dialogs),
+  [ADD_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = state.dialogs.concat(dialogs),
   [ADD_DIALOG]: (state: StateInterface, dialog: DialogInterface) => state.dialogs.unshift(dialog),
   [SET_DIALOG_LIST_LATEST_PAGE_SIZE]: (state: StateInterface, size: number) => state.latestPageSize = size,
   [SET_DIALOG_LIST_CURRENT_PAGE]: (state: StateInterface, page: number) => {

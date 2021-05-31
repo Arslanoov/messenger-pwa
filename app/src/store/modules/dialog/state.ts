@@ -27,7 +27,7 @@ const state: StateInterface = {
   latestPageSize: null,
   pagination: {
     currentPage: 1,
-    pageSize: 10
+    pageSize: 4
   },
   currentDialog: null,
   currentDialogMessages: [],

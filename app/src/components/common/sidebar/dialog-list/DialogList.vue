@@ -1,20 +1,24 @@
 <template>
-  <div class="dialog-list">
+  <div class="dialog-list" infinite-wrapper>
     <template v-if="dialogs.length">
-      <Dialog
-        v-for="dialog in dialogs"
-        :key="dialog.uuid"
-        :dialog="dialog"
-        class="dialog-list__item"
-      />
-    </template>
+    <Dialog
+      v-for="dialog in dialogs"
+      :key="dialog.uuid"
+      :dialog="dialog"
+      class="dialog-list__item"
+    />
+  </template>
     <div
       v-else
       class="dialog-list__content"
     >
       No dialogs found.
     </div>
-    <infinite-loading @infinite="loadMoreDialogs"></infinite-loading>
+
+    <infinite-loading
+      @infinite="loadMoreDialogs"
+      force-use-infinite-wrapper
+    ></infinite-loading>
 
     <div class="dialog-list__content">
       <div
@@ -123,7 +127,7 @@ export default defineComponent({
     color dialog-list-color
 
   &__add
-    margin-top 1rem
+    margin 1rem 0
 
     pointer-on-hover()
 </style>
