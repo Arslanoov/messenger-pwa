@@ -75,7 +75,6 @@ export default defineComponent({
     const dialogs = computed(() => store.getters[getterDialogModule(GET_DIALOGS_LIST)])
     const fetchDialogs = (page: number) => store.dispatch(dispatchDialogModule(FETCH_DIALOGS), page)
 
-    const prevPage = () => store.commit(commitDialogModule(SET_DIALOG_LIST_CURRENT_PAGE), currentPage.value - 1)
     const nextPage = () => store.commit(commitDialogModule(SET_DIALOG_LIST_CURRENT_PAGE), currentPage.value + 1)
     const currentPage = computed(() => store.getters[getterDialogModule(GET_DIALOGS_LIST_CURRENT_PAGE)])
     const pageSize = computed(() => store.getters[getterDialogModule(GET_DIALOGS_LIST_PAGE_SIZE)])
@@ -96,7 +95,6 @@ export default defineComponent({
 
     return {
       dialogs,
-      prevPage,
       nextPage,
       currentPage,
       pageSize,

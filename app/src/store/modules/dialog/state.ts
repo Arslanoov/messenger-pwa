@@ -9,12 +9,13 @@ export interface SendMessageFormStateInterface {
 
 export interface StateInterface {
   dialogs: DialogInterface[],
+  latestPageSize: number | null,
   pagination: PaginationInterface,
   currentDialog: DialogInterface | null,
   currentDialogMessages: MessageInterface[],
+  messagesLatestPageSize: number | null,
   currentDialogPagination: PaginationInterface,
   sendMessageForm: SendMessageFormStateInterface,
-  latestPageSize: number | null,
   search: {
     query: string,
     result: UserSearchInterface | null,
@@ -31,6 +32,7 @@ const state: StateInterface = {
   },
   currentDialog: null,
   currentDialogMessages: [],
+  messagesLatestPageSize: null,
   currentDialogPagination: {
     currentPage: 1,
     pageSize: 20

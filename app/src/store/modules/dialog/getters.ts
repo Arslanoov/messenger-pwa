@@ -13,6 +13,7 @@ export const GET_CURRENT_DIALOG = "getCurrentDialog"
 export const GET_CURRENT_DIALOG_MESSAGES = "getCurrentDialogMessages"
 export const GET_CURRENT_DIALOG_CURRENT_PAGE = "getCurrentDialogCurrentPage"
 export const GET_CURRENT_DIALOG_PAGE_SIZE = "getCurrentDialogPageSize"
+export const GET_CURRENT_DIALOG_LATEST_PAGE_SIZE = "getCurrentDialogLatestPageSize"
 
 export const GET_SEND_FORM = "getSendForm"
 
@@ -30,6 +31,7 @@ export default {
   [GET_CURRENT_DIALOG_MESSAGES]: (state: StateInterface): MessageInterface[] => state.currentDialogMessages,
   [GET_CURRENT_DIALOG_CURRENT_PAGE]: (state: StateInterface): number => state.currentDialogPagination.currentPage,
   [GET_CURRENT_DIALOG_PAGE_SIZE]: (state: StateInterface): number => state.currentDialogPagination.pageSize,
+  [GET_CURRENT_DIALOG_LATEST_PAGE_SIZE]: (state: StateInterface): number | null => state.messagesLatestPageSize,
 
   [GET_SEND_FORM]: (state: StateInterface): SendMessageFormStateInterface => state.sendMessageForm,
 
