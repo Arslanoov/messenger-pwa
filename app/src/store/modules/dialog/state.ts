@@ -14,6 +14,7 @@ export interface StateInterface {
   currentDialogMessages: MessageInterface[],
   currentDialogPagination: PaginationInterface,
   sendMessageForm: SendMessageFormStateInterface,
+  latestPageSize: number | null,
   search: {
     query: string,
     result: UserSearchInterface | null,
@@ -23,9 +24,10 @@ export interface StateInterface {
 
 const state: StateInterface = {
   dialogs: [],
+  latestPageSize: null,
   pagination: {
     currentPage: 1,
-    pageSize: 20
+    pageSize: 10
   },
   currentDialog: null,
   currentDialogMessages: [],

@@ -1,5 +1,6 @@
 <template>
   <div ref="list" class="messages-list">
+    <infinite-loading direction="top" @infinite="loadMoreMessages"></infinite-loading>
     <Message
       v-for="message in messages"
       :message="message"
@@ -20,12 +21,15 @@ import { getterDialogModule } from "@/store/modules/dialog"
 
 import { GET_CURRENT_DIALOG_MESSAGES } from "@/store/modules/dialog/getters"
 
+import InfiniteLoading from "vue-infinite-loading"
+
 import Message from "@/components/common/messenger/messages-list/Message.vue"
 
 export default defineComponent({
   name: "MessagesList",
   components: {
-    Message
+    Message,
+    InfiniteLoading
   },
   setup() {
     const { width } = useOnResize(document.body)
@@ -43,9 +47,18 @@ export default defineComponent({
       }
     })
 
+    const loadMoreMessages = (state: any) => {
+      console.log("load")
+      console.log("state", state)
+      state.loaded()
+      state.complete()
+    }
+
     return {
       messages,
-      list
+      list,
+
+      loadMoreMessages
     }
   }
 })
