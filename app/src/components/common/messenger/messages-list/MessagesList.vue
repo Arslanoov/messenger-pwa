@@ -1,15 +1,15 @@
 <template>
   <div ref="list" class="messages-list">
+    <infinite-loading
+      @infinite="loadMoreMessages"
+      :identifier="currentDialog.uuid"
+    ></infinite-loading>
+
     <Message
       v-for="message in messages"
       :message="message"
       :key="message.uuid"
     />
-
-    <infinite-loading
-      @infinite="loadMoreMessages"
-      :identifier="currentDialog.uuid"
-    ></infinite-loading>
   </div>
 </template>
 
@@ -96,7 +96,6 @@ export default defineComponent({
     })
 
     const loadMoreMessages = (state: LoadStateInterface) => {
-      alert("load")
       if (latestPageSize.value && latestPageSize.value < pageSize.value) {
         state.complete()
         return

@@ -1,13 +1,13 @@
 <template>
-  <div class="dialog-list" infinite-wrapper>
+  <div class="dialog-list">
     <template v-if="dialogs.length">
-    <Dialog
-      v-for="dialog in dialogs"
-      :key="dialog.uuid"
-      :dialog="dialog"
-      class="dialog-list__item"
-    />
-  </template>
+      <Dialog
+        v-for="dialog in dialogs"
+        :key="dialog.uuid"
+        :dialog="dialog"
+        class="dialog-list__item"
+      />
+    </template>
     <div
       v-else
       class="dialog-list__content"
@@ -17,7 +17,6 @@
 
     <infinite-loading
       @infinite="loadMoreDialogs"
-      force-use-infinite-wrapper
     ></infinite-loading>
 
     <div class="dialog-list__content">
@@ -43,7 +42,8 @@ import { TOGGLE_ADD_DIALOG_MODAL } from "@/store/modules/sidebar/mutations"
 import { FETCH_DIALOGS } from "@/store/modules/dialog/actions"
 import {
   GET_DIALOGS_LIST,
-  GET_DIALOGS_LIST_CURRENT_PAGE, GET_DIALOGS_LIST_LATEST_PAGE_SIZE,
+  GET_DIALOGS_LIST_CURRENT_PAGE,
+  GET_DIALOGS_LIST_LATEST_PAGE_SIZE,
   GET_DIALOGS_LIST_PAGE_SIZE
 } from "@/store/modules/dialog/getters"
 

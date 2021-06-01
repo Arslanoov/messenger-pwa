@@ -1,8 +1,7 @@
 import axios from "axios"
 
-const newAxios = axios.create()
 import plugins from "@/plugins/axios"
-plugins(newAxios)
+export const newAxios = plugins(axios.create())
 
 export default class DialogService {
   public getList(page = 1) {
