@@ -7,3 +7,4 @@ declare module "*.vue" {
 
 declare module "@arslanoov/vue-autocomplete-input"
 declare module "@editorjs/editorjs"
+declare module "vue-infinite-loading"

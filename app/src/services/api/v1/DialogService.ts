@@ -15,7 +15,7 @@ export default class DialogService {
     })
   }
 
-  public getMessages(dialogId: number, page = 1) {
+  public getMessages(dialogId: string, page = 1) {
     return newAxios.get(`/messenger/dialog/${dialogId}/messages?page=${page}`)
   }
 

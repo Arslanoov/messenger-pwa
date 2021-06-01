@@ -5,36 +5,88 @@
       :message="message"
       :key="message.uuid"
     />
+
+    <infinite-loading
+      @infinite="loadMoreMessages"
+      :identifier="currentDialog.uuid"
+    ></infinite-loading>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onUpdated } from "vue"
+import { defineComponent, computed, ref, watch, onUpdated } from "vue"
 
 import { useOnResize, useOnScroll } from "vue-composable"
 
 import { MessageInterface } from "@/types/message"
 
 import { useStore } from "@/composables/store"
-import { getterDialogModule } from "@/store/modules/dialog"
+import {commitDialogModule, dispatchDialogModule, getterDialogModule} from "@/store/modules/dialog"
 
-import { GET_CURRENT_DIALOG_MESSAGES } from "@/store/modules/dialog/getters"
+import {
+  CLEAR_CURRENT_DIALOG,
+  SET_CURRENT_DIALOG_CURRENT_PAGE
+} from "@/store/modules/dialog/mutations"
+import { FETCH_DIALOG_MESSAGES } from "@/store/modules/dialog/actions"
+import {
+  GET_CURRENT_DIALOG,
+  GET_CURRENT_DIALOG_CURRENT_PAGE,
+  GET_CURRENT_DIALOG_LATEST_PAGE_SIZE,
+  GET_CURRENT_DIALOG_MESSAGES,
+  GET_CURRENT_DIALOG_PAGE_SIZE
+} from "@/store/modules/dialog/getters"
+
+import { LoadStateInterface } from "@/types/loadState"
+import { DialogInterface } from "@/types/dialog"
+
+import { useRouter } from "vue-router"
+import { routesNames } from "@/router/names"
+
+import InfiniteLoading from "vue-infinite-loading"
 
 import Message from "@/components/common/messenger/messages-list/Message.vue"
 
 export default defineComponent({
   name: "MessagesList",
   components: {
-    Message
+    Message,
+    InfiniteLoading
   },
   setup() {
     const { width } = useOnResize(document.body)
     const { scrollTo } = useOnScroll()
 
+    const router = useRouter()
     const store = useStore()
+
+    const clearData = () => store.commit(commitDialogModule(CLEAR_CURRENT_DIALOG))
+
+    window.onbeforeunload = () => clearData()
+    window.onunload = () => clearData()
+
+    /* Messages */
+
     const messages = computed(
         () => store.getters[getterDialogModule(GET_CURRENT_DIALOG_MESSAGES)] as MessageInterface[])
+    const currentDialog = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG)] as DialogInterface)
     const list = ref<HTMLDivElement>()
+
+    const currentPage = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG_CURRENT_PAGE)])
+    const pageSize = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG_PAGE_SIZE)])
+    const latestPageSize = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG_LATEST_PAGE_SIZE)])
+    const nextPage = () => store.commit(commitDialogModule(SET_CURRENT_DIALOG_CURRENT_PAGE), currentPage.value + 1)
+
+    const fetchMessages = () => store.dispatch(dispatchDialogModule(FETCH_DIALOG_MESSAGES))
+
+    watch(() => currentDialog.value.uuid, () => fetchMessages()
+      .catch(error => {
+        if (404 === error.response?.status) {
+          router.push({
+            name: routesNames.SelectDialog
+          })
+        }
+      })
+    )
 
     onUpdated(() => {
       (list.value as HTMLDivElement).scrollTop = (list.value as HTMLDivElement).scrollHeight
@@ -43,9 +95,25 @@ export default defineComponent({
       }
     })
 
+    const loadMoreMessages = (state: LoadStateInterface) => {
+      alert("load")
+      if (latestPageSize.value && latestPageSize.value < pageSize.value) {
+        state.complete()
+        return
+      }
+
+      nextPage()
+      fetchMessages()
+        .then((items: MessageInterface[]) => items.length > 0 ? state.loaded() : state.complete())
+    }
+
     return {
       messages,
-      list
+      list,
+
+      currentDialog,
+
+      loadMoreMessages
     }
   }
 })

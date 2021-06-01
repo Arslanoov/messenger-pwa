@@ -79,7 +79,6 @@ export default defineComponent({
 
     +breakpoint-to(breakpoints.tablet)
       width 100%
-      height auto
       min-height 100vh
 
   &_closed
