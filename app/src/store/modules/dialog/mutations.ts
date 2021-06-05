@@ -51,7 +51,7 @@ export default {
       state.currentDialog = dialog
       state.currentDialogMessages = []
       state.currentDialogPagination = {
-        pageSize: 20,
+        pageSize: 5,
         currentPage: 1
       }
     }
@@ -65,7 +65,6 @@ export default {
   [SET_CURRENT_DIALOG_CURRENT_PAGE]:
     (state: StateInterface, page: number) => state.currentDialogPagination.currentPage = page,
   [CLEAR_CURRENT_DIALOG]: (state: StateInterface) => {
-    state.currentDialog = null
     state.currentDialogMessages = []
     state.currentDialogPagination.currentPage = 1
     state.messagesLatestPageSize = null

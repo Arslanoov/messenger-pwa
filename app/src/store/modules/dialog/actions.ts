@@ -8,14 +8,17 @@ import { StateInterface as DialogStateInterface } from "./state"
 import { StateInterface } from "@/store"
 
 import {
-  ADD_CURRENT_DIALOG_MESSAGE, ADD_CURRENT_DIALOG_MESSAGES,
-  ADD_DIALOG, ADD_DIALOG_LIST,
+  ADD_CURRENT_DIALOG_MESSAGE,
+  ADD_CURRENT_DIALOG_MESSAGES,
+  ADD_DIALOG,
+  ADD_DIALOG_LIST,
   CLEAR_SEND_FORM,
   CLEAR_USERS_SEARCH_ERROR,
   CLEAR_USERS_SEARCH_RESULT,
-  SET_CURRENT_DIALOG_CURRENT_PAGE, SET_CURRENT_DIALOG_LATEST_PAGE_SIZE,
+  SET_CURRENT_DIALOG_LATEST_PAGE_SIZE,
   SET_CURRENT_DIALOG_MESSAGES,
-  SET_DIALOG_LIST, SET_DIALOG_LIST_LATEST_PAGE_SIZE,
+  SET_DIALOG_LIST,
+  SET_DIALOG_LIST_LATEST_PAGE_SIZE,
   SET_DIALOG_LIST_PAGE_SIZE,
   SET_USERS_SEARCH_ERROR,
   SET_USERS_SEARCH_RESULT
@@ -25,7 +28,8 @@ import {
   GET_CURRENT_DIALOG,
   GET_SEND_FORM,
   GET_USERS_SEARCH_QUERY,
-  GET_USERS_SEARCH_RESULT, GET_CURRENT_DIALOG_CURRENT_PAGE
+  GET_USERS_SEARCH_RESULT,
+  GET_CURRENT_DIALOG_CURRENT_PAGE
 } from "@/store/modules/dialog/getters"
 
 import DialogService from "@/services/api/v1/DialogService"
@@ -101,7 +105,6 @@ export default {
         .then(response => {
           commit(page === 1 ? SET_CURRENT_DIALOG_MESSAGES : ADD_CURRENT_DIALOG_MESSAGES, response.data.items)
           commit(SET_CURRENT_DIALOG_LATEST_PAGE_SIZE, response.data.items.length)
-          commit(SET_CURRENT_DIALOG_CURRENT_PAGE, response.data.perPage)
           resolve(response.data.items)
         })
         .catch(error => {

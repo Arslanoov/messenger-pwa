@@ -1,9 +1,12 @@
 <template>
   <div ref="list" class="messages-list">
-    <infinite-loading
-      @infinite="loadMoreMessages"
-      :identifier="currentDialog.uuid"
-    ></infinite-loading>
+    <div
+      v-if="latestPageSize === pageSize"
+      @click="loadMoreMessages"
+      class="messages-list__load-more"
+    >
+      Load more
+    </div>
 
     <Message
       v-for="message in messages"
@@ -21,7 +24,7 @@ import { useOnResize, useOnScroll } from "vue-composable"
 import { MessageInterface } from "@/types/message"
 
 import { useStore } from "@/composables/store"
-import {commitDialogModule, dispatchDialogModule, getterDialogModule} from "@/store/modules/dialog"
+import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
 
 import {
   CLEAR_CURRENT_DIALOG,
@@ -36,21 +39,17 @@ import {
   GET_CURRENT_DIALOG_PAGE_SIZE
 } from "@/store/modules/dialog/getters"
 
-import { LoadStateInterface } from "@/types/loadState"
 import { DialogInterface } from "@/types/dialog"
 
 import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
-
-import InfiniteLoading from "vue-infinite-loading"
 
 import Message from "@/components/common/messenger/messages-list/Message.vue"
 
 export default defineComponent({
   name: "MessagesList",
   components: {
-    Message,
-    InfiniteLoading
+    Message
   },
   setup() {
     const { width } = useOnResize(document.body)
@@ -61,8 +60,14 @@ export default defineComponent({
 
     const clearData = () => store.commit(commitDialogModule(CLEAR_CURRENT_DIALOG))
 
-    window.onbeforeunload = () => clearData()
-    window.onunload = () => clearData()
+    window.onbeforeunload = () => {
+      clearData()
+      return null
+    }
+    window.onunload = () => {
+      clearData()
+      return null
+    }
 
     /* Messages */
 
@@ -89,21 +94,17 @@ export default defineComponent({
     )
 
     onUpdated(() => {
-      (list.value as HTMLDivElement).scrollTop = (list.value as HTMLDivElement).scrollHeight
-      if (width.value < 768 + 5) {
-        scrollTo(0, document.body.scrollHeight)
+      if (currentPage.value === 1) {
+        (list.value as HTMLDivElement).scrollTop = (list.value as HTMLDivElement).scrollHeight
+        if (width.value < 768 + 5) {
+          scrollTo(0, document.body.scrollHeight)
+        }
       }
     })
 
-    const loadMoreMessages = (state: LoadStateInterface) => {
-      if (latestPageSize.value && latestPageSize.value < pageSize.value) {
-        state.complete()
-        return
-      }
-
+    const loadMoreMessages = () => {
       nextPage()
       fetchMessages()
-        .then((items: MessageInterface[]) => items.length > 0 ? state.loaded() : state.complete())
     }
 
     return {
@@ -112,7 +113,9 @@ export default defineComponent({
 
       currentDialog,
 
-      loadMoreMessages
+      loadMoreMessages,
+      latestPageSize,
+      pageSize
     }
   }
 })
@@ -137,4 +140,11 @@ export default defineComponent({
   background-color messages-layout-background
 
   without-scroll()
+
+  &__load-more
+    align-self center
+
+    padding 1rem
+
+    pointer-on-hover()
 </style>
