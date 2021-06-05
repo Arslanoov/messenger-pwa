@@ -91,7 +91,9 @@ export default defineComponent({
           })
         }
       })
-    )
+    , {
+      immediate: true
+    })
 
     onUpdated(() => {
       if (currentPage.value === 1) {

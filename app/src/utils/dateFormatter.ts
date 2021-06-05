@@ -43,6 +43,6 @@ export const formatDate = (
     }`
   }
   if (isYesterday(date, today)) return texts.yesterday
-  if (isNotOlderThanMonth(date, today)) return `${today.getMonth() - date.getMonth()} ${texts.daysAgo}`
+  if (isNotOlderThanMonth(date, today)) return `${today.getDate() - date.getDate()} ${texts.daysAgo}`
   return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
 }

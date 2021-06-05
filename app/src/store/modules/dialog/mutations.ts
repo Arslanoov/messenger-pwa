@@ -50,10 +50,8 @@ export default {
     if (dialog) {
       state.currentDialog = dialog
       state.currentDialogMessages = []
-      state.currentDialogPagination = {
-        pageSize: 5,
-        currentPage: 1
-      }
+      state.currentDialogPagination.currentPage = 1
+      state.messagesLatestPageSize = null
     }
   },
   [SET_CURRENT_DIALOG_MESSAGES]:
