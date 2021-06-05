@@ -28,14 +28,14 @@ const state: StateInterface = {
   latestPageSize: null,
   pagination: {
     currentPage: 1,
-    pageSize: 4
+    pageSize: 10
   },
   currentDialog: null,
   currentDialogMessages: [],
   messagesLatestPageSize: null,
   currentDialogPagination: {
     currentPage: 1,
-    pageSize: 5
+    pageSize: 20
   },
   sendMessageForm: {
     content: ""
