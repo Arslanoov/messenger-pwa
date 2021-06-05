@@ -12,7 +12,7 @@ import { defineComponent, watch } from "vue"
 import { useStore } from "@/composables/store"
 import { commitDialogModule } from "@/store/modules/dialog"
 
-import {CLEAR_CURRENT_DIALOG, SET_CURRENT_DIALOG} from "@/store/modules/dialog/mutations"
+import { SET_CURRENT_DIALOG } from "@/store/modules/dialog/mutations"
 
 import { useRoute } from "vue-router"
 
@@ -31,12 +31,7 @@ export default defineComponent({
     const route = useRoute()
     const store = useStore()
 
-    const clearData = () => store.commit(commitDialogModule(CLEAR_CURRENT_DIALOG))
-
-    const fetchCurrentDialog = (id: string) => {
-      clearData()
-      store.commit(commitDialogModule(SET_CURRENT_DIALOG), id)
-    }
+    const fetchCurrentDialog = (id: string) => store.commit(commitDialogModule(SET_CURRENT_DIALOG), id)
 
     watch(() => route.params.id, newId => newId ? fetchCurrentDialog(newId as string) : false)
     fetchCurrentDialog(route.params.id as string)

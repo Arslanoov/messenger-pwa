@@ -1,24 +1,29 @@
 <template>
-  <div class="dialog-list" infinite-wrapper>
+  <div class="dialog-list">
     <template v-if="dialogs.length">
-    <Dialog
-      v-for="dialog in dialogs"
-      :key="dialog.uuid"
-      :dialog="dialog"
-      class="dialog-list__item"
-    />
-  </template>
+      <Dialog
+        v-for="dialog in dialogs"
+        :key="dialog.uuid"
+        :dialog="dialog"
+        class="dialog-list__item"
+      />
+
+      <div class="dialog-list__content">
+        <div
+          v-if="latestPageSize === pageSize"
+          @click="loadMoreDialogs"
+          class="dialog-list__add"
+        >
+          Load more
+        </div>
+      </div>
+    </template>
     <div
       v-else
       class="dialog-list__content"
     >
       No dialogs found.
     </div>
-
-    <infinite-loading
-      @infinite="loadMoreDialogs"
-      force-use-infinite-wrapper
-    ></infinite-loading>
 
     <div class="dialog-list__content">
       <div
@@ -38,28 +43,21 @@ import { useStore } from "@/composables/store"
 import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
 import { commitSidebarModule } from "@/store/modules/sidebar"
 
-import {CLEAR_DIALOGS_LIST_DATA, SET_DIALOG_LIST_CURRENT_PAGE} from "@/store/modules/dialog/mutations"
+import { CLEAR_DIALOGS_LIST_DATA, SET_DIALOG_LIST_CURRENT_PAGE } from "@/store/modules/dialog/mutations"
 import { TOGGLE_ADD_DIALOG_MODAL } from "@/store/modules/sidebar/mutations"
 import { FETCH_DIALOGS } from "@/store/modules/dialog/actions"
 import {
   GET_DIALOGS_LIST,
-  GET_DIALOGS_LIST_CURRENT_PAGE, GET_DIALOGS_LIST_LATEST_PAGE_SIZE,
+  GET_DIALOGS_LIST_CURRENT_PAGE,
+  GET_DIALOGS_LIST_LATEST_PAGE_SIZE,
   GET_DIALOGS_LIST_PAGE_SIZE
 } from "@/store/modules/dialog/getters"
 
-import { DialogInterface } from "@/types/dialog"
-import { LoadStateInterface } from "@/types/loadState"
-
-import InfiniteLoading from "vue-infinite-loading"
-
 import Dialog from "@/components/common/sidebar/dialog-list/Dialog.vue"
-
-/* TODO: Add scroll component */
 
 export default defineComponent({
   name: "DialogList",
   components: {
-    InfiniteLoading,
     Dialog
   },
   setup() {
@@ -67,8 +65,15 @@ export default defineComponent({
 
     const clearData = () => store.commit(commitDialogModule(CLEAR_DIALOGS_LIST_DATA))
 
-    window.onbeforeunload = () => clearData()
-    window.onunload = () => clearData()
+    window.onbeforeunload = () => {
+      clearData()
+      return null
+    }
+    window.onunload = () => {
+      clearData()
+      return null
+    }
+    clearData()
 
     /* Dialogs */
 
@@ -82,15 +87,9 @@ export default defineComponent({
 
     const toggleModal = () => store.commit(commitSidebarModule(TOGGLE_ADD_DIALOG_MODAL))
 
-    const loadMoreDialogs = (state: LoadStateInterface) => {
-      if (latestPageSize.value && latestPageSize.value < pageSize.value) {
-        state.complete()
-        return
-      }
-
+    const loadMoreDialogs = () => {
       nextPage()
       fetchDialogs(currentPage.value)
-        .then((items: DialogInterface[]) => items.length > 0 ? state.loaded() : state.complete())
     }
 
     return {
@@ -100,7 +99,8 @@ export default defineComponent({
       pageSize,
 
       toggleModal,
-      loadMoreDialogs
+      loadMoreDialogs,
+      latestPageSize
     }
   }
 })

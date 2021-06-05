@@ -1,4 +1,6 @@
 import axios from "axios"
+import { newAxios as userServiceAxios } from "@/services/api/v1/UserService"
+import { newAxios as dialogServiceAxios } from "@/services/api/v1/DialogService"
 
 import { ActionContext } from "vuex"
 
@@ -96,6 +98,8 @@ export default {
     commit(SET_REFRESH_TOKEN, payload.refreshToken)
     localStorage.setItem("token", payload.accessToken)
     axios.defaults.headers.common.Authorization = payload.accessToken
+    userServiceAxios.defaults.headers.common.Authorization = payload.accessToken
+    dialogServiceAxios.defaults.headers.common.Authorization = payload.accessToken
     dispatch(FETCH_USER)
   },
   [SIGN_UP]: ({ commit, getters }: ActionContext<AuthStateInterface, StateInterface>): Promise<string | void> => {
@@ -154,5 +158,7 @@ export default {
       commit(CLEAR_CURRENT_USER_INFO)
       localStorage.removeItem("token")
       delete axios.defaults.headers.common.Authorization
+      delete userServiceAxios.defaults.headers.common.Authorization
+      delete dialogServiceAxios.defaults.headers.common.Authorization
   }
 }

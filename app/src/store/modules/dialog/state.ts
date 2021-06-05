@@ -35,7 +35,7 @@ const state: StateInterface = {
   messagesLatestPageSize: null,
   currentDialogPagination: {
     currentPage: 1,
-    pageSize: 20
+    pageSize: 5
   },
   sendMessageForm: {
     content: ""
