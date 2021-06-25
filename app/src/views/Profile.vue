@@ -5,7 +5,7 @@
     <div class="profile__username">{{ user.username }}</div>
     <div class="profile__avatar">
       <img
-        :src="avatarUrl(userAvatar)"
+        :src="avatarUrl(user.avatar)"
         class="profile__avatar-img"
         draggable="false"
         alt="Avatar"
@@ -61,7 +61,6 @@ export default defineComponent({
     const store = useStore()
 
     const user = computed(() => store.getters[getterAuthModule(GET_CURRENT_USER)] as UserInterface)
-    const userAvatar = computed(() => user.value.avatar || require("@/assets/images/profile/no-avatar.svg"))
 
     const changeAbout = (value: string) => store.commit(commitProfileModule(SET_CHANGE_FORM_ABOUT), value)
     const changeInfo = () => store.dispatch(dispatchProfileModule(CHANGE_INFO))
@@ -92,7 +91,6 @@ export default defineComponent({
 
     return {
       user,
-      userAvatar,
       avatarUrl,
 
       changeAbout,

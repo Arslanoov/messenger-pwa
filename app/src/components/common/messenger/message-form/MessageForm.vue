@@ -1,5 +1,5 @@
 <template>
-  <div class="message-form">
+  <div @keyup.enter.exact="sendMessage" class="message-form">
     <div
       id="editor"
       class="message-form__input"
