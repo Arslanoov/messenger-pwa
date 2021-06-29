@@ -5,11 +5,8 @@ import { MessageInterface } from "@/types/message"
 import { UserSearchInterface } from "@/types/user"
 
 export const SET_DIALOG_LIST = "SET_DIALOG_LIST"
-export const ADD_DIALOG_LIST = "ADD_DIALOG_LIST"
 export const ADD_DIALOG = "ADD_DIALOG"
-export const SET_DIALOG_LIST_CURRENT_PAGE = "SET_DIALOG_LIST_CURRENT_PAGE"
-export const SET_DIALOG_LIST_LATEST_PAGE_SIZE = "SET_DIALOG_LIST_LATEST_PAGE_SIZE"
-export const SET_DIALOG_LIST_PAGE_SIZE = "SET_DIALOG_LIST_PAGE_SIZE"
+export const MOVE_DIALOG_TO_THE_TOP = "MOVE_DIALOG_TO_THE_TOP"
 export const CLEAR_DIALOGS_LIST_DATA = "CLEAR_DIALOGS_LIST_DATA"
 
 export const SET_CURRENT_DIALOG = "SET_CURRENT_DIALOG"
@@ -31,19 +28,14 @@ export const CLEAR_USERS_SEARCH_ERROR = "CLEAR_USERS_SEARCH_ERROR"
 
 export default {
   [SET_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = dialogs,
-  [ADD_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = state.dialogs.concat(dialogs),
   [ADD_DIALOG]: (state: StateInterface, dialog: DialogInterface) => state.dialogs.unshift(dialog),
-  [SET_DIALOG_LIST_LATEST_PAGE_SIZE]: (state: StateInterface, size: number) => state.latestPageSize = size,
-  [SET_DIALOG_LIST_CURRENT_PAGE]: (state: StateInterface, page: number) => {
-    if (page >= 1) {
-      state.pagination.currentPage = page
-    }
+  [MOVE_DIALOG_TO_THE_TOP]: (state: StateInterface, dialog: DialogInterface) => {
+    state.dialogs.sort((a: DialogInterface, y: DialogInterface) => {
+      return a.uuid == dialog.uuid ? -1 : y.uuid === dialog.uuid ? 1 : 0
+    })
   },
-  [SET_DIALOG_LIST_PAGE_SIZE]: (state: StateInterface, size: number) => state.pagination.pageSize = size,
   [CLEAR_DIALOGS_LIST_DATA]: (state: StateInterface) => {
     state.dialogs = []
-    state.pagination.currentPage = 1
-    state.latestPageSize = null
   },
   [SET_CURRENT_DIALOG]: (state: StateInterface, uuid: string) => {
     const dialog = state.dialogs.find(item => item.uuid === uuid)
