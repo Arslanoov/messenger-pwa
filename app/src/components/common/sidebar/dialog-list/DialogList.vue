@@ -7,16 +7,6 @@
         :dialog="dialog"
         class="dialog-list__item"
       />
-
-      <div class="dialog-list__content">
-        <div
-          v-if="latestPageSize === pageSize"
-          @click="loadMoreDialogs"
-          class="dialog-list__add"
-        >
-          Load more
-        </div>
-      </div>
     </template>
     <div
       v-else
@@ -43,15 +33,10 @@ import { useStore } from "@/composables/store"
 import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
 import { commitSidebarModule } from "@/store/modules/sidebar"
 
-import { CLEAR_DIALOGS_LIST_DATA, SET_DIALOG_LIST_CURRENT_PAGE } from "@/store/modules/dialog/mutations"
+import { CLEAR_DIALOGS_LIST_DATA } from "@/store/modules/dialog/mutations"
 import { TOGGLE_ADD_DIALOG_MODAL } from "@/store/modules/sidebar/mutations"
 import { FETCH_DIALOGS } from "@/store/modules/dialog/actions"
-import {
-  GET_DIALOGS_LIST,
-  GET_DIALOGS_LIST_CURRENT_PAGE,
-  GET_DIALOGS_LIST_LATEST_PAGE_SIZE,
-  GET_DIALOGS_LIST_PAGE_SIZE
-} from "@/store/modules/dialog/getters"
+import { GET_DIALOGS_LIST } from "@/store/modules/dialog/getters"
 
 import Dialog from "@/components/common/sidebar/dialog-list/Dialog.vue"
 
@@ -78,29 +63,16 @@ export default defineComponent({
     /* Dialogs */
 
     const dialogs = computed(() => store.getters[getterDialogModule(GET_DIALOGS_LIST)])
-    const fetchDialogs = (page: number) => store.dispatch(dispatchDialogModule(FETCH_DIALOGS), page)
-
-    const nextPage = () => store.commit(commitDialogModule(SET_DIALOG_LIST_CURRENT_PAGE), currentPage.value + 1)
-    const currentPage = computed(() => store.getters[getterDialogModule(GET_DIALOGS_LIST_CURRENT_PAGE)])
-    const pageSize = computed(() => store.getters[getterDialogModule(GET_DIALOGS_LIST_PAGE_SIZE)])
-    const latestPageSize = computed(() => store.getters[getterDialogModule(GET_DIALOGS_LIST_LATEST_PAGE_SIZE)])
+    const fetchDialogs = () => store.dispatch(dispatchDialogModule(FETCH_DIALOGS))
 
     const toggleModal = () => store.commit(commitSidebarModule(TOGGLE_ADD_DIALOG_MODAL))
 
-    const loadMoreDialogs = () => {
-      nextPage()
-      fetchDialogs(currentPage.value)
-    }
+    fetchDialogs()
 
     return {
       dialogs,
-      nextPage,
-      currentPage,
-      pageSize,
 
       toggleModal,
-      loadMoreDialogs,
-      latestPageSize
     }
   }
 })

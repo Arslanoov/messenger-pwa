@@ -10,9 +10,7 @@ import { REFRESH_TOKEN, LOGOUT } from "@/store/modules/auth/actions"
 
 export default (axios: AxiosInstance): AxiosInstance => {
   axios.interceptors.response.use(response => response, error => {
-    if (error.response?.config?.url === "/token") return
-
-    if (401 === error.response?.status) {
+    if (401 === error.response?.status && error.response?.config?.url !== "/token") {
       store.dispatch(dispatchAuthModule(REFRESH_TOKEN))
         .catch(() => {
           store.dispatch(dispatchAuthModule(LOGOUT))

@@ -54,8 +54,13 @@ export default {
           })
           resolve(response.data.access_token)
         })
-        .catch(() => {
+        .catch(error => {
           dispatch(LOGOUT)
+          if (error.response) {
+            console.error(error)
+            commit(SET_AUTH_FORM_ERROR, error.response.data.message || null)
+            reject(error.response)
+          }
           reject()
         })
     })

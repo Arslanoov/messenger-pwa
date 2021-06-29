@@ -1,6 +1,6 @@
 <template>
   <div class="user-card">
-    <Avatar v-if="avatar" :src="avatar" :is-online="isOnline" :with-margin="withMargin" />
+    <Avatar :src="avatar" :is-online="isOnline" :with-margin="withMargin" />
     <div v-if="isSidebarOpened" class="user-card__content">
       <div class="user-card__title">
         {{ title }}
@@ -13,7 +13,6 @@
       </div>
       <div class="user-card__subtitle">{{ extractText(subtitle) }}</div>
     </div>
-    <div v-if="!isSidebarOpened && !avatar" class="user-card__title">{{ title }}</div>
   </div>
 </template>
 

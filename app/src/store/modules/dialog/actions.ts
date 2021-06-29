@@ -11,20 +11,17 @@ import {
   ADD_CURRENT_DIALOG_MESSAGE,
   ADD_CURRENT_DIALOG_MESSAGES,
   ADD_DIALOG,
-  ADD_DIALOG_LIST,
   CLEAR_SEND_FORM,
   CLEAR_USERS_SEARCH_ERROR,
   CLEAR_USERS_SEARCH_RESULT,
+  MOVE_DIALOG_TO_THE_TOP,
   SET_CURRENT_DIALOG_LATEST_PAGE_SIZE,
   SET_CURRENT_DIALOG_MESSAGES,
   SET_DIALOG_LIST,
-  SET_DIALOG_LIST_LATEST_PAGE_SIZE,
-  SET_DIALOG_LIST_PAGE_SIZE,
   SET_USERS_SEARCH_ERROR,
   SET_USERS_SEARCH_RESULT
 } from "@/store/modules/dialog/mutations"
 import {
-  GET_DIALOGS_LIST_CURRENT_PAGE,
   GET_CURRENT_DIALOG,
   GET_SEND_FORM,
   GET_USERS_SEARCH_QUERY,
@@ -69,18 +66,12 @@ export default {
         })
     })
   },
-  [FETCH_DIALOGS]: ({
-    commit,
-    getters
-  }: ActionContext<DialogStateInterface, StateInterface>): Promise<DialogInterface[]> => {
+  [FETCH_DIALOGS]: ({ commit }: ActionContext<DialogStateInterface, StateInterface>): Promise<DialogInterface[]> => {
     return new Promise((resolve, reject) => {
-      const page: number = getters[GET_DIALOGS_LIST_CURRENT_PAGE]
       service
-        .getList(getters[GET_DIALOGS_LIST_CURRENT_PAGE])
+        .getList()
         .then(response => {
-          commit(page === 1 ? SET_DIALOG_LIST : ADD_DIALOG_LIST, response.data.items)
-          commit(SET_DIALOG_LIST_LATEST_PAGE_SIZE, response.data.items.length)
-          commit(SET_DIALOG_LIST_PAGE_SIZE, response.data.perPage)
+          commit(SET_DIALOG_LIST, response.data.items)
           resolve(response.data.items)
         })
         .catch(error => {
@@ -132,6 +123,7 @@ export default {
             message: response.data,
             dialog: currentDialog
           })
+          commit(MOVE_DIALOG_TO_THE_TOP, currentDialog)
           commit(CLEAR_SEND_FORM)
           resolve(response.data)
         })

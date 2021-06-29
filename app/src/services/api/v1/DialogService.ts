@@ -4,8 +4,8 @@ import plugins from "@/plugins/axios"
 export const newAxios = plugins(axios.create())
 
 export default class DialogService {
-  public getList(page = 1) {
-    return axios.get(`/messenger/dialogs?page=${page}`)
+  public getList() {
+    return axios.get("/messenger/dialogs")
   }
 
   public startDialog(partnerId: string) {

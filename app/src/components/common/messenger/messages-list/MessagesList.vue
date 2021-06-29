@@ -8,11 +8,13 @@
       Load more
     </div>
 
-    <Message
-      v-for="message in messages"
-      :message="message"
-      :key="message.uuid"
-    />
+    <template v-if="messages.length > 0">
+      <Message
+        v-for="message in messages"
+        :message="message"
+        :key="message.uuid"
+      />
+    </template>
   </div>
 </template>
 
@@ -83,7 +85,13 @@ export default defineComponent({
 
     const fetchMessages = () => store.dispatch(dispatchDialogModule(FETCH_DIALOG_MESSAGES))
 
-    watch(() => currentDialog.value.uuid, () => fetchMessages()
+    if (!currentDialog.value) {
+      router.push({
+        name: routesNames.NotFound
+      })
+    }
+
+    watch(() => currentDialog.value?.uuid, () => fetchMessages()
       .catch(error => {
         if (404 === error.response?.status) {
           router.push({

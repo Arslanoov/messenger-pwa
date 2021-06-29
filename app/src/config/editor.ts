@@ -1,6 +1,5 @@
 const Header = require("@editorjs/header")
 const List = require("@editorjs/list")
-const SimpleImage = require("@editorjs/simple-image")
 
 export default {
   holder: "editor",
@@ -12,10 +11,6 @@ export default {
     list: {
       class: List,
       inlineToolbar: true
-    },
-    image: {
-      class: SimpleImage,
-      inlineToolbar: ["link"]
     }
   }
 }

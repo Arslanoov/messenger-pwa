@@ -14,6 +14,9 @@ app.use(store, key)
 import VueFinalModal from "vue-final-modal"
 app.use(VueFinalModal())
 
+import VueDOMPurifyHTML from "vue-dompurify-html"
+app.use(VueDOMPurifyHTML)
+
 import axios from "axios"
 import plugins from "@/plugins/axios"
 import interceptors from "@/plugins/axios/interceptors"
