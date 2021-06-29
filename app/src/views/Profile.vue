@@ -71,10 +71,7 @@ export default defineComponent({
 
       store
         .dispatch(dispatchProfileModule(CHANGE_AVATAR), {
-          data: form,
-          onProgressChange: (e: ProgressEvent) => {
-            console.log("progress", Math.round((e.loaded * 100) / e.total))
-          }
+          data: form
         })
         .then((url: string) => {
           const params = new URLSearchParams({
