@@ -36,9 +36,15 @@ export default defineComponent({
 <style lang="stylus">
 .message
   &__content
+    max-width 50vw
+
+    +breakpoint-to(breakpoints.tablet)
+      max-width 100vw
+
     p
       margin .5rem 0
 
+      word-wrap break-word
       line-height 1.3
 </style>
 
@@ -51,6 +57,9 @@ export default defineComponent({
 
   margin-top message-margin
   padding 1.6rem 2.4rem
+
+  +breakpoint-to(breakpoints.tablet)
+    max-width 95%
 
   &:first-of-type
     margin-top 0
