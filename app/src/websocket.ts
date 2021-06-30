@@ -2,7 +2,7 @@ const ws = new WebSocket(process.env.VUE_APP_WS_URL as string)
 import { store } from "@/store"
 
 import { commitDialogModule } from "@/store/modules/dialog"
-import { ADD_CURRENT_DIALOG_MESSAGE, MOVE_DIALOG_TO_THE_TOP } from "@/store/modules/dialog/mutations"
+import { ADD_CURRENT_DIALOG_MESSAGE, MOVE_DIALOG_TO_THE_TOP, READ_DIALOG } from "@/store/modules/dialog/mutations"
 
 import { playMessageSound } from "@/helpers/sound"
 
@@ -29,6 +29,10 @@ ws.onmessage = (e: MessageEvent) => {
     store.commit(commitDialogModule(MOVE_DIALOG_TO_THE_TOP), data.dialog)
     playMessageSound()
   }
+
+  if (data.type === "new-message") {
+    store.commit(commitDialogModule(READ_DIALOG), data.dialog)
+  }
 }
 
 export const sendMessage = (dialog: DialogInterface, message: MessageInterface) => {
@@ -36,5 +40,12 @@ export const sendMessage = (dialog: DialogInterface, message: MessageInterface) 
     type: "new-message",
     dialog,
     message
+  }))
+}
+
+export const readMessages = (dialog: DialogInterface) => {
+  ws.send(JSON.stringify({
+    type: "read-messages",
+    dialog
   }))
 }

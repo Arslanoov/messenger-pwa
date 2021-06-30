@@ -7,6 +7,8 @@ import { UserSearchInterface } from "@/types/user"
 import { StateInterface as DialogStateInterface } from "./state"
 import { StateInterface } from "@/store"
 
+import { readMessages } from "@/websocket"
+
 import {
   ADD_CURRENT_DIALOG_MESSAGE,
   ADD_CURRENT_DIALOG_MESSAGES,
@@ -96,6 +98,7 @@ export default {
         .then(response => {
           commit(page === 1 ? SET_CURRENT_DIALOG_MESSAGES : ADD_CURRENT_DIALOG_MESSAGES, response.data.items)
           commit(SET_CURRENT_DIALOG_LATEST_PAGE_SIZE, response.data.items.length)
+          readMessages(currentDialog)
           resolve(response.data.items)
         })
         .catch(error => {

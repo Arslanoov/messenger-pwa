@@ -6,6 +6,7 @@ import { UserSearchInterface } from "@/types/user"
 
 export const SET_DIALOG_LIST = "SET_DIALOG_LIST"
 export const ADD_DIALOG = "ADD_DIALOG"
+export const READ_DIALOG = "READ_DIALOG"
 export const MOVE_DIALOG_TO_THE_TOP = "MOVE_DIALOG_TO_THE_TOP"
 export const CLEAR_DIALOGS_LIST_DATA = "CLEAR_DIALOGS_LIST_DATA"
 
@@ -29,6 +30,14 @@ export const CLEAR_USERS_SEARCH_ERROR = "CLEAR_USERS_SEARCH_ERROR"
 export default {
   [SET_DIALOG_LIST]: (state: StateInterface, dialogs: DialogInterface[]) => state.dialogs = dialogs,
   [ADD_DIALOG]: (state: StateInterface, dialog: DialogInterface) => state.dialogs.unshift(dialog),
+  [READ_DIALOG]: (state: StateInterface, dialogUuid: string) => {
+    state.dialogs = state.dialogs.filter(item => item.uuid === dialogUuid ? ({
+      ...item,
+      sentByPartner: {
+        isRead: true
+      }
+    }) : item)
+  },
   [MOVE_DIALOG_TO_THE_TOP]: (state: StateInterface, dialog: DialogInterface) => {
     state.dialogs.sort((a: DialogInterface, y: DialogInterface) => {
       return a.uuid == dialog.uuid ? -1 : y.uuid === dialog.uuid ? 1 : 0

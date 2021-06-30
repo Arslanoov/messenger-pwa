@@ -120,6 +120,8 @@ export default defineComponent({
 
     padding 3.2rem 0
 
+    word-break: break-all
+
     border none
     outline none
 
