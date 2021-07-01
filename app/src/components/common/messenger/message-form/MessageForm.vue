@@ -80,10 +80,22 @@ export default defineComponent({
               isMine: false
             }))
             .catch(error => {
-              notify({
-                type: "warn",
-                text: error.data.message
-              })
+              if (error.data.message) {
+                notify({
+                  type: "warn",
+                  text: error.data.message
+                })
+              }
+
+              if (error.data.violations?.length > 0) {
+                error.data.violations.forEach((violation: {
+                  propertyPath: string,
+                  title: string
+                }) => notify({
+                  type: "warn",
+                  text: `${violation.propertyPath}: ${violation.title}`
+                }))
+              }
             })
 
           editor.clear()

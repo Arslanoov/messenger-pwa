@@ -18,6 +18,7 @@ export const SET_CURRENT_DIALOG_CURRENT_PAGE = "SET_CURRENT_DIALOG_CURRENT_PAGE"
 export const SET_CURRENT_DIALOG_LATEST_PAGE_SIZE = "SET_CURRENT_DIALOG_LATEST_PAGE_SIZE"
 export const CLEAR_CURRENT_DIALOG = "CLEAR_CURRENT_DIALOG"
 export const CHANGE_DIALOG_LATEST_MESSAGE = "CHANGE_DIALOG_LATEST_MESSAGE"
+export const CHANGE_DIALOG = "CHANGE_DIALOG"
 
 export const SET_SEND_FORM_CONTENT = "SET_SEND_FORM_CONTENT"
 export const CLEAR_SEND_FORM = "CLEAR_SEND_FORM"
@@ -89,38 +90,22 @@ export default {
       }
     }
   },
+  [CHANGE_DIALOG]: (state: StateInterface, dialog: Partial<DialogInterface>) => {
+    const index = state.dialogs.findIndex((item) => item.uuid === dialog.uuid)
+    if (index !== -1) {
+      state.dialogs[index] = {
+        ...state.dialogs[index],
+        ...dialog
+      }
+    }
+  },
   [ADD_CURRENT_DIALOG_MESSAGE]:
     (state: StateInterface, payload: { dialog: DialogInterface, message: MessageInterface }) => {
       if (state.currentDialog?.uuid !== payload.dialog?.uuid) return
 
-      const dialogs: DialogInterface[] = []
       if (state.currentDialog) {
         state.currentDialogMessages.push(payload.message)
-        dialogs.push(state.currentDialog)
       }
-
-      const dialog: DialogInterface | null = state.dialogs.find(item => item.isSelected) || null
-      if (dialog) {
-        dialogs.push(dialog)
-      }
-
-      dialogs.forEach(dialog => {
-        dialog.latestMessage = {
-          date: payload.message.wroteAt,
-          content: payload.message.content
-        }
-
-        if (payload.message.isMine) {
-          dialog.sentByMe = {
-            isSent: true,
-            isRead: false
-          }
-        } else {
-          dialog.sentByPartner = {
-            isRead: true
-          }
-        }
-      })
     },
   [SET_SEND_FORM_CONTENT]:
     (state: StateInterface, content: string) => state.sendMessageForm.content = content,

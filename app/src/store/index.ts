@@ -1,8 +1,6 @@
 import { InjectionKey } from "vue"
 import { Store, createStore, createLogger } from "vuex"
 
-import VuexPersistence from "vuex-persist"
-
 import { StateInterface as AuthStateInterface } from "@/store/modules/auth/state"
 import { StateInterface as SidebarStateInterface } from "@/store/modules/sidebar/state"
 import { StateInterface as ProfileStateInterface } from "@/store/modules/profile/state"
@@ -20,10 +18,6 @@ export interface StateInterface {
   dialog: DialogStateInterface
 }
 
-const persistencePlugin = new VuexPersistence<StateInterface>({
-  storage: window.localStorage
-})
-
 export const key: InjectionKey<Store<StateInterface>> = Symbol()
 
 export const store = createStore<StateInterface>({
@@ -34,8 +28,7 @@ export const store = createStore<StateInterface>({
     dialog
   },
   plugins: process.env.NODE_ENV === "development" ? [
-    createLogger(),
-    persistencePlugin.plugin
+    createLogger()
   ] : [],
   strict: process.env.NODE_ENV !== "production"
 })
