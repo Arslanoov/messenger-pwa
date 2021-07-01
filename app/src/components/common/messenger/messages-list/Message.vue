@@ -8,7 +8,7 @@
       <div class="message__date">
         {{ formatDate(new Date(message.wroteAt)) }}
       </div>
-      <div @click="remove" class="message__remove">
+      <div v-if="message.isMine" @click="remove" class="message__remove">
         <img class="message__remove-icon" src="~@/assets/images/icons/close.svg" alt="">
       </div>
     </div>

@@ -67,7 +67,6 @@ export default defineComponent({
           store.dispatch(dispatchDialogModule(SEND_MESSAGE))
             .then((message: MessageInterface) => sendWsMessage({
               ...currentDialog.value,
-              // TODO: Remove undefined
               sentByMe: undefined,
               sentByPartner: {
                 isRead: true

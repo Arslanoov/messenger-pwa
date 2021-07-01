@@ -13,6 +13,7 @@ import {
   ADD_CURRENT_DIALOG_MESSAGE,
   ADD_CURRENT_DIALOG_MESSAGES,
   ADD_DIALOG,
+  CHANGE_DIALOG_LATEST_MESSAGE,
   CLEAR_SEND_FORM,
   CLEAR_USERS_SEARCH_ERROR,
   CLEAR_USERS_SEARCH_RESULT,
@@ -128,6 +129,10 @@ export default {
             dialog: currentDialog
           })
           commit(MOVE_DIALOG_TO_THE_TOP, currentDialog)
+          commit(CHANGE_DIALOG_LATEST_MESSAGE, {
+            message: response.data,
+            dialog: currentDialog
+          })
           commit(CLEAR_SEND_FORM)
           resolve(response.data)
         })

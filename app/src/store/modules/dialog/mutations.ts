@@ -17,6 +17,7 @@ export const ADD_CURRENT_DIALOG_MESSAGES = "ADD_CURRENT_DIALOG_MESSAGES"
 export const SET_CURRENT_DIALOG_CURRENT_PAGE = "SET_CURRENT_DIALOG_CURRENT_PAGE"
 export const SET_CURRENT_DIALOG_LATEST_PAGE_SIZE = "SET_CURRENT_DIALOG_LATEST_PAGE_SIZE"
 export const CLEAR_CURRENT_DIALOG = "CLEAR_CURRENT_DIALOG"
+export const CHANGE_DIALOG_LATEST_MESSAGE = "CHANGE_DIALOG_LATEST_MESSAGE"
 
 export const SET_SEND_FORM_CONTENT = "SET_SEND_FORM_CONTENT"
 export const CLEAR_SEND_FORM = "CLEAR_SEND_FORM"
@@ -72,6 +73,21 @@ export default {
     state.currentDialogMessages = []
     state.currentDialogPagination.currentPage = 1
     state.messagesLatestPageSize = null
+  },
+  [CHANGE_DIALOG_LATEST_MESSAGE]: (state: StateInterface, payload: {
+    dialog: DialogInterface,
+    message: MessageInterface
+  }) => {
+    const index = state.dialogs.findIndex((item) => item.uuid === payload.dialog.uuid)
+    if (index !== -1) {
+      state.dialogs[index] = {
+        ...state.dialogs[index],
+        latestMessage: {
+          content: payload.message.content,
+          date: payload.message.wroteAt
+        }
+      }
+    }
   },
   [ADD_CURRENT_DIALOG_MESSAGE]:
     (state: StateInterface, payload: { dialog: DialogInterface, message: MessageInterface }) => {
