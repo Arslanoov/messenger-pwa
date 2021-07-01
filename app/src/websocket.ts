@@ -6,7 +6,7 @@ import {
   ADD_CURRENT_DIALOG_MESSAGE,
   MOVE_DIALOG_TO_THE_TOP,
   CHANGE_DIALOG_LATEST_MESSAGE,
-  CHANGE_DIALOG
+  CHANGE_DIALOG, REMOVE_CURRENT_DIALOG_MESSAGE
 } from "@/store/modules/dialog/mutations"
 import { READ_MESSAGE } from "@/store/modules/dialog/actions"
 import { GET_CURRENT_DIALOG } from "@/store/modules/dialog/getters"
@@ -94,6 +94,13 @@ ws.onmessage = (e: MessageEvent) => {
       }
     })
   }
+
+  if (data.type === "remove-message") {
+    const currentDialog = store.getters[getterDialogModule(GET_CURRENT_DIALOG)]
+    if (currentDialog?.uuid === data.dialog.uuid) {
+      store.commit(commitDialogModule(REMOVE_CURRENT_DIALOG_MESSAGE), data.message.uuid)
+    }
+  }
 }
 
 export const sendMessage = (dialog: DialogInterface, message: MessageInterface) => {
@@ -132,4 +139,12 @@ export const readMessages = (dialog: DialogInterface) => {
       isRead: true
     }
   })
+}
+
+export const removeMessage = (dialog: DialogInterface, message: MessageInterface) => {
+  ws.send(JSON.stringify({
+    type: "remove-message",
+    dialog,
+    message
+  }))
 }

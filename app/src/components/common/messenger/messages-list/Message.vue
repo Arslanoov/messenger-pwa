@@ -16,13 +16,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue"
+import { computed, defineComponent, PropType } from "vue"
 
 import { useStore } from "@/composables/store"
-import { dispatchDialogModule } from "@/store/modules/dialog"
+import { dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
 
 import { REMOVE_MESSAGE } from "@/store/modules/dialog/actions"
+import { GET_CURRENT_DIALOG } from "@/store/modules/dialog/getters"
 
+import { removeMessage as removeWsMessage } from "@/websocket"
+
+import { DialogInterface } from "@/types/dialog"
 import { MessageInterface } from "@/types/message"
 
 import { formatDate } from "@/utils/dateFormatter"
@@ -40,7 +44,9 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
-    const remove = () =>
+    const currentDialog = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG)] as DialogInterface)
+
+    const remove = () => {
       store.dispatch(dispatchDialogModule(REMOVE_MESSAGE), props.message.uuid)
         .catch(error => {
           notify({
@@ -48,6 +54,9 @@ export default defineComponent({
             text: error.data.message
           })
         })
+
+      removeWsMessage(currentDialog.value, props.message)
+    }
 
     return {
       remove,

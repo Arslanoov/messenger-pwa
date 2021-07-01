@@ -65,7 +65,9 @@ export default {
     state.currentDialogMessages.splice(index, 1)
   },
   [ADD_CURRENT_DIALOG_MESSAGES]:
-    (state: StateInterface, messages: MessageInterface[]) => state.currentDialogMessages = state.currentDialogMessages.concat(messages),
+    (state: StateInterface, messages: MessageInterface[]) => {
+      messages.forEach(message => state.currentDialogMessages.unshift(message))
+    },
   [SET_CURRENT_DIALOG_LATEST_PAGE_SIZE]:
     (state: StateInterface, size: number) => state.messagesLatestPageSize = size,
   [SET_CURRENT_DIALOG_CURRENT_PAGE]:
