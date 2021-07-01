@@ -4,14 +4,24 @@
     partner: !message.isMine
   }">
     <div v-html="message.content" class="message__content"></div>
-    <div class="message__date">
-      {{ formatDate(new Date(message.wroteAt)) }}
+    <div class="message__manage">
+      <div class="message__date">
+        {{ formatDate(new Date(message.wroteAt)) }}
+      </div>
+      <div @click="remove" class="message__remove">
+        <img class="message__remove-icon" src="~@/assets/images/icons/close.svg" alt="">
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
+
+import { useStore } from "@/composables/store"
+import { dispatchDialogModule } from "@/store/modules/dialog"
+
+import { REMOVE_MESSAGE } from "@/store/modules/dialog/actions"
 
 import { MessageInterface } from "@/types/message"
 
@@ -25,8 +35,14 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
+  setup(props) {
+    const store = useStore()
+
+    const remove = () => store.dispatch(dispatchDialogModule(REMOVE_MESSAGE), props.message.uuid)
+
     return {
+      remove,
+
       formatDate
     }
   }
@@ -80,6 +96,21 @@ export default defineComponent({
     background-color message-partner-background
     color message-partner-color
 
+  &__manage
+    display flex
+    justify-content space-between
+    align-items center
+
   &__date
     font-size message-date-font-size
+
+  &__remove
+    align-self: flex-end
+
+    margin-left 1rem
+
+    pointer-on-hover()
+
+    &-icon
+      width 1rem
 </style>

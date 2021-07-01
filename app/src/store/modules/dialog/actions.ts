@@ -16,7 +16,7 @@ import {
   CLEAR_SEND_FORM,
   CLEAR_USERS_SEARCH_ERROR,
   CLEAR_USERS_SEARCH_RESULT,
-  MOVE_DIALOG_TO_THE_TOP,
+  MOVE_DIALOG_TO_THE_TOP, REMOVE_CURRENT_DIALOG_MESSAGE,
   SET_CURRENT_DIALOG_LATEST_PAGE_SIZE,
   SET_CURRENT_DIALOG_MESSAGES,
   SET_DIALOG_LIST,
@@ -42,6 +42,7 @@ export const FETCH_DIALOGS = "fetchDialogs"
 export const FETCH_DIALOG_MESSAGES = "fetchDialogMessages"
 export const SEND_MESSAGE = "sendMessage"
 export const START_DIALOG = "startDialog"
+export const REMOVE_MESSAGE = "removeDialog"
 
 export default {
   [SEARCH_USER]: ({
@@ -162,6 +163,27 @@ export default {
           if (error.response) {
             console.error(error)
             commit(SET_USERS_SEARCH_ERROR, error.response.data.message)
+            reject(error.response)
+          }
+          reject(error)
+        })
+    })
+  },
+  [REMOVE_MESSAGE]: ({
+      commit
+    }: ActionContext<DialogStateInterface, StateInterface>,
+    messageId: string
+  ): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      service
+        .removeMessage(messageId)
+        .then(() => {
+          commit(REMOVE_CURRENT_DIALOG_MESSAGE, messageId)
+          resolve()
+        })
+        .catch(error => {
+          if (error.response) {
+            console.error(error)
             reject(error.response)
           }
           reject(error)

@@ -24,4 +24,12 @@ export default class DialogService {
       content
     })
   }
+
+  public removeMessage(messageId: string) {
+    return axios.delete("/messenger/message/remove", {
+      data: {
+        message_id: messageId
+      }
+    })
+  }
 }

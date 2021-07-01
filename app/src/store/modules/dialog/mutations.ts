@@ -12,6 +12,7 @@ export const CLEAR_DIALOGS_LIST_DATA = "CLEAR_DIALOGS_LIST_DATA"
 
 export const SET_CURRENT_DIALOG = "SET_CURRENT_DIALOG"
 export const SET_CURRENT_DIALOG_MESSAGES = "SET_CURRENT_DIALOG_MESSAGES"
+export const REMOVE_CURRENT_DIALOG_MESSAGE = "REMOVE_CURRENT_DIALOG_MESSAGE"
 export const ADD_CURRENT_DIALOG_MESSAGES = "ADD_CURRENT_DIALOG_MESSAGES"
 export const SET_CURRENT_DIALOG_CURRENT_PAGE = "SET_CURRENT_DIALOG_CURRENT_PAGE"
 export const SET_CURRENT_DIALOG_LATEST_PAGE_SIZE = "SET_CURRENT_DIALOG_LATEST_PAGE_SIZE"
@@ -57,6 +58,10 @@ export default {
   },
   [SET_CURRENT_DIALOG_MESSAGES]:
     (state: StateInterface, messages: MessageInterface[]) => state.currentDialogMessages = messages,
+  [REMOVE_CURRENT_DIALOG_MESSAGE]: (state: StateInterface, messageId: string) => {
+    const index = state.currentDialogMessages.findIndex(item => item.uuid === messageId)
+    state.currentDialogMessages.splice(index, 1)
+  },
   [ADD_CURRENT_DIALOG_MESSAGES]:
     (state: StateInterface, messages: MessageInterface[]) => state.currentDialogMessages = state.currentDialogMessages.concat(messages),
   [SET_CURRENT_DIALOG_LATEST_PAGE_SIZE]:
@@ -70,9 +75,9 @@ export default {
   },
   [ADD_CURRENT_DIALOG_MESSAGE]:
     (state: StateInterface, payload: { dialog: DialogInterface, message: MessageInterface }) => {
-    if (state.currentDialog?.uuid !== payload.dialog?.uuid) return
+      if (state.currentDialog?.uuid !== payload.dialog?.uuid) return
 
-    const dialogs: DialogInterface[] = []
+      const dialogs: DialogInterface[] = []
       if (state.currentDialog) {
         state.currentDialogMessages.push(payload.message)
         dialogs.push(state.currentDialog)
