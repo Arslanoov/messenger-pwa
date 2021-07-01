@@ -1,7 +1,7 @@
 const ws = new WebSocket(process.env.VUE_APP_WS_URL as string)
 import { store } from "@/store"
 
-import {commitDialogModule, dispatchDialogModule, getterDialogModule} from "@/store/modules/dialog"
+import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
 import {
   ADD_CURRENT_DIALOG_MESSAGE,
   MOVE_DIALOG_TO_THE_TOP,
@@ -40,6 +40,14 @@ ws.onmessage = (e: MessageEvent) => {
     store.commit(commitDialogModule(CHANGE_DIALOG_LATEST_MESSAGE), params)
     store.commit(commitDialogModule(MOVE_DIALOG_TO_THE_TOP), data.dialog)
 
+    store.commit(commitDialogModule(CHANGE_DIALOG), {
+      uuid: data.dialog.uuid,
+      sentByMe: undefined,
+      sentByPartner: {
+        isRead: false
+      }
+    })
+
     const currentDialog = store.getters[getterDialogModule(GET_CURRENT_DIALOG)]
     if (currentDialog?.uuid === data.dialog.uuid) {
       store.dispatch(dispatchDialogModule(READ_MESSAGE), {
@@ -47,9 +55,21 @@ ws.onmessage = (e: MessageEvent) => {
         messageId: data.message.uuid
       })
 
+      store.commit(commitDialogModule(CHANGE_DIALOG), {
+        uuid: data.dialog.uuid,
+        sentByMe: undefined,
+        sentByPartner: {
+          isSent: true,
+          isRead: true
+        }
+      })
+
       ws.send(JSON.stringify({
         type: "read-message",
-        dialog: data.dialog,
+        dialog: {
+          ...data.dialog,
+          partner: currentDialog.partner
+        },
         message: data.message
       }))
     }
@@ -65,14 +85,12 @@ ws.onmessage = (e: MessageEvent) => {
   }
 
   if (data.type === "read-message" || data.type === "read-messages") {
-    store.commit(CHANGE_DIALOG, {
-      dialog: {
-        uuid: data.dialog.uuid,
-        sentByPartner: undefined,
-        sentByMe: {
-          isSent: true,
-          isRead: true
-        }
+    store.commit(commitDialogModule(CHANGE_DIALOG),{
+      uuid: data.dialog.uuid,
+      sentByPartner: undefined,
+      sentByMe: {
+        isSent: true,
+        isRead: true
       }
     })
   }
@@ -84,11 +102,34 @@ export const sendMessage = (dialog: DialogInterface, message: MessageInterface) 
     dialog,
     message
   }))
+
+  store.commit(commitDialogModule(CHANGE_DIALOG), {
+    uuid: dialog.uuid,
+    sentByPartner: undefined,
+    sentByMe: {
+      isSent: true,
+      isRead: false
+    }
+  })
 }
 
 export const readMessages = (dialog: DialogInterface) => {
+  const currentDialog = store.getters[getterDialogModule(GET_CURRENT_DIALOG)]
+
   ws.send(JSON.stringify({
     type: "read-messages",
-    dialog
+    dialog: {
+      ...dialog,
+      partner: currentDialog.partner
+    }
   }))
+
+  store.commit(commitDialogModule(CHANGE_DIALOG), {
+    uuid: dialog.uuid,
+    sentByMe: undefined,
+    sentByPartner: {
+      isSent: true,
+      isRead: true
+    }
+  })
 }

@@ -79,25 +79,19 @@ export default {
     dialog: DialogInterface,
     message: MessageInterface
   }) => {
-    const index = state.dialogs.findIndex((item) => item.uuid === payload.dialog.uuid)
-    if (index !== -1) {
-      state.dialogs[index] = {
-        ...state.dialogs[index],
-        latestMessage: {
-          content: payload.message.content,
-          date: payload.message.wroteAt
-        }
+    state.dialogs = state.dialogs.map(item => item.uuid === payload.dialog.uuid ? ({
+      ...item,
+      latestMessage: {
+        content: payload.message.content,
+        date: payload.message.wroteAt
       }
-    }
+    }) : item)
   },
   [CHANGE_DIALOG]: (state: StateInterface, dialog: Partial<DialogInterface>) => {
-    const index = state.dialogs.findIndex((item) => item.uuid === dialog.uuid)
-    if (index !== -1) {
-      state.dialogs[index] = {
-        ...state.dialogs[index],
-        ...dialog
-      }
-    }
+    state.dialogs = state.dialogs.map(item => item.uuid === dialog.uuid ? ({
+      ...item,
+      ...dialog
+    }) : item)
   },
   [ADD_CURRENT_DIALOG_MESSAGE]:
     (state: StateInterface, payload: { dialog: DialogInterface, message: MessageInterface }) => {

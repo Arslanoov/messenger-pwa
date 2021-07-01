@@ -157,21 +157,12 @@ export default {
           getters[GET_SEND_FORM].content
         )
         .then(response => {
-          commit(ADD_CURRENT_DIALOG_MESSAGE, {
+          const data = {
             message: response.data,
             dialog: currentDialog
-          })
-          commit(CHANGE_DIALOG_LATEST_MESSAGE, {
-            message: {
-              ...response.data,
-              sentByPartner: undefined,
-              sentByMe: {
-                isSent: true,
-                isRead: false
-              }
-            },
-            dialog: currentDialog
-          })
+          }
+          commit(ADD_CURRENT_DIALOG_MESSAGE, data)
+          commit(CHANGE_DIALOG_LATEST_MESSAGE, data)
           commit(MOVE_DIALOG_TO_THE_TOP, currentDialog)
           commit(CLEAR_SEND_FORM)
           resolve(response.data)

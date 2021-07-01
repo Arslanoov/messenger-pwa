@@ -1,7 +1,7 @@
 <template>
   <div
     @click="onDialogChoose(dialog.uuid)"
-    :class="{ selected: dialog.isSelected }"
+    :class="{ selected: dialog.uuid === $route.params.id }"
     class="dialog"
   >
     <user-card
@@ -17,14 +17,14 @@
     <div class="dialog-status">
       <template v-if="dialog.sentByMe">
         <img
-          v-if="dialog.sentByMe.isRead === 'Not Read'"
+          v-if="dialog.sentByMe.isRead"
           class="dialog-status__icon"
-          src="~@/assets/images/profile/icons/1.png"
+          src="~@/assets/images/profile/icons/2.png"
           alt="">
         <img
           v-else
           class="dialog-status__icon"
-          src="~@/assets/images/profile/icons/2.png"
+          src="~@/assets/images/profile/icons/1.png"
           alt="">
       </template>
       <template v-if="dialog.sentByPartner && !dialog.sentByPartner.isRead">
