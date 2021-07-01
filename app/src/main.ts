@@ -14,6 +14,7 @@ app.use(store, key)
 import VueFinalModal from "vue-final-modal"
 app.use(VueFinalModal())
 
+/* TODO: Remove? */
 import VueDOMPurifyHTML from "vue-dompurify-html"
 app.use(VueDOMPurifyHTML)
 
