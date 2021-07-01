@@ -8,7 +8,7 @@
           v-if="extra"
           class="user-card__extra"
         >
-          {{ extra }}
+          {{ formatDate(new Date(extra)) }}
         </span>
       </div>
       <div class="user-card__subtitle">{{ extractText(subtitle) }}</div>
@@ -23,6 +23,8 @@ import { useStore } from "@/composables/store"
 import { getterSidebarModule } from "@/store/modules/sidebar"
 
 import { GET_IS_SIDEBAR_OPENED } from "@/store/modules/sidebar/getters"
+
+import { formatDate } from "@/utils/dateFormatter"
 
 import Avatar from "@/components/base/avatar/Avatar.vue"
 
@@ -81,7 +83,8 @@ export default defineComponent({
     return {
       isSidebarOpened,
 
-      extractText
+      extractText,
+      formatDate
     }
   }
 })
