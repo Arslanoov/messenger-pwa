@@ -13,6 +13,7 @@
     "@editorjs/editorjs": "^2.22.0",
     "@editorjs/header": "^2.6.1",
     "@editorjs/list": "^1.6.2",
+    "@kyvg/vue3-notification": "^2.3.3",
     "@vue-composable/axios": "^1.0.0-beta.23",
     "axios": "^0.21.1",
     "core-js": "^3.12.1",

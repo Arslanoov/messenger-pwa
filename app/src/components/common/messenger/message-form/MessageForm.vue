@@ -34,6 +34,8 @@ import { MessageInterface } from "@/types/message"
 import { sendMessage as sendWsMessage } from "@/websocket"
 import { DialogInterface } from "@/types/dialog"
 
+import { notify } from "@kyvg/vue3-notification"
+
 import EditorJS from "@editorjs/editorjs"
 import config from "@/config/editor"
 
@@ -78,6 +80,12 @@ export default defineComponent({
               ...message,
               isMine: false
             }))
+            .catch(error => {
+              notify({
+                type: "warn",
+                text: error.data.message
+              })
+            })
 
           editor.clear()
         })

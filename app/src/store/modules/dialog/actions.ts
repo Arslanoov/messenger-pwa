@@ -161,7 +161,6 @@ export default {
         })
         .catch(error => {
           if (error.response) {
-            console.error(error)
             commit(SET_USERS_SEARCH_ERROR, error.response.data.message)
             reject(error.response)
           }
@@ -183,7 +182,6 @@ export default {
         })
         .catch(error => {
           if (error.response) {
-            console.error(error)
             reject(error.response)
           }
           reject(error)

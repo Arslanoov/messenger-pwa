@@ -27,6 +27,8 @@ import { MessageInterface } from "@/types/message"
 
 import { formatDate } from "@/utils/dateFormatter"
 
+import { notify } from "@kyvg/vue3-notification"
+
 export default defineComponent({
   name: "Message",
   props: {
@@ -38,7 +40,14 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
-    const remove = () => store.dispatch(dispatchDialogModule(REMOVE_MESSAGE), props.message.uuid)
+    const remove = () =>
+      store.dispatch(dispatchDialogModule(REMOVE_MESSAGE), props.message.uuid)
+        .catch(error => {
+          notify({
+            type: "warn",
+            text: error.data.message
+          })
+        })
 
     return {
       remove,

@@ -2,6 +2,8 @@
   <div class="main-layout">
     <sidebar class="sidebar-wrapper" />
     <router-view class="view-wrapper" />
+
+    <notifications :duration="10000" position="top left" />
   </div>
 </template>
 

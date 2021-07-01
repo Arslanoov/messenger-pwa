@@ -55,6 +55,8 @@ import { UserInterface } from "@/types/user"
 
 import { avatarUrl } from "@/helpers/avatar"
 
+import { notify } from "@kyvg/vue3-notification"
+
 export default defineComponent({
   name: "Profile",
   setup() {
@@ -63,7 +65,14 @@ export default defineComponent({
     const user = computed(() => store.getters[getterAuthModule(GET_CURRENT_USER)] as UserInterface)
 
     const changeAbout = (value: string) => store.commit(commitProfileModule(SET_CHANGE_FORM_ABOUT), value)
-    const changeInfo = () => store.dispatch(dispatchProfileModule(CHANGE_INFO))
+    const changeInfo = () => {
+      store.dispatch(dispatchProfileModule(CHANGE_INFO))
+
+      notify({
+        type: "success",
+        text: "Profile data successfully changed"
+      })
+    }
 
     const changeAvatar = (file: File) => {
       const form = new FormData()
@@ -78,12 +87,24 @@ export default defineComponent({
             hash: String(Math.random())
           })
           store.commit(commitAuthModule(SET_AVATAR), `${url}?${params.toString()}`)
+
+          notify({
+            type: "success",
+            text: "Avatar successfully updated"
+          })
         })
     }
     const removeAvatar = () => {
       store
         .dispatch(dispatchProfileModule(REMOVE_AVATAR_ACTION))
-        .then(() => store.commit(commitAuthModule(REMOVE_AVATAR)))
+        .then(() => {
+          store.commit(commitAuthModule(REMOVE_AVATAR))
+
+          notify({
+            type: "success",
+            text: "Avatar successfully removed"
+          })
+        })
     }
 
     return {
