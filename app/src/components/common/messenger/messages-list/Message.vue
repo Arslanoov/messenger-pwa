@@ -66,7 +66,7 @@ export default defineComponent({
     +breakpoint-to(breakpoints.tablet)
       max-width 100vw
 
-    p
+    *
       margin .5rem 0
 
       word-wrap break-word
