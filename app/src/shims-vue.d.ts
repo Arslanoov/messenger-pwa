@@ -5,6 +5,5 @@ declare module "*.vue" {
   export default component
 }
 
-declare module "@arslanoov/vue-autocomplete-input"
+declare module "@kyvg/vue3-notification"
 declare module "@editorjs/editorjs"
-declare module "vue-infinite-loading"

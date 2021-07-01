@@ -34,6 +34,8 @@ import { MessageInterface } from "@/types/message"
 import { sendMessage as sendWsMessage } from "@/websocket"
 import { DialogInterface } from "@/types/dialog"
 
+import { notify } from "@kyvg/vue3-notification"
+
 import EditorJS from "@editorjs/editorjs"
 import config from "@/config/editor"
 
@@ -65,7 +67,6 @@ export default defineComponent({
           store.dispatch(dispatchDialogModule(SEND_MESSAGE))
             .then((message: MessageInterface) => sendWsMessage({
               ...currentDialog.value,
-              // TODO: Remove undefined
               sentByMe: undefined,
               sentByPartner: {
                 isRead: true
@@ -78,6 +79,24 @@ export default defineComponent({
               ...message,
               isMine: false
             }))
+            .catch(error => {
+              if (error.data.message) {
+                notify({
+                  type: "warn",
+                  text: error.data.message
+                })
+              }
+
+              if (error.data.violations?.length > 0) {
+                error.data.violations.forEach((violation: {
+                  propertyPath: string,
+                  title: string
+                }) => notify({
+                  type: "warn",
+                  text: `${violation.propertyPath}: ${violation.title}`
+                }))
+              }
+            })
 
           editor.clear()
         })
@@ -119,6 +138,8 @@ export default defineComponent({
     width 80%
 
     padding 3.2rem 0
+
+    word-break: break-all
 
     border none
     outline none

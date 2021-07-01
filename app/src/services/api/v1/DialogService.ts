@@ -24,4 +24,19 @@ export default class DialogService {
       content
     })
   }
+
+  public readMessage(dialogId: string, messageId: string) {
+    return newAxios.patch("/messenger/message/read", {
+      dialog_id: dialogId,
+      message_id: messageId
+    })
+  }
+
+  public removeMessage(messageId: string) {
+    return newAxios.delete("/messenger/message/remove", {
+      data: {
+        message_id: messageId
+      }
+    })
+  }
 }

@@ -4,18 +4,34 @@
     partner: !message.isMine
   }">
     <div v-html="message.content" class="message__content"></div>
-    <div class="message__date">
-      {{ formatDate(new Date(message.wroteAt)) }}
+    <div class="message__manage">
+      <div class="message__date">
+        {{ formatDate(new Date(message.wroteAt)) }}
+      </div>
+      <div v-if="message.isMine" @click="remove" class="message__remove">
+        <img class="message__remove-icon" src="~@/assets/images/icons/close.svg" alt="">
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue"
+import { computed, defineComponent, PropType } from "vue"
 
+import { useStore } from "@/composables/store"
+import { dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
+
+import { REMOVE_MESSAGE } from "@/store/modules/dialog/actions"
+import { GET_CURRENT_DIALOG } from "@/store/modules/dialog/getters"
+
+import { removeMessage as removeWsMessage } from "@/websocket"
+
+import { DialogInterface } from "@/types/dialog"
 import { MessageInterface } from "@/types/message"
 
 import { formatDate } from "@/utils/dateFormatter"
+
+import { notify } from "@kyvg/vue3-notification"
 
 export default defineComponent({
   name: "Message",
@@ -25,8 +41,26 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
+  setup(props) {
+    const store = useStore()
+
+    const currentDialog = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG)] as DialogInterface)
+
+    const remove = () => {
+      store.dispatch(dispatchDialogModule(REMOVE_MESSAGE), props.message.uuid)
+        .catch(error => {
+          notify({
+            type: "warn",
+            text: error.data.message
+          })
+        })
+
+      removeWsMessage(currentDialog.value, props.message)
+    }
+
     return {
+      remove,
+
       formatDate
     }
   }
@@ -41,7 +75,7 @@ export default defineComponent({
     +breakpoint-to(breakpoints.tablet)
       max-width 100vw
 
-    p
+    *
       margin .5rem 0
 
       word-wrap break-word
@@ -80,6 +114,21 @@ export default defineComponent({
     background-color message-partner-background
     color message-partner-color
 
+  &__manage
+    display flex
+    justify-content space-between
+    align-items center
+
   &__date
     font-size message-date-font-size
+
+  &__remove
+    align-self: flex-end
+
+    margin-left 1rem
+
+    pointer-on-hover()
+
+    &-icon
+      width 1rem
 </style>

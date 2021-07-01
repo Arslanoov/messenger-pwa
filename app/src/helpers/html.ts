@@ -1,4 +1,4 @@
-export const jsonToHtml = (data: any) => {
+export const jsonToHtml = (data: never) => {
   let html = ""
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

@@ -85,20 +85,16 @@ export default defineComponent({
 
     const fetchMessages = () => store.dispatch(dispatchDialogModule(FETCH_DIALOG_MESSAGES))
 
-    if (!currentDialog.value) {
-      router.push({
-        name: routesNames.NotFound
-      })
-    }
-
-    watch(() => currentDialog.value?.uuid, () => fetchMessages()
-      .catch(error => {
-        if (404 === error.response?.status) {
-          router.push({
-            name: routesNames.SelectDialog
-          })
-        }
-      })
+    watch(currentDialog, () => {
+      fetchMessages()
+        .catch(error => {
+          if (404 === error?.response?.status) {
+            router.push({
+              name: routesNames.SelectDialog
+            })
+          }
+        })
+      }
     , {
       immediate: true
     })

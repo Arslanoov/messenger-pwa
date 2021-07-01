@@ -1,7 +1,7 @@
 <template>
   <div
     @click="onDialogChoose(dialog.uuid)"
-    :class="{ selected: dialog.isSelected }"
+    :class="{ selected: dialog.uuid === $route.params.id }"
     class="dialog"
   >
     <user-card
@@ -13,6 +13,7 @@
       :is-online="dialog.partner.isOnline"
       collapsible
     />
+
     <div class="dialog-status">
       <template v-if="dialog.sentByMe">
         <img

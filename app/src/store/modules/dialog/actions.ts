@@ -7,14 +7,18 @@ import { UserSearchInterface } from "@/types/user"
 import { StateInterface as DialogStateInterface } from "./state"
 import { StateInterface } from "@/store"
 
+import { readMessages } from "@/websocket"
+
 import {
   ADD_CURRENT_DIALOG_MESSAGE,
   ADD_CURRENT_DIALOG_MESSAGES,
   ADD_DIALOG,
+  CHANGE_DIALOG_LATEST_MESSAGE,
   CLEAR_SEND_FORM,
   CLEAR_USERS_SEARCH_ERROR,
   CLEAR_USERS_SEARCH_RESULT,
   MOVE_DIALOG_TO_THE_TOP,
+  REMOVE_CURRENT_DIALOG_MESSAGE,
   SET_CURRENT_DIALOG_LATEST_PAGE_SIZE,
   SET_CURRENT_DIALOG_MESSAGES,
   SET_DIALOG_LIST,
@@ -40,6 +44,8 @@ export const FETCH_DIALOGS = "fetchDialogs"
 export const FETCH_DIALOG_MESSAGES = "fetchDialogMessages"
 export const SEND_MESSAGE = "sendMessage"
 export const START_DIALOG = "startDialog"
+export const READ_MESSAGE = "readDialog"
+export const REMOVE_MESSAGE = "removeDialog"
 
 export default {
   [SEARCH_USER]: ({
@@ -90,47 +96,22 @@ export default {
     return new Promise((resolve, reject) => {
       const page: number = getters[GET_CURRENT_DIALOG_CURRENT_PAGE]
       const currentDialog: DialogInterface = getters[GET_CURRENT_DIALOG]
+      if (!currentDialog) {
+        reject()
+      }
 
       service
         .getMessages(currentDialog.uuid, page)
         .then(response => {
           commit(page === 1 ? SET_CURRENT_DIALOG_MESSAGES : ADD_CURRENT_DIALOG_MESSAGES, response.data.items)
           commit(SET_CURRENT_DIALOG_LATEST_PAGE_SIZE, response.data.items.length)
+          readMessages(currentDialog)
           resolve(response.data.items)
         })
         .catch(error => {
           if (error.response) {
             console.error(error)
             reject(error)
-          }
-          reject(error)
-        })
-    })
-  },
-  [SEND_MESSAGE]: ({
-    commit,
-    getters
-  }: ActionContext<DialogStateInterface, StateInterface>): Promise<MessageInterface> => {
-    return new Promise((resolve, reject) => {
-      const currentDialog: DialogInterface = getters[GET_CURRENT_DIALOG]
-      service
-        .sendMessage(
-          currentDialog.uuid,
-          getters[GET_SEND_FORM].content
-        )
-        .then(response => {
-          commit(ADD_CURRENT_DIALOG_MESSAGE, {
-            message: response.data,
-            dialog: currentDialog
-          })
-          commit(MOVE_DIALOG_TO_THE_TOP, currentDialog)
-          commit(CLEAR_SEND_FORM)
-          resolve(response.data)
-        })
-        .catch(error => {
-          if (error.response) {
-            console.error(error)
-            reject(error.response)
           }
           reject(error)
         })
@@ -157,8 +138,82 @@ export default {
         })
         .catch(error => {
           if (error.response) {
-            console.error(error)
             commit(SET_USERS_SEARCH_ERROR, error.response.data.message)
+            reject(error.response)
+          }
+          reject(error)
+        })
+    })
+  },
+  [SEND_MESSAGE]: ({
+     commit,
+     getters
+  }: ActionContext<DialogStateInterface, StateInterface>): Promise<MessageInterface> => {
+    return new Promise((resolve, reject) => {
+      const currentDialog: DialogInterface = getters[GET_CURRENT_DIALOG]
+      service
+        .sendMessage(
+          currentDialog.uuid,
+          getters[GET_SEND_FORM].content
+        )
+        .then(response => {
+          const data = {
+            message: response.data,
+            dialog: currentDialog
+          }
+          commit(ADD_CURRENT_DIALOG_MESSAGE, data)
+          commit(CHANGE_DIALOG_LATEST_MESSAGE, data)
+          commit(MOVE_DIALOG_TO_THE_TOP, currentDialog)
+          commit(CLEAR_SEND_FORM)
+          resolve(response.data)
+        })
+        .catch(error => {
+          if (error.response) {
+            reject(error.response)
+          }
+          reject(error)
+        })
+    })
+  },
+  [READ_MESSAGE]: ({
+      getters
+    }: ActionContext<DialogStateInterface, StateInterface>,
+    payload: {
+      dialogId: string,
+      messageId: string
+    }
+  ): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const currentDialog = getters[GET_CURRENT_DIALOG]
+      if (!currentDialog?.uuid || currentDialog.uuid !== payload.dialogId) {
+        reject()
+      }
+
+      service
+        .readMessage(payload.dialogId, payload.messageId)
+        .then(() => resolve())
+        .catch(error => {
+          if (error.response) {
+            reject(error.response)
+          }
+          reject(error)
+        })
+    })
+  },
+  [REMOVE_MESSAGE]: ({
+      commit
+    }: ActionContext<DialogStateInterface, StateInterface>,
+    messageId: string
+  ): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      service
+        .removeMessage(messageId)
+        .then(() => {
+          commit(REMOVE_CURRENT_DIALOG_MESSAGE, messageId)
+          resolve()
+        })
+        .catch(error => {
+          if (error.response) {
             reject(error.response)
           }
           reject(error)
