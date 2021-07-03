@@ -11,7 +11,9 @@ export const testAction = (action, payload, state, getters, dispatch, expectedMu
 
     try {
       expect(type).to.equal(mutation.type)
-      expect(payload).to.deep.equal(mutation.payload)
+      if (payload && mutation.payload) {
+        expect(payload).to.deep.equal(mutation.payload)
+      }
     } catch (error) {
       done(error)
     }

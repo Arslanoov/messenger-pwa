@@ -1,6 +1,6 @@
 import { expect } from "chai"
 
-import { isToday, isYesterday, isNotOlderThanMonth, formatDate } from "@/utils/dateFormatter"
+import { isToday, isYesterday, isNotOlderThanMonth } from "@/utils/dateFormatter"
 
 describe("date-formatter util", () => {
   it("is today", () => {
@@ -20,10 +20,5 @@ describe("date-formatter util", () => {
     expect(isNotOlderThanMonth(new Date(2021, 3, 11), new Date(2021, 3, 12))).to.be.true
     expect(isNotOlderThanMonth(new Date(2021, 1, 18), new Date(2021, 3, 18))).to.be.false
     expect(isNotOlderThanMonth(new Date(2020, 9, 18), new Date(2021, 3, 18))).to.be.false
-  })
-
-  it("formats date", () => {
-    const now = new Date()
-    expect(formatDate(new Date())).to.equal(`${now.getHours()}:${now.getMinutes()}`)
   })
 })

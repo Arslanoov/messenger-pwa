@@ -97,7 +97,8 @@ export default {
   },
   [ADD_CURRENT_DIALOG_MESSAGE]:
     (state: StateInterface, payload: { dialog: DialogInterface, message: MessageInterface }) => {
-      if (state.currentDialog?.uuid !== payload.dialog?.uuid) return
+      if (!state.currentDialog || !payload.dialog) return
+      if (state.currentDialog.uuid !== payload.dialog.uuid) return
 
       if (state.currentDialog) {
         state.currentDialogMessages.push(payload.message)

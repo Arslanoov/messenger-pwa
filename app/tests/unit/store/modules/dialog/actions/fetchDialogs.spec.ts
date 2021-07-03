@@ -3,7 +3,7 @@ import { testAction } from "../../../helpers/testAction"
 import state from "@/store/modules/dialog/state"
 import getters from "@/store/modules/dialog/getters"
 
-import { SET_DIALOG_LIST, SET_DIALOG_LIST_PAGE_SIZE } from "@/store/modules/dialog/mutations"
+import { SET_DIALOG_LIST } from "@/store/modules/dialog/mutations"
 import { FETCH_DIALOGS } from "@/store/modules/dialog/actions"
 
 const dialog = {
@@ -60,8 +60,7 @@ describe("dialog fetch action", () => {
       getters,
       () => {},
       [
-        { type: SET_DIALOG_LIST, payload: list },
-        { type: SET_DIALOG_LIST_PAGE_SIZE, payload: 20 }
+        { type: SET_DIALOG_LIST, payload: list }
       ],
       done
     )

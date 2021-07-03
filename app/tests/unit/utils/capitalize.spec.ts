@@ -5,9 +5,11 @@ import { capitalize } from "@/utils/capitalize"
 describe("capitalize util", () => {
   it("works", () => {
     const name = "vasya"
-    expect(capitalize(name)).to.equal("Vasya")
+    const capName = capitalize(name)
+    expect(capName).to.equal("Vasya")
 
     const name2 = "ivan"
-    expect(capitalize(name2)).to.equal("Ivan")
+    const capName2 = capitalize(name2)
+    expect(capName2).to.equal("Ivan")
   })
 })
