@@ -23,6 +23,7 @@
     "vue-composable": "^1.0.0-beta.23",
     "vue-dompurify-html": "^2.3.0",
     "vue-final-modal": "^3.2.1",
+    "vue-loading-overlay": "^4.0.3",
     "vue-router": "^4.0.8",
     "vuex": "^4.0.0-0"
   },
