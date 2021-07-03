@@ -1,4 +1,6 @@
-const ws = new WebSocket(process.env.VUE_APP_WS_URL as string)
+const isTest = process.env.NODE_ENV === "test"
+
+const ws = isTest ? {} as WebSocket : new WebSocket(process.env.VUE_APP_WS_URL as string)
 import { store } from "@/store"
 
 import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
@@ -19,6 +21,8 @@ import { MessageInterface } from "@/types/message"
 import { notify } from "@kyvg/vue3-notification"
 
 ws.onopen = () => {
+  if (isTest) return
+
   const token = localStorage.getItem("token") as string
   if (token) {
     ws.send(JSON.stringify({
@@ -29,6 +33,8 @@ ws.onopen = () => {
 }
 
 ws.onmessage = (e: MessageEvent) => {
+  if (isTest) return
+
   const data = JSON.parse(e.data)
 
   if (data.type === "new-message") {
@@ -49,7 +55,7 @@ ws.onmessage = (e: MessageEvent) => {
     })
 
     const currentDialog = store.getters[getterDialogModule(GET_CURRENT_DIALOG)]
-    if (currentDialog?.uuid === data.dialog.uuid) {
+    if (currentDialog && currentDialog.uuid === data.dialog.uuid) {
       store.dispatch(dispatchDialogModule(READ_MESSAGE), {
         dialogId: data.dialog.uuid,
         messageId: data.message.uuid
@@ -97,13 +103,15 @@ ws.onmessage = (e: MessageEvent) => {
 
   if (data.type === "remove-message") {
     const currentDialog = store.getters[getterDialogModule(GET_CURRENT_DIALOG)]
-    if (currentDialog?.uuid === data.dialog.uuid) {
+    if (currentDialog && currentDialog.uuid === data.dialog.uuid) {
       store.commit(commitDialogModule(REMOVE_CURRENT_DIALOG_MESSAGE), data.message.uuid)
     }
   }
 }
 
 export const sendMessage = (dialog: DialogInterface, message: MessageInterface) => {
+  if (isTest) return
+
   ws.send(JSON.stringify({
     type: "new-message",
     dialog,
@@ -121,6 +129,8 @@ export const sendMessage = (dialog: DialogInterface, message: MessageInterface) 
 }
 
 export const readMessages = (dialog: DialogInterface) => {
+  if (isTest) return
+
   const currentDialog = store.getters[getterDialogModule(GET_CURRENT_DIALOG)]
 
   ws.send(JSON.stringify({
@@ -142,6 +152,8 @@ export const readMessages = (dialog: DialogInterface) => {
 }
 
 export const removeMessage = (dialog: DialogInterface, message: MessageInterface) => {
+  if (isTest) return
+
   ws.send(JSON.stringify({
     type: "remove-message",
     dialog,

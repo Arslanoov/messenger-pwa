@@ -1,5 +1,11 @@
 <template>
   <div ref="list" class="messages-list">
+    <loading
+      v-model:active="isLoading"
+      :can-cancel="false"
+      :is-full-page="false"
+    />
+
     <div
       v-if="latestPageSize === pageSize"
       @click="loadMoreMessages"
@@ -46,11 +52,15 @@ import { DialogInterface } from "@/types/dialog"
 import { useRouter } from "vue-router"
 import { routesNames } from "@/router/names"
 
+import Loading from "vue-loading-overlay"
+import "vue-loading-overlay/dist/vue-loading.css"
+
 import Message from "@/components/common/messenger/messages-list/Message.vue"
 
 export default defineComponent({
   name: "MessagesList",
   components: {
+    Loading,
     Message
   },
   setup() {
@@ -73,6 +83,10 @@ export default defineComponent({
 
     /* Messages */
 
+    const isLoading = ref(false)
+    const startLoading = () => isLoading.value = true
+    const stopLoading = () => isLoading.value = false
+
     const messages = computed(
         () => store.getters[getterDialogModule(GET_CURRENT_DIALOG_MESSAGES)] as MessageInterface[])
     const currentDialog = computed(() => store.getters[getterDialogModule(GET_CURRENT_DIALOG)] as DialogInterface)
@@ -86,6 +100,7 @@ export default defineComponent({
     const fetchMessages = () => store.dispatch(dispatchDialogModule(FETCH_DIALOG_MESSAGES))
 
     watch(currentDialog, () => {
+      startLoading()
       fetchMessages()
         .catch(error => {
           if (404 === error?.response?.status) {
@@ -94,6 +109,7 @@ export default defineComponent({
             })
           }
         })
+        .finally(() => stopLoading())
       }
     , {
       immediate: true
@@ -109,11 +125,14 @@ export default defineComponent({
     })
 
     const loadMoreMessages = () => {
+      startLoading()
       nextPage()
       fetchMessages()
+        .finally(() => stopLoading())
     }
 
     return {
+      isLoading,
       messages,
       list,
 

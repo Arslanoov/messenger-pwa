@@ -4,16 +4,18 @@ import { store } from "@/store"
 
 import { DIALOG_MODULE_PREFIX } from "@/store/modules/dialog"
 import {
-  ADD_CURRENT_DIALOG_MESSAGE,
   CLEAR_CURRENT_DIALOG,
-  CLEAR_SEND_FORM, CLEAR_USERS_SEARCH_ERROR, CLEAR_USERS_SEARCH_RESULT,
+  CLEAR_SEND_FORM,
+  CLEAR_USERS_SEARCH_ERROR,
+  CLEAR_USERS_SEARCH_RESULT,
   SET_CURRENT_DIALOG,
   SET_CURRENT_DIALOG_CURRENT_PAGE,
   SET_CURRENT_DIALOG_MESSAGES,
   SET_DIALOG_LIST,
-  SET_DIALOG_LIST_CURRENT_PAGE,
-  SET_DIALOG_LIST_PAGE_SIZE,
-  SET_SEND_FORM_CONTENT, SET_USERS_SEARCH_ERROR, SET_USERS_SEARCH_QUERY, SET_USERS_SEARCH_RESULT
+  SET_SEND_FORM_CONTENT,
+  SET_USERS_SEARCH_ERROR,
+  SET_USERS_SEARCH_QUERY,
+  SET_USERS_SEARCH_RESULT
 } from "@/store/modules/dialog/mutations"
 
 const dialog = {
@@ -54,30 +56,6 @@ describe("dialog main mutations", () => {
     store.commit(DIALOG_MODULE_PREFIX + SET_DIALOG_LIST, list)
 
     assert.deepEqual(store.state.dialog.dialogs, list)
-  })
-
-  it("sets dialog list current page", () => {
-    expect(store.state.dialog.pagination.currentPage).to.equal(1)
-
-    store.commit(DIALOG_MODULE_PREFIX + SET_DIALOG_LIST_CURRENT_PAGE, 3)
-
-    expect(store.state.dialog.pagination.currentPage).to.equal(3)
-
-    store.commit(DIALOG_MODULE_PREFIX + SET_DIALOG_LIST_CURRENT_PAGE, -2)
-
-    expect(store.state.dialog.pagination.currentPage).to.equal(3)
-  })
-
-  it("sets dialog list page size", () => {
-    expect(store.state.dialog.pagination.pageSize).to.equal(20)
-
-    store.commit(DIALOG_MODULE_PREFIX + SET_DIALOG_LIST_PAGE_SIZE, 30)
-
-    expect(store.state.dialog.pagination.pageSize).to.equal(30)
-
-    store.commit(DIALOG_MODULE_PREFIX + SET_DIALOG_LIST_PAGE_SIZE, 40)
-
-    expect(store.state.dialog.pagination.pageSize).to.equal(40)
   })
 
   it("sets current dialog", () => {
@@ -129,24 +107,11 @@ describe("dialog main mutations", () => {
   it("clears current dialog", () => {
     store.commit(DIALOG_MODULE_PREFIX + CLEAR_CURRENT_DIALOG)
 
-    expect(store.state.dialog.currentDialog).to.equal(null)
     assert.deepEqual(store.state.dialog.currentDialogMessages, [])
     assert.deepEqual(store.state.dialog.currentDialogPagination, {
       currentPage: 1,
       pageSize: 20
     })
-  })
-
-  it("adds current dialog message", () => {
-    assert.deepEqual(store.state.dialog.currentDialogMessages, [])
-
-    store.commit(DIALOG_MODULE_PREFIX + ADD_CURRENT_DIALOG_MESSAGE, message)
-
-    assert.deepEqual(store.state.dialog.currentDialogMessages, [ message ])
-
-    store.commit(DIALOG_MODULE_PREFIX + ADD_CURRENT_DIALOG_MESSAGE, message)
-
-    assert.deepEqual(store.state.dialog.currentDialogMessages, [ message, message ])
   })
 })
 

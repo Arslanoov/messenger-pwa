@@ -4,8 +4,8 @@ import state from "@/store/modules/dialog/state"
 import getters from "@/store/modules/dialog/getters"
 
 import {
-  ADD_CURRENT_DIALOG_MESSAGE,
-  CLEAR_SEND_FORM
+  ADD_CURRENT_DIALOG_MESSAGE, CHANGE_DIALOG_LATEST_MESSAGE,
+  CLEAR_SEND_FORM, MOVE_DIALOG_TO_THE_TOP
 } from "@/store/modules/dialog/mutations"
 import { SEND_MESSAGE } from "@/store/modules/dialog/actions"
 
@@ -64,7 +64,9 @@ describe("dialog send message action", () => {
       getters,
       () => {},
       [
-        { type: ADD_CURRENT_DIALOG_MESSAGE, payload: message },
+        { type: ADD_CURRENT_DIALOG_MESSAGE },
+        { type: CHANGE_DIALOG_LATEST_MESSAGE },
+        { type: MOVE_DIALOG_TO_THE_TOP },
         { type: CLEAR_SEND_FORM }
       ],
       done

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build  --modern",
     "test:unit": "vue-cli-service test:unit --require tests/unit/setup.js",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
@@ -21,8 +21,8 @@
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.11",
     "vue-composable": "^1.0.0-beta.23",
-    "vue-dompurify-html": "^2.3.0",
     "vue-final-modal": "^3.2.1",
+    "vue-loading-overlay": "^4.0.3",
     "vue-router": "^4.0.8",
     "vuex": "^4.0.0-0"
   },

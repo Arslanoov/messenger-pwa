@@ -4,8 +4,8 @@ import state from "@/store/modules/dialog/state"
 import getters from "@/store/modules/dialog/getters"
 
 import {
-  SET_CURRENT_DIALOG_CURRENT_PAGE,
-  SET_CURRENT_DIALOG_MESSAGES
+  ADD_CURRENT_DIALOG_MESSAGES,
+  SET_CURRENT_DIALOG_LATEST_PAGE_SIZE
 } from "@/store/modules/dialog/mutations"
 import { FETCH_DIALOG_MESSAGES } from "@/store/modules/dialog/actions"
 
@@ -69,13 +69,16 @@ describe("dialog fetch messages action", () => {
       null,
       {
         ...state,
-        currentDialog: dialog
+        currentDialog: dialog,
+        currentDialogPagination: {
+          currentPage: 1
+        }
       },
       getters,
       () => {},
       [
-        { type: SET_CURRENT_DIALOG_MESSAGES, payload: list },
-        { type: SET_CURRENT_DIALOG_CURRENT_PAGE, payload: 20 }
+        { type: ADD_CURRENT_DIALOG_MESSAGES, payload: list },
+        { type: SET_CURRENT_DIALOG_LATEST_PAGE_SIZE, payload: 3 }
       ],
       done
     )

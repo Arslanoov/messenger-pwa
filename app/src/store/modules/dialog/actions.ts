@@ -185,7 +185,7 @@ export default {
   ): Promise<void> => {
     return new Promise((resolve, reject) => {
       const currentDialog = getters[GET_CURRENT_DIALOG]
-      if (!currentDialog?.uuid || currentDialog.uuid !== payload.dialogId) {
+      if (!currentDialog || currentDialog.uuid !== payload.dialogId) {
         reject()
       }
 
