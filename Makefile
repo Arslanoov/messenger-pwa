@@ -3,6 +3,9 @@ serve:
 build:
 	cd app && npm run build
 
+install-deps:
+	cd app && npm i
+
 check: lint test
 
 # Test
