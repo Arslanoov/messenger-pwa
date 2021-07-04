@@ -12,10 +12,9 @@ import { defineComponent, computed, watch } from "vue"
 import { useRoute } from "vue-router"
 
 import { useStore } from "@/composables/store"
-import { commitDialogModule, dispatchDialogModule, getterDialogModule } from "@/store/modules/dialog"
+import { commitDialogModule, getterDialogModule } from "@/store/modules/dialog"
 
 import { SET_CURRENT_DIALOG } from "@/store/modules/dialog/mutations"
-import { FETCH_DIALOG_MESSAGES } from "@/store/modules/dialog/actions"
 import { GET_DIALOGS_LIST } from "@/store/modules/dialog/getters"
 
 import DialogHeader from "@/components/common/messenger/dialog-header/DialogHeader.vue"
@@ -35,12 +34,7 @@ export default defineComponent({
     const route = useRoute()
     const store = useStore()
 
-    const fetchCurrentDialog = (id: string) => {
-      store.commit(commitDialogModule(SET_CURRENT_DIALOG), id)
-      fetchMessages()
-    }
-
-    const fetchMessages = () => store.dispatch(dispatchDialogModule(FETCH_DIALOG_MESSAGES))
+    const fetchCurrentDialog = (id: string) => store.commit(commitDialogModule(SET_CURRENT_DIALOG), id)
 
     const dialogs = computed(() => store.getters[getterDialogModule(GET_DIALOGS_LIST)] as DialogInterface[])
 

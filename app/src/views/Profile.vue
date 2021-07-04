@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="profile" v-if="user">
     <h1 class="profile__title">Profile</h1>
 
     <div class="profile__username">{{ user.username }}</div>
@@ -67,11 +67,14 @@ export default defineComponent({
     const changeAbout = (value: string) => store.commit(commitProfileModule(SET_CHANGE_FORM_ABOUT), value)
     const changeInfo = () => {
       store.dispatch(dispatchProfileModule(CHANGE_INFO))
-
-      notify({
-        type: "success",
-        text: "Profile data successfully changed"
-      })
+        .then(() => notify({
+          type: "success",
+          text: "Profile data successfully changed"
+        }))
+        .catch(error => notify({
+          type: "warn",
+          text: error.data.message
+        }))
     }
 
     const changeAvatar = (file: File) => {
