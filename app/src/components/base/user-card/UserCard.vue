@@ -75,7 +75,7 @@ export default defineComponent({
       const div = document.createElement("div")
       div.innerHTML = value
       const text = div.textContent || div.innerText || ""
-      return text.length > 25 ? `${text.substr(0, 25)}...` : text
+      return text.length > 70 ? `${text.substr(0, 70)}...` : text
     }
 
     const isSidebarOpened =
