@@ -32,11 +32,3 @@
 
     make build
 
-
-<h3 align="center">Short overview</h2>
-
-![1](https://user-images.githubusercontent.com/51407990/124392639-3696cd80-dd10-11eb-8127-a5f0120690af.png)
-
-<br />
-
-![2](https://user-images.githubusercontent.com/51407990/124392524-8f199b00-dd0f-11eb-9780-1d7455152e1b.gif)
